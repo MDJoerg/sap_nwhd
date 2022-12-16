@@ -1,4 +1,4 @@
-# SAP ABAP NetWeaver Health Data
+# SAP NWHD - SAP ABAP NetWeaver Health Data
 
 The main idea behind this project is to collect different health data from an SAP ABAP system and publish this information to different publishers like local or remote database storages, mqtt brokers, ... The SAP system acts as an sensor and distribute the data to a central space with a push message.
 

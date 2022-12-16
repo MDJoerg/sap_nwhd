@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_CLAS" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <VSEOCLASS>
+    <CLSNAME>ZCL_NWHD_PUB_LDB</CLSNAME>
+    <LANGU>E</LANGU>
+    <DESCRIPT>NWHD: Publisher Local DB</DESCRIPT>
+    <STATE>1</STATE>
+    <CLSCCINCL>X</CLSCCINCL>
+    <FIXPT>X</FIXPT>
+    <UNICODE>X</UNICODE>
+   </VSEOCLASS>
+   <DESCRIPTIONS>
+    <SEOCOMPOTX>
+     <CMPNAME>MS_CTX_DB</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>context structure for db</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>MS_JOB_PARAMS</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>NWHD: Job Parameter</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>MS_JOB_RESULT</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>NWHD: Job Data</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>PREPARE_FIELD_NUMERIC</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>process numeric field</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>PREPARE_FIELD_TEXT</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>process numeric field</DESCRIPT>
+    </SEOCOMPOTX>
+   </DESCRIPTIONS>
+   <DESCRIPTIONS_SUB>
+    <SEOSUBCOTX>
+     <CMPNAME>PREPARE_FIELD_NUMERIC</CMPNAME>
+     <SCONAME>IS_COL</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>NWHD: Collector Data</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>PREPARE_FIELD_NUMERIC</CMPNAME>
+     <SCONAME>IS_FLD</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>NWHD: Field Data</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>PREPARE_FIELD_TEXT</CMPNAME>
+     <SCONAME>IS_COL</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>NWHD: Collector Data</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>PREPARE_FIELD_TEXT</CMPNAME>
+     <SCONAME>IS_FLD</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>NWHD: Field Data</DESCRIPT>
+    </SEOSUBCOTX>
+   </DESCRIPTIONS_SUB>
+  </asx:values>
+ </asx:abap>
+</abapGit>

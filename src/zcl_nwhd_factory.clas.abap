@@ -27,6 +27,9 @@ public section.
       !IV_TYPE type DATA
     returning
       value(RR_PUBLISHER) type ref to ZIF_NWHD_PUB .
+  class-methods CREATE_UTIL
+    returning
+      value(RR_INSTANCE) type ref to ZIF_NWHD_UTIL .
   class-methods CREATE_INSTANCE
     importing
       !IV_TYPE type DATA
@@ -75,5 +78,10 @@ CLASS ZCL_NWHD_FACTORY IMPLEMENTATION.
 
   METHOD create_publisher.
     rr_publisher ?= create_instance( iv_type ).
+  ENDMETHOD.
+
+
+  METHOD create_util.
+    rr_instance ?= create_instance( 'ZIF_NWHD_UTIL' ).
   ENDMETHOD.
 ENDCLASS.

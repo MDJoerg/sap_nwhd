@@ -33,6 +33,11 @@
      <DESCRIPT>create an instance of publisher</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
+     <CMPNAME>CREATE_QRFC_UTIL</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>create an instance of general util</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
      <CMPNAME>CREATE_UTIL</CMPNAME>
      <LANGU>E</LANGU>
      <DESCRIPT>create an instance of general util</DESCRIPT>
@@ -66,6 +71,12 @@
     <SEOSUBCOTX>
      <CMPNAME>CREATE_PUBLISHER</CMPNAME>
      <SCONAME>RR_PUBLISHER</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>NWHD: Collector Interface</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>CREATE_QRFC_UTIL</CMPNAME>
+     <SCONAME>RR_INSTANCE</SCONAME>
      <LANGU>E</LANGU>
      <DESCRIPT>NWHD: Collector Interface</DESCRIPT>
     </SEOSUBCOTX>

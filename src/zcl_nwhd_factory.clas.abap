@@ -27,6 +27,9 @@ public section.
       !IV_TYPE type DATA
     returning
       value(RR_PUBLISHER) type ref to ZIF_NWHD_PUB .
+  class-methods CREATE_QRFC_UTIL
+    returning
+      value(RR_INSTANCE) type ref to ZIF_NWHD_QRFC_UTL .
   class-methods CREATE_UTIL
     returning
       value(RR_INSTANCE) type ref to ZIF_NWHD_UTIL .
@@ -83,5 +86,10 @@ CLASS ZCL_NWHD_FACTORY IMPLEMENTATION.
 
   METHOD create_util.
     rr_instance ?= create_instance( 'ZIF_NWHD_UTIL' ).
+  ENDMETHOD.
+
+
+  METHOD CREATE_QRFC_UTIL.
+    rr_instance ?= create_instance( 'ZIF_NWHD_QRFC_UTL' ).
   ENDMETHOD.
 ENDCLASS.

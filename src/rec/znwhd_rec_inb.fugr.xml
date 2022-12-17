@@ -10,6 +10,7 @@
    <FUNCTIONS>
     <item>
      <FUNCNAME>Z_NWHD_REC_INB_LDB</FUNCNAME>
+     <REMOTE_CALL>R</REMOTE_CALL>
      <SHORT_TEXT>NWHD: Inbound Data Packages for LDB Storage</SHORT_TEXT>
      <IMPORT>
       <RSIMP>

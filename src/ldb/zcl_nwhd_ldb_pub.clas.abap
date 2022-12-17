@@ -1,4 +1,4 @@
-class ZCL_NWHD_PUB_LDB definition
+class ZCL_NWHD_LDB_PUB definition
   public
   inheriting from ZCL_NWHD_PUB
   create public .
@@ -48,7 +48,7 @@ ENDCLASS.
 
 
 
-CLASS ZCL_NWHD_PUB_LDB IMPLEMENTATION.
+CLASS ZCL_NWHD_LDB_PUB IMPLEMENTATION.
 
 
   method IS_SOURCE_VALID.
@@ -57,7 +57,7 @@ CLASS ZCL_NWHD_PUB_LDB IMPLEMENTATION.
   endmethod.
 
 
-  METHOD prepare_fields.
+  METHOD PREPARE_FIELDS.
 
 * -------- check contect
     IF ms_ctx_db-src-src_guid IS INITIAL.
@@ -144,7 +144,7 @@ CLASS ZCL_NWHD_PUB_LDB IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD prepare_field_numeric.
+  METHOD PREPARE_FIELD_NUMERIC.
 
 * -------- check existing
     READ TABLE ms_ctx_db-fdn_tab ASSIGNING FIELD-SYMBOL(<ls_fld>)
@@ -180,7 +180,7 @@ CLASS ZCL_NWHD_PUB_LDB IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD prepare_field_text.
+  METHOD PREPARE_FIELD_TEXT.
 * -------- check existing
     READ TABLE ms_ctx_db-fdt_tab ASSIGNING FIELD-SYMBOL(<ls_fld>)
       WITH KEY collector = is_col-collector
@@ -215,7 +215,7 @@ CLASS ZCL_NWHD_PUB_LDB IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD prepare_source.
+  METHOD PREPARE_SOURCE.
 
 * --------- reset db context
     CLEAR ms_ctx_db.
@@ -258,13 +258,13 @@ CLASS ZCL_NWHD_PUB_LDB IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD prepare_tags.
+  METHOD PREPARE_TAGS.
     get_logger( )->warning( |tags are not implemented yet| ).
     rv_success = abap_true.
   ENDMETHOD.
 
 
-  METHOD save_ldb.
+  METHOD SAVE_LDB.
 
 * -------- check context
     IF ms_ctx_db IS INITIAL
@@ -304,7 +304,7 @@ CLASS ZCL_NWHD_PUB_LDB IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD zif_nwhd_pub~publish.
+  METHOD ZIF_NWHD_PUB~PUBLISH.
 
 * ------- init protocol
     get_logger( )->info( |starting publishing for source type { is_result-source_type } id { is_result-source_id } ref { is_result-source_ref }| ).

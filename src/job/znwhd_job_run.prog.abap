@@ -18,6 +18,18 @@ PARAMETERS: p_disp AS CHECKBOX DEFAULT 'X'.
 PARAMETERS: p_prot AS CHECKBOX DEFAULT 'X'.
 
 
+INITIALIZATION.
+* ----- get all collectors
+  IF so_col[] IS INITIAL.
+    DATA(lt_col) = zcl_nwhd_factory=>create_util( )->get_all_mod_col( ).
+    LOOP AT lt_col ASSIGNING FIELD-SYMBOL(<lv_col>).
+      so_col-sign   = 'I'.
+      so_col-option = 'EQ'.
+      so_col-low    = <lv_col>.
+      APPEND so_col.
+    ENDLOOP.
+  ENDIF.
+
 START-OF-SELECTION.
 
 * ------- local data

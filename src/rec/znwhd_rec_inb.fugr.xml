@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_FUGR" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <AREAT>NWHD: Inbound RFC Based</AREAT>
+   <INCLUDES>
+    <SOBJ_NAME>LZNWHD_REC_INBTOP</SOBJ_NAME>
+    <SOBJ_NAME>SAPLZNWHD_REC_INB</SOBJ_NAME>
+   </INCLUDES>
+   <FUNCTIONS>
+    <item>
+     <FUNCNAME>Z_NWHD_REC_INB_LDB</FUNCNAME>
+     <SHORT_TEXT>NWHD: Inbound Data Packages for LDB Storage</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>IS_RESULT</PARAMETER>
+       <TYP>ZNWHD_S_DATA_JOB</TYP>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>IS_PARAMS</PARAMETER>
+       <OPTIONAL>X</OPTIONAL>
+       <TYP>ZNWHD_S_PARAM_JOB</TYP>
+      </RSIMP>
+     </IMPORT>
+     <EXCEPTION>
+      <RSEXC>
+       <EXCEPTION>WRONG_DATA</EXCEPTION>
+      </RSEXC>
+      <RSEXC>
+       <EXCEPTION>WRONG_INSTALLATION</EXCEPTION>
+      </RSEXC>
+     </EXCEPTION>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>IS_RESULT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>NWHD: Job Data</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>IS_PARAMS</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>NWHD: Job Parameter</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>WRONG_DATA</PARAMETER>
+       <KIND>X</KIND>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>WRONG_INSTALLATION</PARAMETER>
+       <KIND>X</KIND>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+   </FUNCTIONS>
+  </asx:values>
+ </asx:abap>
+</abapGit>

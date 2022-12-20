@@ -24,6 +24,18 @@
     </item>
     <item>
      <ID>S</ID>
+     <KEY>P_FLNC</KEY>
+     <ENTRY>no client specific data</ENTRY>
+     <LENGTH>31</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_FLNS</KEY>
+     <ENTRY>no system wide data</ENTRY>
+     <LENGTH>27</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
      <KEY>P_JOB</KEY>
      <ENTRY>.</ENTRY>
      <LENGTH>18</LENGTH>
@@ -53,7 +65,7 @@
      <ID>S</ID>
      <KEY>P_SRCID</KEY>
      <ENTRY>.</ENTRY>
-     <LENGTH>9</LENGTH>
+     <LENGTH>17</LENGTH>
      <SPLIT>D</SPLIT>
     </item>
     <item>

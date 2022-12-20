@@ -14,6 +14,9 @@ PARAMETERS: p_srcid     LIKE znwhd_s_sel_job-source_id.
 PARAMETERS: p_rfc       LIKE znwhd_s_sel_job-rfc_dest.
 PARAMETERS: p_qnam      LIKE znwhd_s_sel_job-qname.
 SELECTION-SCREEN: ULINE.
+PARAMETERS: p_flnc AS CHECKBOX DEFAULT ' '.     " flag no client specfic data
+PARAMETERS: p_flns AS CHECKBOX DEFAULT ' '.     " flag no system wide data
+SELECTION-SCREEN: ULINE.
 PARAMETERS: p_disp AS CHECKBOX DEFAULT 'X'.
 PARAMETERS: p_prot AS CHECKBOX DEFAULT 'X'.
 
@@ -39,9 +42,11 @@ START-OF-SELECTION.
 
 * ------- prepare params
   DATA(ls_params) = VALUE znwhd_s_param_job(
-    rfc_dest  = p_rfc
-    qname     = p_qnam
-    source_id	= p_srcid
+    rfc_dest                = p_rfc
+    qname                   = p_qnam
+    source_id	              = p_srcid
+    flag_no_client_specific = p_flnc
+    flag_no_system_wide     = p_flns
   ).
 
   LOOP AT so_col.

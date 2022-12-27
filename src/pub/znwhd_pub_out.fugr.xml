@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_FUGR" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <AREAT>NWHD: outbound wRFC Modules</AREAT>
+   <INCLUDES>
+    <SOBJ_NAME>LZNWHD_PUB_OUTTOP</SOBJ_NAME>
+    <SOBJ_NAME>SAPLZNWHD_PUB_OUT</SOBJ_NAME>
+   </INCLUDES>
+   <FUNCTIONS>
+    <item>
+     <FUNCNAME>Z_NWHD_PUB_OUT_RWS</FUNCNAME>
+     <REMOTE_CALL>R</REMOTE_CALL>
+     <SHORT_TEXT>NWHD: outbound package to call webservice</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>IV_RFCDEST</PARAMETER>
+       <TYP>RFCDEST</TYP>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>IV_PAYLOAD</PARAMETER>
+       <TYP>STRING</TYP>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>IV_CONTENT_TYPE</PARAMETER>
+       <TYP>STRING</TYP>
+      </RSIMP>
+     </IMPORT>
+     <EXCEPTION>
+      <RSEXC>
+       <EXCEPTION>ERRORS_OCCURED</EXCEPTION>
+      </RSEXC>
+     </EXCEPTION>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>IV_RFCDEST</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Logical destination (specified in function call)</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>IV_PAYLOAD</PARAMETER>
+       <KIND>P</KIND>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>IV_CONTENT_TYPE</PARAMETER>
+       <KIND>P</KIND>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>ERRORS_OCCURED</PARAMETER>
+       <KIND>X</KIND>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+   </FUNCTIONS>
+  </asx:values>
+ </asx:abap>
+</abapGit>

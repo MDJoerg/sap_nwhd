@@ -10,6 +10,14 @@
     <STATE>1</STATE>
     <UNICODE>X</UNICODE>
    </VSEOINTERF>
+   <DESCRIPTIONS_SUB>
+    <SEOSUBCOTX>
+     <CMPNAME>WEBSERVICE_POST</CMPNAME>
+     <SCONAME>IV_RFCDEST</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Logical destination (specified in function call)</DESCRIPT>
+    </SEOSUBCOTX>
+   </DESCRIPTIONS_SUB>
   </asx:values>
  </asx:abap>
 </abapGit>

@@ -29,6 +29,12 @@
      <LANGU>E</LANGU>
      <DESCRIPT>Source Reference</DESCRIPT>
     </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>SAVE_PREPARE</CMPNAME>
+     <SCONAME>IS_RESULT</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>NWHD: Job Data</DESCRIPT>
+    </SEOSUBCOTX>
    </DESCRIPTIONS_SUB>
   </asx:values>
  </asx:abap>

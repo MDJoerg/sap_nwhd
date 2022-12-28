@@ -336,8 +336,62 @@ CLASS ZCL_NWHD_LDB_BL IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD PREPARE_TAGS.
-    get_logger( )->warning( |tags are not implemented yet| ).
+  METHOD prepare_tags.
+
+* ------ check source
+    IF ms_ctx_db-src-src_guid IS INITIAL.
+      get_logger( )->error( |tags preparing required initialized source| ).
+      RETURN.
+    ENDIF.
+
+
+* ------ get hash
+
+    DATA(lv_hash) = get_util( )->get_md5_tags_hash( ms_result-tags ).
+    IF lv_hash IS INITIAL.
+      get_logger( )->error( |invalid tag hash| ).
+      RETURN.
+    ENDIF.
+
+
+* ------ get existing hash tupel
+    SELECT SINGLE *
+      FROM ztd_nwhdldb_tgh
+      INTO CORRESPONDING FIELDS OF ms_ctx_db-tgh
+     WHERE src_guid = ms_ctx_db-src-src_guid
+       AND tag_hash = lv_hash.
+
+    IF sy-subrc NE 0.
+      ms_ctx_db-tgh-client         = sy-mandt.
+      ms_ctx_db-tgh-tgh_guid       = zcl_nwhd_factory=>create_guid( ).
+      ms_ctx_db-tgh-src_guid       = ms_ctx_db-src-src_guid.
+      ms_ctx_db-tgh-tag_hash       = lv_hash.
+      ms_ctx_db-tgh-cnt_tags       = lines( ms_result-tags ).
+      GET TIME STAMP FIELD ms_ctx_db-tgh-created_at.
+
+      LOOP AT ms_result-tags ASSIGNING FIELD-SYMBOL(<ls_tag>).
+        APPEND INITIAL LINE TO ms_ctx_db-tgi_tab ASSIGNING FIELD-SYMBOL(<ls_tgi>).
+        MOVE-CORRESPONDING <ls_tag> TO <ls_tgi>.
+        <ls_tgi>-client   = sy-mandt.
+        <ls_tgi>-tgi_guid = zcl_nwhd_factory=>create_guid( ).
+        <ls_tgi>-tgh_guid = ms_ctx_db-tgh-tgh_guid.
+      ENDLOOP.
+
+      get_logger( )->info( |tag tupel created: guid { ms_ctx_db-tgh-tgh_guid }| ).
+
+* ----- exists
+    ELSE.
+      GET TIME STAMP FIELD ms_ctx_db-tgh-confirmed_at.
+      get_logger( )->info( |tag tupel exists: guid { ms_ctx_db-tgh-tgh_guid }| ).
+    ENDIF.
+
+* --------- check last message for tag tupel
+    IF ms_ctx_db-msg-tgh_guid IS INITIAL.
+      ms_ctx_db-msg-tgh_guid = ms_ctx_db-tgh-tgh_guid.
+    ENDIF.
+
+
+* --------- finally true
     rv_success = abap_true.
   ENDMETHOD.
 
@@ -419,9 +473,10 @@ CLASS ZCL_NWHD_LDB_BL IMPLEMENTATION.
     ENDIF.
 
 
-* ------- src + msg
+* ------- src + msg + tgh
     MODIFY ztd_nwhdldb_src FROM ms_ctx_db-src.
     MODIFY ztd_nwhdldb_msg FROM ms_ctx_db-msg.
+    MODIFY ztd_nwhdldb_tgh FROM ms_ctx_db-tgh.
 
 * ------- numeric values
     UPDATE ztd_nwhdldb_fdn
@@ -440,6 +495,12 @@ CLASS ZCL_NWHD_LDB_BL IMPLEMENTATION.
     IF ms_ctx_db-fdt_tab[] IS NOT INITIAL.
       MODIFY ztd_nwhdldb_fdt FROM TABLE ms_ctx_db-fdt_tab.
     ENDIF.
+
+* ------- tag items
+    IF ms_ctx_db-tgi_tab[] IS NOT INITIAL.
+      MODIFY ztd_nwhdldb_tgi FROM TABLE ms_ctx_db-tgi_tab.
+    ENDIF.
+
 
 * ------- commit
     IF iv_commit EQ abap_true.

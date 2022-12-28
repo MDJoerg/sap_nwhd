@@ -64,6 +64,7 @@ CLASS ZCL_NWHD_JOB IMPLEMENTATION.
     mc_add_tag 'DBSys'       sy-dbsys.
     mc_add_tag 'SAPRelease'  sy-saprl.
     mc_add_tag 'Timezone'    sy-zonlo.
+    mc_add_tag 'NWHDRelease' ZIF_NWHD_C=>release.
 
 
 * ------ final preps

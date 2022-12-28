@@ -147,4 +147,61 @@ CLASS ZCL_NWHD_UTIL IMPLEMENTATION.
     rv_success = abap_true.
 
   ENDMETHOD.
+
+
+  METHOD zif_nwhd_util~get_md5_string_hash.
+
+    DATA lv_xstring TYPE xstring.
+
+    CALL FUNCTION 'SCMS_STRING_TO_XSTRING'
+      EXPORTING
+        text   = iv_data
+*       MIMETYPE       = ' '
+*       ENCODING       =
+      IMPORTING
+        buffer = lv_xstring
+      EXCEPTIONS
+        failed = 1
+        OTHERS = 2.
+    IF sy-subrc <> 0.
+      RETURN.
+    ENDIF.
+
+
+
+    CALL FUNCTION 'CALCULATE_HASH_FOR_RAW'
+      EXPORTING
+*       ALG            = 'SHA1'
+        data           = lv_xstring
+*       LENGTH         = 0
+      IMPORTING
+*       HASH           =
+*       HASHLEN        =
+        hashx          = rv_hash
+*       HASHXLEN       =
+*       HASHSTRING     =
+*       HASHXSTRING    =
+*       HASHB64STRING  =
+      EXCEPTIONS
+        unknown_alg    = 1
+        param_error    = 2
+        internal_error = 3
+        OTHERS         = 4.
+
+  ENDMETHOD.
+
+
+  METHOD zif_nwhd_util~get_md5_tags_hash.
+    DATA(lv_sep)    = '||'.
+    DATA(lv_string) = |{ lv_sep }|.
+
+    DATA(lt_tag) = it_tag.
+    SORT lt_tag.
+
+    LOOP AT lt_tag ASSIGNING FIELD-SYMBOL(<ls_tag>).
+      lv_string = |{ lv_string }'{ <ls_tag>-tag }'='{ <ls_tag>-value }'{ lv_sep }|.
+    ENDLOOP.
+
+    rv_hash = zif_nwhd_util~get_md5_string_hash( lv_string ).
+  ENDMETHOD.
 ENDCLASS.

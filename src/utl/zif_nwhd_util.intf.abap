@@ -34,4 +34,14 @@ interface ZIF_NWHD_UTIL
       !CS_DATA type DATA
     returning
       value(RV_SUCCESS) type ABAP_BOOL .
+  methods GET_MD5_STRING_HASH
+    importing
+      !IV_DATA type STRING
+    returning
+      value(RV_HASH) type HASH160X .
+  methods GET_MD5_TAGS_HASH
+    importing
+      !IT_TAG type ZNWHD_T_DATA_TAG
+    returning
+      value(RV_HASH) type HASH160X .
 endinterface.

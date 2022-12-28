@@ -17,6 +17,11 @@
      <LANGU>E</LANGU>
      <DESCRIPT>NWHD: Logger</DESCRIPT>
     </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>MR_UTIL</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>NWHD: general util</DESCRIPT>
+    </SEOCOMPOTX>
    </DESCRIPTIONS>
   </asx:values>
  </asx:abap>

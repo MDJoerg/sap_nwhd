@@ -36,7 +36,7 @@ CLASS ZCL_NWHD_COL_UMEM IMPLEMENTATION.
           EXPORTING
             with_application_info = 0                " Boolean Value
             tenant                = sy-mandt               " Name of Tenant
-            only_active_server    = 0
+*            only_active_server    = 0    " not available in older systems
         ).
 
         DATA ls_sess LIKE LINE OF lt_sess.

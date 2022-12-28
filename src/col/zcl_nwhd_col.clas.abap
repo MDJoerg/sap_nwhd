@@ -9,11 +9,12 @@ public section.
 protected section.
 
   data MS_DATA type ZNWHD_S_DATA_COL .
+  data MS_COL_PARAMS type ZNWHD_S_PARAM_JOB_COL .
 
   methods APPEND_NUMBER_VALUE
     importing
-      !IV_CATEGORY type STRING optional
-      !IV_KEY type STRING
+      !IV_CATEGORY type DATA optional
+      !IV_KEY type DATA
       !IV_VALUE type DATA .
   methods APPEND_TEXT_VALUE
     importing
@@ -51,6 +52,14 @@ protected section.
     returning
       value(RV_DATE) type SY-DATUM .
   methods GET_DATETIME_LAST_WEEK
+    importing
+      !IV_DATE type SYDATUM default SY-DATUM
+      !IV_TIME type SYUZEIT default SY-UZEIT
+    exporting
+      !EV_TIME type SYUZEIT
+    returning
+      value(RV_DATE) type SY-DATUM .
+  methods GET_DATETIME_LAST_YEAR
     importing
       !IV_DATE type SYDATUM default SY-DATUM
       !IV_TIME type SYUZEIT default SY-UZEIT
@@ -111,7 +120,9 @@ CLASS ZCL_NWHD_COL IMPLEMENTATION.
 
 
   METHOD zif_nwhd_col~collect.
+
 * ------ init
+    ms_col_params = is_col_params.
     IF init_data( ) EQ abap_false.
       RETURN.
     ENDIF.
@@ -164,5 +175,17 @@ CLASS ZCL_NWHD_COL IMPLEMENTATION.
   METHOD GET_DATETIME_LAST_WEEK.
     ev_time = iv_time.
     rv_date = iv_date - 7.
+  ENDMETHOD.
+
+
+  METHOD get_datetime_last_year.
+    DATA lv_year(4) TYPE n.
+    lv_year = iv_date(4).
+    lv_year = lv_year - 1.
+
+    rv_date = iv_date.
+    rv_date(4) = lv_year.
+    ev_time = iv_time.
+
   ENDMETHOD.
 ENDCLASS.

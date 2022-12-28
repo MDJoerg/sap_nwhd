@@ -14,6 +14,7 @@ interface ZIF_NWHD_COL
   methods COLLECT
     importing
       !IT_PARAM type ZNWHD_T_PARAM_VALUE optional
+      !IS_COL_PARAMS type ZNWHD_S_PARAM_JOB_COL
     exporting
       !ES_DATA type ZNWHD_S_DATA_COL
       !EV_STEP type STRING

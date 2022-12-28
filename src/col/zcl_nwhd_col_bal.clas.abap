@@ -64,68 +64,78 @@ CLASS ZCL_NWHD_COL_BAL IMPLEMENTATION.
     IF select_and_publish(
         iv_date     = lv_date_from
         iv_time     = lv_time_from
-        iv_category = 'LastHour'
+        iv_category = zif_nwhd_c=>c_category-last_hour
     ) EQ abap_false.
       RETURN.
     ENDIF.
 
 
 * -------- BAL Today
-    get_datetime_last_24h(
-      EXPORTING
-        iv_date = sy-datum
-        iv_time = sy-uzeit
-      IMPORTING
-        ev_time = lv_time_from
-      RECEIVING
-        rv_date = lv_date_from
-    ).
+    IF ms_col_params-detail_level IS INITIAL
+      OR ms_col_params-detail_level >= zif_nwhd_c=>c_detail_level-last_24h.
 
-    IF select_and_publish(
-        iv_date     = lv_date_from
-        iv_time     = lv_time_from
-        iv_category = 'Today'
-    ) EQ abap_false.
-      RETURN.
+      get_datetime_last_24h(
+        EXPORTING
+          iv_date = sy-datum
+          iv_time = sy-uzeit
+        IMPORTING
+          ev_time = lv_time_from
+        RECEIVING
+          rv_date = lv_date_from
+      ).
+
+      IF select_and_publish(
+          iv_date     = lv_date_from
+          iv_time     = lv_time_from
+          iv_category = zif_nwhd_c=>c_category-last_24h
+      ) EQ abap_false.
+        RETURN.
+      ENDIF.
     ENDIF.
 
 * -------- BAL week
-    get_datetime_last_week(
-      EXPORTING
-        iv_date = sy-datum
-        iv_time = sy-uzeit
-      IMPORTING
-        ev_time = lv_time_from
-      RECEIVING
-        rv_date = lv_date_from
-    ).
+    IF ms_col_params-detail_level IS INITIAL
+      OR ms_col_params-detail_level >= zif_nwhd_c=>c_detail_level-last_week.
 
-    IF select_and_publish(
-        iv_date     = lv_date_from
-        iv_time     = lv_time_from
-        iv_category = 'LastWeek'
-    ) EQ abap_false.
-      RETURN.
+      get_datetime_last_week(
+        EXPORTING
+          iv_date = sy-datum
+          iv_time = sy-uzeit
+        IMPORTING
+          ev_time = lv_time_from
+        RECEIVING
+          rv_date = lv_date_from
+      ).
+
+      IF select_and_publish(
+          iv_date     = lv_date_from
+          iv_time     = lv_time_from
+          iv_category = zif_nwhd_c=>c_category-last_week
+      ) EQ abap_false.
+        RETURN.
+      ENDIF.
     ENDIF.
 
-
 * -------- BAL month
-    get_datetime_last_month(
-      EXPORTING
-        iv_date = sy-datum
-        iv_time = sy-uzeit
-      IMPORTING
-        ev_time = lv_time_from
-      RECEIVING
-        rv_date = lv_date_from
-    ).
+    IF ms_col_params-detail_level IS INITIAL
+      OR ms_col_params-detail_level >= zif_nwhd_c=>c_detail_level-last_month.
+      get_datetime_last_month(
+        EXPORTING
+          iv_date = sy-datum
+          iv_time = sy-uzeit
+        IMPORTING
+          ev_time = lv_time_from
+        RECEIVING
+          rv_date = lv_date_from
+      ).
 
-    IF select_and_publish(
-        iv_date     = lv_date_from
-        iv_time     = lv_time_from
-        iv_category = 'LastMonth'
-    ) EQ abap_false.
-      RETURN.
+      IF select_and_publish(
+          iv_date     = lv_date_from
+          iv_time     = lv_time_from
+          iv_category = zif_nwhd_c=>c_category-last_month
+      ) EQ abap_false.
+        RETURN.
+      ENDIF.
     ENDIF.
 
 * ---------- return

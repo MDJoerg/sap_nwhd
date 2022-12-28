@@ -23,6 +23,11 @@ CLASS ZCL_NWHD_COL_WPINFO IMPLEMENTATION.
 
   METHOD collect_data.
 
+* ---------- check params
+    IF ms_col_params-flag_no_system_wide EQ abap_true.
+      rv_success = abap_true.
+      RETURN.
+    ENDIF.
 
 * ---------- local data
     DATA: lt_data TYPE TABLE OF wpinfos.

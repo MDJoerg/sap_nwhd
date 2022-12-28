@@ -24,11 +24,22 @@ CLASS ZCL_NWHD_COL_UPD IMPLEMENTATION.
   METHOD collect_data.
 
 * -------- select and publish db count
-    SELECT  vbcliinfo,
-            COUNT( * ) AS rec_count
-      FROM vbhdr
-      INTO TABLE @DATA(lt_vb)
-     GROUP BY vbcliinfo.
+    data(lv_context) = ||.
+    IF ms_col_params-flag_no_system_wide = abap_false.
+      SELECT  vbcliinfo,
+              COUNT( * ) AS rec_count
+        FROM vbhdr
+        INTO TABLE @DATA(lt_vb)
+       GROUP BY vbcliinfo.
+    ELSE.
+      SELECT  vbcliinfo,
+              COUNT( * ) AS rec_count
+        FROM vbhdr
+        INTO TABLE @lt_vb
+       WHERE vbmandt = @sy-mandt
+       GROUP BY vbcliinfo.
+       lv_context = sy-mandt.
+    ENDIF.
 
 * --------- calc
     DATA ls_sum LIKE LINE OF lt_vb.
@@ -40,7 +51,7 @@ CLASS ZCL_NWHD_COL_UPD IMPLEMENTATION.
 
 * --------- publish
     LOOP AT lt_vb ASSIGNING <ls_vb>.
-      DATA(lv_type) = |State{ <ls_vb>-vbcliinfo }|.
+      DATA(lv_type) = |State{ lv_context }{ <ls_vb>-vbcliinfo }|.
       IF <ls_vb>-vbcliinfo IS INITIAL.
         lv_type = 'AllState'.
       ENDIF.

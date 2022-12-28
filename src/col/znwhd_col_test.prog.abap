@@ -6,6 +6,10 @@
 REPORT znwhd_col_test NO STANDARD PAGE HEADING.
 TABLES: znwhd_s_sel_job.
 PARAMETERS: p_col LIKE znwhd_s_sel_job-collector DEFAULT 'ZCL_NWHD_COL_DUMPS' OBLIGATORY.
+SELECTION-SCREEN: ULINE.
+PARAMETERS: p_detl TYPE znwhd_col_detail_level. " collector detail level
+PARAMETERS: p_flnc AS CHECKBOX DEFAULT ' '.     " flag no client specfic data
+PARAMETERS: p_flns AS CHECKBOX DEFAULT ' '.     " flag no system wide data
 
 
 START-OF-SELECTION.
@@ -13,6 +17,13 @@ START-OF-SELECTION.
 * ------- local data
   DATA ls_data TYPE znwhd_s_data_col.
   DATA lv_step TYPE string.
+
+* ------- collect params
+  DATA(ls_col_params) = VALUE znwhd_s_param_job_col(
+    flag_no_client_specific = p_flnc
+    flag_no_system_wide     = p_flns
+    detail_level            = p_detl
+  ).
 
 
 * ------- init collector
@@ -22,6 +33,8 @@ START-OF-SELECTION.
   ELSE.
 * ------- collect
     IF lr_col->collect(
+      EXPORTING
+        is_col_params = ls_col_params
       IMPORTING
         es_data    = ls_data
         ev_step    = lv_step

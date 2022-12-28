@@ -18,6 +18,13 @@
     </item>
     <item>
      <ID>S</ID>
+     <KEY>P_DETL</KEY>
+     <ENTRY>.</ENTRY>
+     <LENGTH>9</LENGTH>
+     <SPLIT>D</SPLIT>
+    </item>
+    <item>
+     <ID>S</ID>
      <KEY>P_DISP</KEY>
      <ENTRY>display job results</ENTRY>
      <LENGTH>27</LENGTH>

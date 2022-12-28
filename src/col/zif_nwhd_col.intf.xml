@@ -19,6 +19,12 @@
     </SEOSUBCOTX>
     <SEOSUBCOTX>
      <CMPNAME>COLLECT</CMPNAME>
+     <SCONAME>IS_COL_PARAMS</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>NWHD: Job Parameter for collectors</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>COLLECT</CMPNAME>
      <SCONAME>IT_PARAM</SCONAME>
      <LANGU>E</LANGU>
      <DESCRIPT>table of param / value</DESCRIPT>

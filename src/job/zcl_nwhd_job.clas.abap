@@ -100,6 +100,9 @@ CLASS ZCL_NWHD_JOB IMPLEMENTATION.
 
 
 * ------- loop collectors
+    DATA ls_col_param TYPE znwhd_s_param_job_col.
+    MOVE-CORRESPONDING ms_params TO ls_col_param.
+
     LOOP AT ms_params-collectors ASSIGNING FIELD-SYMBOL(<lv_col_mod>).
 
 *     get collector module
@@ -122,7 +125,8 @@ CLASS ZCL_NWHD_JOB IMPLEMENTATION.
 *     execute collector module
       IF lr_col->collect(
         EXPORTING
-          it_param   = lt_param                  " table of param / value
+          it_param      = lt_param                  " table of param / value
+          is_col_params = ls_col_param
       IMPORTING
         es_data    = ls_col_data                 " NWHD: Collector Data
         ev_step    = ev_step

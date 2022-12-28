@@ -23,6 +23,13 @@ CLASS ZCL_NWHD_COL_UMEM IMPLEMENTATION.
 
   METHOD collect_data.
 
+* --------- check client specific data unwanted
+    IF ms_col_params-flag_no_client_specific EQ abap_true.
+      rv_success = abap_true.
+      RETURN.
+    ENDIF.
+
+
 * ================ User Memory
     TRY.
         DATA(lt_sess) =  cl_system_info=>get_session_list(

@@ -35,6 +35,12 @@
      <LANGU>E</LANGU>
      <DESCRIPT>Logical destination (specified in function call)</DESCRIPT>
     </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>XSTRING_TO_BINTAB</CMPNAME>
+     <SCONAME>RT_BINTAB</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>GBT: SOLIX as Table Type</DESCRIPT>
+    </SEOSUBCOTX>
    </DESCRIPTIONS_SUB>
   </asx:values>
  </asx:abap>

@@ -18,6 +18,19 @@
     <DTELMASTER>E</DTELMASTER>
     <REFKIND>D</REFKIND>
    </DD04V>
+   <I18N_LANGS>
+    <LANGU>D</LANGU>
+   </I18N_LANGS>
+   <DD04_TEXTS>
+    <item>
+     <DDLANGUAGE>D</DDLANGUAGE>
+     <DDTEXT>Feld Collector</DDTEXT>
+     <REPTEXT>Feld Collector</REPTEXT>
+     <SCRTEXT_S>Feld Col</SCRTEXT_S>
+     <SCRTEXT_M>Feld CollectorFeld C</SCRTEXT_M>
+     <SCRTEXT_L>Feld Collector</SCRTEXT_L>
+    </item>
+   </DD04_TEXTS>
   </asx:values>
  </asx:abap>
 </abapGit>

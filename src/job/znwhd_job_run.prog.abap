@@ -3,7 +3,7 @@
 *&---------------------------------------------------------------------*
 *& Starts a collecting job and triggers the publisher modules
 *&---------------------------------------------------------------------*
-REPORT znwhd_job_run NO STANDARD PAGE HEADING.
+REPORT znwhd_job_run NO STANDARD PAGE HEADING MESSAGE-ID znwhd.
 TABLES: znwhd_s_sel_job.
 PARAMETERS: p_job       LIKE znwhd_s_sel_job-job DEFAULT 'ZCL_NWHD_JOB' OBLIGATORY.
 SELECTION-SCREEN: ULINE.
@@ -18,9 +18,9 @@ PARAMETERS: p_detl TYPE znwhd_col_detail_level. " collector detail level
 PARAMETERS: p_flnc AS CHECKBOX DEFAULT ' '.     " flag no client specfic data
 PARAMETERS: p_flns AS CHECKBOX DEFAULT ' '.     " flag no system wide data
 SELECTION-SCREEN: ULINE.
-PARAMETERS: p_disp AS CHECKBOX DEFAULT 'X'.
-PARAMETERS: p_prot AS CHECKBOX DEFAULT 'X'.
-
+PARAMETERS: p_disp AS CHECKBOX DEFAULT 'X'.     " display result
+PARAMETERS: p_prot AS CHECKBOX DEFAULT 'X'.     " show protocol
+PARAMETERS: p_btci AS CHECKBOX DEFAULT ' '.     " create batch infos
 
 INITIALIZATION.
 * ----- get all collectors
@@ -89,6 +89,12 @@ START-OF-SELECTION.
           WRITE: / <ls_msg>-type, <ls_msg>-message.
         ENDLOOP.
       ENDIF.
+
+* ------- batch mode
+      IF p_btci EQ abap_true.
+        PERFORM display_batch_info.
+      ENDIF.
+
     ENDIF.
   ENDIF.
 *&---------------------------------------------------------------------*
@@ -170,4 +176,34 @@ FORM publish_result .
 
     SKIP.
   ENDLOOP.
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form display_batch_info
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM display_batch_info .
+
+* ------- source info
+  MESSAGE i005 WITH ls_data-source_type
+                    ls_data-source_id
+                    ls_data-source_ref.
+
+* ------- data info
+  DATA(lv_col) = lines( ls_data-collected ).
+  DATA(lv_pub) = lines( ls_params-publishers ).
+  DATA(lv_tag) = lines( ls_data-tags ).
+  DATA(lv_fld) = 0.
+
+  LOOP AT ls_data-collected ASSIGNING FIELD-SYMBOL(<ls_col>).
+    lv_fld = lv_fld + lines( <ls_col>-fields ).
+  ENDLOOP.
+
+  MESSAGE i006 WITH lv_col lv_fld lv_tag lv_pub.
+
+  COMMIT WORK.
+
 ENDFORM.

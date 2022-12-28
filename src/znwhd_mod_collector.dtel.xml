@@ -20,6 +20,19 @@
     <SHLPFIELD>CLSNAME</SHLPFIELD>
     <REFKIND>D</REFKIND>
    </DD04V>
+   <I18N_LANGS>
+    <LANGU>D</LANGU>
+   </I18N_LANGS>
+   <DD04_TEXTS>
+    <item>
+     <DDLANGUAGE>D</DDLANGUAGE>
+     <DDTEXT>Collector Modul</DDTEXT>
+     <REPTEXT>Collector Modul</REPTEXT>
+     <SCRTEXT_S>Collect Md</SCRTEXT_S>
+     <SCRTEXT_M>Collector Modul</SCRTEXT_M>
+     <SCRTEXT_L>Collector Modul</SCRTEXT_L>
+    </item>
+   </DD04_TEXTS>
   </asx:values>
  </asx:abap>
 </abapGit>

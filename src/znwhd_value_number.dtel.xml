@@ -20,6 +20,19 @@
     <DECIMALS>000007</DECIMALS>
     <OUTPUTLEN>000026</OUTPUTLEN>
    </DD04V>
+   <I18N_LANGS>
+    <LANGU>D</LANGU>
+   </I18N_LANGS>
+   <DD04_TEXTS>
+    <item>
+     <DDLANGUAGE>D</DDLANGUAGE>
+     <DDTEXT>NWHD Number data type</DDTEXT>
+     <REPTEXT>Number Value</REPTEXT>
+     <SCRTEXT_S>Number Val</SCRTEXT_S>
+     <SCRTEXT_M>Number Value</SCRTEXT_M>
+     <SCRTEXT_L>Number Value</SCRTEXT_L>
+    </item>
+   </DD04_TEXTS>
   </asx:values>
  </asx:abap>
 </abapGit>

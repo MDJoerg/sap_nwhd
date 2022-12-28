@@ -38,6 +38,18 @@
      <MSGNR>004</MSGNR>
      <TEXT>ERROR: &amp;1</TEXT>
     </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZNWHD</ARBGB>
+     <MSGNR>005</MSGNR>
+     <TEXT>NWHD Job finished for &amp;1/&amp;2 reference &amp;3.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZNWHD</ARBGB>
+     <MSGNR>006</MSGNR>
+     <TEXT>NWHD Job Info: Collectors &amp;1, Fields &amp;2, Tags &amp;3, Publisher &amp;4.</TEXT>
+    </T100>
    </T100>
   </asx:values>
  </asx:abap>

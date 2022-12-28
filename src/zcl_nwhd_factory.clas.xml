@@ -23,6 +23,11 @@
      <DESCRIPT>create an instance of job</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
+     <CMPNAME>CREATE_LDB_BL</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>create an instance of general util</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
      <CMPNAME>CREATE_LOGGER</CMPNAME>
      <LANGU>E</LANGU>
      <DESCRIPT>create an instance of logger</DESCRIPT>
@@ -59,6 +64,12 @@
     <SEOSUBCOTX>
      <CMPNAME>CREATE_JOB</CMPNAME>
      <SCONAME>RR_JOB</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>NWHD: Collector Interface</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>CREATE_LDB_BL</CMPNAME>
+     <SCONAME>RR_INSTANCE</SCONAME>
      <LANGU>E</LANGU>
      <DESCRIPT>NWHD: Collector Interface</DESCRIPT>
     </SEOSUBCOTX>

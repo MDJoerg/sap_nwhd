@@ -3,9 +3,9 @@
  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
   <asx:values>
    <VSEOCLASS>
-    <CLSNAME>ZCL_NWHD_PUB_QRWS</CLSNAME>
+    <CLSNAME>ZCL_NWHD_LDB_BL</CLSNAME>
     <LANGU>E</LANGU>
-    <DESCRIPT>NWHD: asynchron qRFC WebService publisher</DESCRIPT>
+    <DESCRIPT>NWHD: LDB BL Impl</DESCRIPT>
     <STATE>1</STATE>
     <CLSCCINCL>X</CLSCCINCL>
     <FIXPT>X</FIXPT>
@@ -13,19 +13,9 @@
    </VSEOCLASS>
    <DESCRIPTIONS>
     <SEOCOMPOTX>
-     <CMPNAME>FORWARD_PAYLOAD</CMPNAME>
+     <CMPNAME>MS_LAST_SRC</CMPNAME>
      <LANGU>E</LANGU>
-     <DESCRIPT>send json payload to endpoint</DESCRIPT>
-    </SEOCOMPOTX>
-    <SEOCOMPOTX>
-     <CMPNAME>MS_PARAMS</CMPNAME>
-     <LANGU>E</LANGU>
-     <DESCRIPT>NWHD: Job Parameter</DESCRIPT>
-    </SEOCOMPOTX>
-    <SEOCOMPOTX>
-     <CMPNAME>MS_RESULT</CMPNAME>
-     <LANGU>E</LANGU>
-     <DESCRIPT>NWHD: Job Data</DESCRIPT>
+     <DESCRIPT>db structure for source</DESCRIPT>
     </SEOCOMPOTX>
    </DESCRIPTIONS>
   </asx:values>

@@ -8,6 +8,19 @@ public section.
   methods ZIF_NWHD_PUB~PUBLISH
     redefinition .
 protected section.
+
+  data MS_PARAMS type ZNWHD_S_PARAM_JOB .
+  data MS_RESULT type ZNWHD_S_DATA_JOB .
+  data MV_PAYLOAD type STRING .
+  data MV_CONTENT_TYPE type STRING .
+
+  methods BUILD_PAYLOAD
+    returning
+      value(RV_SUCCESS) type ABAP_BOOL .
+  methods FORWARD_PAYLOAD
+    returning
+      value(RV_SUCCESS) type ABAP_BOOL .
+  methods RESET .
 private section.
 ENDCLASS.
 
@@ -22,32 +35,54 @@ CLASS ZCL_NWHD_PUB_QRWS IMPLEMENTATION.
     DATA lv_msg TYPE bapi_msg.
 
 
-* -------- check
+* -------- init and check
+    reset( ).
     IF is_params-rfc_dest IS INITIAL
       OR is_params-qname IS INITIAL.
       get_logger( )->error( |qRFC destination or queue missing.| ).
       RETURN.
+    ELSE.
+      ms_params = is_params.
+      ms_result = is_result.
     ENDIF.
 
-* ------ get payload
-    DATA(lr_util)   = zcl_nwhd_factory=>create_util( ).
-    DATA(lv_payload) = lr_util->to_json( is_data = is_result ).
-    IF lv_payload IS INITIAL.
+
+* -------- get payload
+    IF build_payload( ) EQ abap_false.
       get_logger( )->error( |wrong json payload| ).
       RETURN.
     ENDIF.
 
-    DATA(lv_contenttype) = |application/json|.
+* -------- forward
+    IF forward_payload( ) EQ abap_true.
+      rv_success = abap_true.
+    ELSE.
+      get_logger( )->error( |forwarding json payload failed| ).
+    ENDIF.
 
+
+  ENDMETHOD.
+
+
+  METHOD build_payload.
+    DATA(lr_util)   = zcl_nwhd_factory=>create_util( ).
+    mv_payload = lr_util->to_json( is_data = ms_result ).
+    IF mv_payload IS NOT INITIAL.
+      mv_content_type = |application/json|.
+      rv_success = abap_true.
+    ENDIF.
+  ENDMETHOD.
+
+
+  METHOD forward_payload.
 
 * -------- call remote function
-    DATA(ls_params) = is_params.
     DATA(lr_qrfc)   = zcl_nwhd_factory=>create_qrfc_util( ).
 
 
 * ------ init outbound queue
-    IF lr_qrfc->start_outbound_queue( ls_params-qname ) EQ abap_false.
-      get_logger( )->error( |Error setting outbound queue { ls_params-qname }| ).
+    IF lr_qrfc->start_outbound_queue( ms_params-qname ) EQ abap_false.
+      get_logger( )->error( |Error setting outbound queue { ms_params-qname }| ).
       RETURN.
     ENDIF.
 
@@ -58,16 +93,23 @@ CLASS ZCL_NWHD_PUB_QRWS IMPLEMENTATION.
       AS SEPARATE UNIT
       DESTINATION 'NONE'
       EXPORTING
-        iv_rfcdest      = is_params-rfc_dest
-        iv_payload      = lv_payload
-        iv_content_type = lv_contenttype.
+        iv_rfcdest      = ms_params-rfc_dest
+        iv_payload      = mv_payload
+        iv_content_type = mv_content_type.
 
 
 * ------- finish queue package
     lr_qrfc->close_package( ).
-    get_logger( )->info( |Sending data webservice to { ls_params-rfc_dest } via queue { ls_params-qname } prepared| ).
+    get_logger( )->info( |Sending data webservice to { ms_params-rfc_dest } via queue { ms_params-qname } prepared| ).
     rv_success = abap_true.
 
-
   ENDMETHOD.
+
+
+  method RESET.
+      clear: ms_params,
+             ms_result,
+             mv_payload,
+             mv_content_type.
+  endmethod.
 ENDCLASS.

@@ -52,8 +52,11 @@ CLASS ZCL_NWHD_LDB_PUB IMPLEMENTATION.
 
 
   method IS_SOURCE_VALID.
-    get_logger( )->trace( |no whitelist activated| ).
-    rv_success = abap_true.
+  data(lr_bl) = zcl_nwhd_factory=>create_ldb_bl( ).
+  rv_success  = lr_bl->is_source_valid(
+                  iv_type = iv_type
+                  iv_id   = iv_id
+                ).
   endmethod.
 
 

@@ -19,6 +19,9 @@ public section.
       !IV_TYPE type DATA
     returning
       value(RR_JOB) type ref to ZIF_NWHD_JOB .
+  class-methods CREATE_LDB_BL
+    returning
+      value(RR_INSTANCE) type ref to ZIF_NWHD_LDB_BL .
   class-methods CREATE_LOGGER
     returning
       value(RR_INSTANCE) type ref to ZIF_NWHD_LOGGER .
@@ -91,5 +94,10 @@ CLASS ZCL_NWHD_FACTORY IMPLEMENTATION.
 
   METHOD CREATE_QRFC_UTIL.
     rr_instance ?= create_instance( 'ZIF_NWHD_QRFC_UTL' ).
+  ENDMETHOD.
+
+
+  METHOD CREATE_LDB_BL.
+    rr_instance ?= create_instance( 'ZIF_NWHD_LDB_BL' ).
   ENDMETHOD.
 ENDCLASS.

@@ -68,4 +68,18 @@ interface ZIF_NWHD_UTIL
       !EV_LENGTH type I
     returning
       value(RT_BINTAB) type SOLIX_TAB .
+  methods GET_CONFIG_FLD_NUM
+    importing
+      !IV_COLLECTOR type DATA optional
+      !IV_CATEGORY type DATA optional
+      !IV_FIELD type DATA optional
+      !IV_BP type DATA optional
+      !IV_SRC_TYPE type DATA optional
+      !IV_SRC_ID type DATA optional
+      !IT_CFG type ZNWHD_CFG_T_DB_FDN optional
+      !IV_CHECK_FIELD type DATA optional
+    exporting
+      !ET_CFG type ZNWHD_CFG_T_DB_FDN
+    returning
+      value(RS_CONFIG) type ZTC_NWHDCFG_FDN .
 endinterface.

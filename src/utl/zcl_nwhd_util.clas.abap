@@ -354,4 +354,119 @@ CLASS ZCL_NWHD_UTIL IMPLEMENTATION.
 
 
   ENDMETHOD.
+
+
+  METHOD zif_nwhd_util~get_config_fld_num.
+
+* --------- local macro
+    FIELD-SYMBOLS: <lv_field> TYPE data.
+    DEFINE mc_check.
+      IF iv_check_field IS INITIAL AND rs_config IS NOT INITIAL.
+        RETURN.
+      ELSEIF iv_check_field IS NOT INITIAL.
+        UNASSIGN <lv_field>.
+        ASSIGN COMPONENT iv_check_field OF STRUCTURE rs_config TO <lv_field>.
+        IF <lv_field> IS ASSIGNED AND <lv_field> IS NOT INITIAL.
+          RETURN.
+        ENDIF.
+        CLEAR rs_config.
+      ENDIF.
+    end-of-DEFINITION.
+
+
+* --------- select from db
+    IF it_cfg[] IS NOT INITIAL.
+      et_cfg = it_cfg.
+    ELSE.
+      SELECT *
+        FROM ztc_nwhdcfg_fdn
+        INTO CORRESPONDING FIELDS OF TABLE et_cfg
+       WHERE ( collector    = space OR collector    = iv_collector )
+         AND ( category     = space OR category     = iv_category )
+         AND ( field        = space OR field        = iv_field )
+         AND ( bp_customer  = space OR bp_customer  = iv_bp )
+         AND ( source_type  = space OR source_type  = iv_src_type )
+         AND ( source_id    = space OR source_id    = iv_src_id ).
+      IF et_cfg[] IS INITIAL.
+        RETURN.
+      ENDIF.
+    ENDIF.
+
+
+* --------- prio 1 - extact fit
+    READ TABLE et_cfg INTO rs_config
+      WITH KEY collector    = iv_collector
+               category     = iv_category
+               field        = iv_field
+               bp_customer  = iv_bp
+               source_type  = iv_src_type
+               source_id    = iv_src_id.
+    mc_check.
+
+* --------- prio 2 - customer system type
+    READ TABLE et_cfg INTO rs_config
+      WITH KEY collector    = iv_collector
+               category     = iv_category
+               field        = iv_field
+               bp_customer  = iv_bp
+               source_type  = iv_src_type
+               source_id    = space.
+    mc_check.
+
+* --------- prio 3 - customer specific
+    READ TABLE et_cfg INTO rs_config
+      WITH KEY collector    = iv_collector
+               category     = iv_category
+               field        = iv_field
+               bp_customer  = iv_bp
+               source_type  = space
+               source_id    = space.
+    mc_check.
+
+* --------- prio 4 - general config for exact value
+    READ TABLE et_cfg INTO rs_config
+      WITH KEY collector    = iv_collector
+               category     = iv_category
+               field        = iv_field
+               bp_customer  = space
+               source_type  = space
+               source_id    = space.
+    mc_check.
+
+* --------- prio 5 - general config for category
+    READ TABLE et_cfg INTO rs_config
+      WITH KEY collector    = iv_collector
+               category     = iv_category
+               field        = space
+               bp_customer  = space
+               source_type  = space
+               source_id    = space.
+    mc_check.
+
+* --------- prio 6 - general config for collector
+    READ TABLE et_cfg INTO rs_config
+      WITH KEY collector    = iv_collector
+               category     = space
+               field        = space
+               bp_customer  = space
+               source_type  = space
+               source_id    = space.
+    mc_check.
+
+* --------- prio 7 - general config for all
+    READ TABLE et_cfg INTO rs_config
+      WITH KEY collector    = iv_collector
+               category     = space
+               field        = space
+               bp_customer  = space
+               source_type  = space
+               source_id    = space.
+    mc_check.
+
+
+* --------- prio 8 - get the first in table
+    READ TABLE et_cfg INTO rs_config INDEX 1.
+
+
+  ENDMETHOD.
 ENDCLASS.

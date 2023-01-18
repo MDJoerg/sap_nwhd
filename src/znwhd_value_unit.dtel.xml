@@ -3,18 +3,18 @@
  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
   <asx:values>
    <DD04V>
-    <ROLLNAME>ZNWHD_SOURCE_TYPE</ROLLNAME>
+    <ROLLNAME>ZNWHD_VALUE_UNIT</ROLLNAME>
     <DDLANGUAGE>E</DDLANGUAGE>
-    <DOMNAME>ZNWHD_KEY_20</DOMNAME>
-    <HEADLEN>55</HEADLEN>
+    <DOMNAME>ZNWHD_VALUE_UNIT</DOMNAME>
+    <HEADLEN>26</HEADLEN>
     <SCRLEN1>10</SCRLEN1>
     <SCRLEN2>20</SCRLEN2>
     <SCRLEN3>40</SCRLEN3>
-    <DDTEXT>Source Type</DDTEXT>
-    <REPTEXT>Source Type</REPTEXT>
-    <SCRTEXT_S>Src Type</SCRTEXT_S>
-    <SCRTEXT_M>Source Type</SCRTEXT_M>
-    <SCRTEXT_L>Source Type</SCRTEXT_L>
+    <DDTEXT>NWHD data value unit</DDTEXT>
+    <REPTEXT>Value unit</REPTEXT>
+    <SCRTEXT_S>Value unit</SCRTEXT_S>
+    <SCRTEXT_M>Value unit</SCRTEXT_M>
+    <SCRTEXT_L>Value unit</SCRTEXT_L>
     <DTELMASTER>E</DTELMASTER>
     <REFKIND>D</REFKIND>
    </DD04V>
@@ -24,11 +24,11 @@
    <DD04_TEXTS>
     <item>
      <DDLANGUAGE>D</DDLANGUAGE>
-     <DDTEXT>Quelle Typ</DDTEXT>
-     <REPTEXT>Quelle Typ</REPTEXT>
-     <SCRTEXT_S>Quelle Typ</SCRTEXT_S>
-     <SCRTEXT_M>Quelle Typ</SCRTEXT_M>
-     <SCRTEXT_L>Quelle Typ</SCRTEXT_L>
+     <DDTEXT>NWHD data value unit</DDTEXT>
+     <REPTEXT>Wert Einheit</REPTEXT>
+     <SCRTEXT_S>Einheit</SCRTEXT_S>
+     <SCRTEXT_M>Wert Einheit</SCRTEXT_M>
+     <SCRTEXT_L>Wert Einheit</SCRTEXT_L>
     </item>
    </DD04_TEXTS>
   </asx:values>

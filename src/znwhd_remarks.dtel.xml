@@ -3,18 +3,18 @@
  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
   <asx:values>
    <DD04V>
-    <ROLLNAME>ZNWHD_SOURCE_TYPE</ROLLNAME>
+    <ROLLNAME>ZNWHD_REMARKS</ROLLNAME>
     <DDLANGUAGE>E</DDLANGUAGE>
-    <DOMNAME>ZNWHD_KEY_20</DOMNAME>
+    <DOMNAME>ZNWHD_DESCRIPTION</DOMNAME>
     <HEADLEN>55</HEADLEN>
     <SCRLEN1>10</SCRLEN1>
     <SCRLEN2>20</SCRLEN2>
     <SCRLEN3>40</SCRLEN3>
-    <DDTEXT>Source Type</DDTEXT>
-    <REPTEXT>Source Type</REPTEXT>
-    <SCRTEXT_S>Src Type</SCRTEXT_S>
-    <SCRTEXT_M>Source Type</SCRTEXT_M>
-    <SCRTEXT_L>Source Type</SCRTEXT_L>
+    <DDTEXT>Remarks</DDTEXT>
+    <REPTEXT>Remarks</REPTEXT>
+    <SCRTEXT_S>Remarks</SCRTEXT_S>
+    <SCRTEXT_M>Remarks</SCRTEXT_M>
+    <SCRTEXT_L>Remarks</SCRTEXT_L>
     <DTELMASTER>E</DTELMASTER>
     <REFKIND>D</REFKIND>
    </DD04V>
@@ -24,11 +24,11 @@
    <DD04_TEXTS>
     <item>
      <DDLANGUAGE>D</DDLANGUAGE>
-     <DDTEXT>Quelle Typ</DDTEXT>
-     <REPTEXT>Quelle Typ</REPTEXT>
-     <SCRTEXT_S>Quelle Typ</SCRTEXT_S>
-     <SCRTEXT_M>Quelle Typ</SCRTEXT_M>
-     <SCRTEXT_L>Quelle Typ</SCRTEXT_L>
+     <DDTEXT>Beschreibung</DDTEXT>
+     <REPTEXT>Beschreibung</REPTEXT>
+     <SCRTEXT_S>Beschreib.</SCRTEXT_S>
+     <SCRTEXT_M>Beschreibung</SCRTEXT_M>
+     <SCRTEXT_L>Beschreibung</SCRTEXT_L>
     </item>
    </DD04_TEXTS>
   </asx:values>

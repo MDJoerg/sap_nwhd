@@ -59,4 +59,11 @@ interface ZIF_NWHD_LDB_BL
   methods GET_CONTEXT_AS_RESULT
     returning
       value(RS_RESULT) type ZNWHD_S_DATA_JOB .
+  methods SOURCE_EXPORT
+    importing
+      !IV_SRC_GUID type ZNWHD_GUID_SRC
+      !IV_STARTED_AT type ZNWHD_TIMESTAMPL_STARTED_AT
+      !IV_FINISHED_AT type ZNWHD_TIMESTAMPL_FINISHED_AT
+    returning
+      value(RS_RESULT) type ZNWHD_LDB_S_CTX_DB .
 endinterface.

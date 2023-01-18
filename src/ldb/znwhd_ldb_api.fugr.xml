@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_FUGR" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <AREAT>NWHD: Local DB Access API</AREAT>
+   <INCLUDES>
+    <SOBJ_NAME>LZNWHD_LDB_APITOP</SOBJ_NAME>
+    <SOBJ_NAME>SAPLZNWHD_LDB_API</SOBJ_NAME>
+   </INCLUDES>
+   <FUNCTIONS>
+    <item>
+     <FUNCNAME>Z_NWHD_LDB_API_GET_SRC_DATA</FUNCNAME>
+     <REMOTE_CALL>R</REMOTE_CALL>
+     <SHORT_TEXT>NWHD: Get data of source in time interval</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>IV_SRC_GUID</PARAMETER>
+       <TYP>ZNWHD_GUID_SRC</TYP>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>IV_STARTED_AT</PARAMETER>
+       <TYP>ZNWHD_TIMESTAMPL_STARTED_AT</TYP>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>IV_FINISHED_AT</PARAMETER>
+       <TYP>ZNWHD_TIMESTAMPL_FINISHED_AT</TYP>
+      </RSIMP>
+     </IMPORT>
+     <EXPORT>
+      <RSEXP>
+       <PARAMETER>ES_DATA</PARAMETER>
+       <TYP>ZNWHD_LDB_S_CTX_DB</TYP>
+      </RSEXP>
+      <RSEXP>
+       <PARAMETER>ET_RETURN</PARAMETER>
+       <TYP>BAPIRET2_TAB</TYP>
+      </RSEXP>
+     </EXPORT>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>IV_SRC_GUID</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Source GUID</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>IV_STARTED_AT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>started at</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>IV_FINISHED_AT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>finished at</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>ES_DATA</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>context structure for db</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>ET_RETURN</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Error Messages</STEXT>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+   </FUNCTIONS>
+  </asx:values>
+ </asx:abap>
+</abapGit>

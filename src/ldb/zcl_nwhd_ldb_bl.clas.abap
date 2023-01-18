@@ -633,4 +633,65 @@ CLASS ZCL_NWHD_LDB_BL IMPLEMENTATION.
     rv_success = abap_true.
 
   ENDMETHOD.
+
+
+  METHOD zif_nwhd_ldb_bl~source_export.
+
+* --------- check source
+    SELECT SINGLE *
+      FROM ztd_nwhdldb_src
+      INTO CORRESPONDING FIELDS OF rs_result-src
+     WHERE src_guid = iv_src_guid.
+    IF sy-subrc NE 0.
+      get_logger( )->error( |source is not known| ).
+      RETURN.
+    ENDIF.
+
+* ---------- get messages in interval
+    SELECT *
+      FROM ztd_nwhdldb_msg
+      INTO CORRESPONDING FIELDS OF TABLE rs_result-msg_tab
+     WHERE src_guid = iv_src_guid
+       AND started_at >= iv_started_at
+       AND finished_at <= iv_finished_at.
+    IF sy-subrc NE 0.
+      get_logger( )->error( |no messages found for source in time interval| ).
+      RETURN.
+    ENDIF.
+
+
+* --------- select tags
+    IF rs_result-msg_tab[] IS NOT INITIAL.
+      SELECT *
+        FROM ztd_nwhdldb_tgh
+        INTO CORRESPONDING FIELDS OF TABLE rs_result-tgh_tab
+        FOR ALL ENTRIES IN rs_result-msg_tab
+       WHERE tgh_guid = rs_result-msg_tab-tgh_guid.
+
+      IF rs_result-tgh_tab[] IS NOT INITIAL.
+        SELECT *
+          FROM ztd_nwhdldb_tgi
+          INTO CORRESPONDING FIELDS OF TABLE rs_result-tgi_tab
+          FOR ALL ENTRIES IN rs_result-tgh_tab
+         WHERE tgh_guid = rs_result-tgh_tab-tgh_guid.
+      ENDIF.
+    ENDIF.
+
+* ----------- select fields
+    SELECT *
+      FROM ztd_nwhdldb_fdn
+      INTO CORRESPONDING FIELDS OF TABLE rs_result-fdn_tab
+      WHERE src_guid = iv_src_guid
+        AND measured_at >= iv_started_at
+        AND confirmed_at <= iv_finished_at.
+
+    SELECT *
+      FROM ztd_nwhdldb_fdt
+      INTO CORRESPONDING FIELDS OF TABLE rs_result-fdt_tab
+      WHERE src_guid = iv_src_guid
+        AND measured_at >= iv_started_at
+        AND confirmed_at <= iv_finished_at.
+
+
+  ENDMETHOD.
 ENDCLASS.

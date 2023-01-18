@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_DTEL" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <DD04V>
+    <ROLLNAME>ZNWHD_TIMESTAMPL_FINISHED_AT</ROLLNAME>
+    <DDLANGUAGE>E</DDLANGUAGE>
+    <DOMNAME>TZNTSTMPL</DOMNAME>
+    <HEADLEN>27</HEADLEN>
+    <SCRLEN1>10</SCRLEN1>
+    <SCRLEN2>20</SCRLEN2>
+    <SCRLEN3>40</SCRLEN3>
+    <DDTEXT>finished at</DDTEXT>
+    <REPTEXT>finished at</REPTEXT>
+    <SCRTEXT_S>finishedAt</SCRTEXT_S>
+    <SCRTEXT_M>finished at</SCRTEXT_M>
+    <SCRTEXT_L>finished at</SCRTEXT_L>
+    <DTELMASTER>E</DTELMASTER>
+    <REFKIND>D</REFKIND>
+   </DD04V>
+   <I18N_LANGS>
+    <LANGU>D</LANGU>
+   </I18N_LANGS>
+   <DD04_TEXTS>
+    <item>
+     <DDLANGUAGE>D</DDLANGUAGE>
+     <DDTEXT>beendet am</DDTEXT>
+     <REPTEXT>beendet am</REPTEXT>
+     <SCRTEXT_S>beendet am</SCRTEXT_S>
+     <SCRTEXT_M>beendet am</SCRTEXT_M>
+     <SCRTEXT_L>beendet am</SCRTEXT_L>
+    </item>
+   </DD04_TEXTS>
+  </asx:values>
+ </asx:abap>
+</abapGit>

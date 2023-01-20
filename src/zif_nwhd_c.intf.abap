@@ -3,25 +3,38 @@ interface ZIF_NWHD_C
 
 
   constants C_SOURCE_TYPE type ZNWHD_SOURCE_TYPE value 'SAPNWABAP' ##NO_TEXT.
-  constants VERSION type STRING value '20230118' ##NO_TEXT.
-  constants RELEASE type STRING value '0.3.8' ##NO_TEXT.
+  constants VERSION type STRING value '20230120' ##NO_TEXT.
+  constants RELEASE type STRING value '0.3.9' ##NO_TEXT.
   constants GITHUB_REPO type STRING value 'https://github.com/MDJoerg/sap_nwhd' ##NO_TEXT.
   constants:
     BEGIN OF c_detail_level,
-               unspecified TYPE znwhd_col_detail_level VALUE '0',
-               last_hour   TYPE znwhd_col_detail_level VALUE '1',
-               last_24h    TYPE znwhd_col_detail_level VALUE '2',
-               last_week   TYPE znwhd_col_detail_level VALUE '3',
-               last_month  TYPE znwhd_col_detail_level VALUE '4',
-               last_year   TYPE znwhd_col_detail_level VALUE '5',
-             END OF c_detail_level .
+      unspecified TYPE znwhd_col_detail_level VALUE '0',
+      last_hour   TYPE znwhd_col_detail_level VALUE '1',
+      last_24h    TYPE znwhd_col_detail_level VALUE '2',
+      last_week   TYPE znwhd_col_detail_level VALUE '3',
+      last_month  TYPE znwhd_col_detail_level VALUE '4',
+      last_year   TYPE znwhd_col_detail_level VALUE '5',
+    END OF c_detail_level .
   constants:
-    begin of c_category,
-              last_hour    type ZNWHD_FIELD_CATEGORY value 'LastHour',
-              last_24h     type ZNWHD_FIELD_CATEGORY value 'Last24h',
-              last_week    type ZNWHD_FIELD_CATEGORY value 'LastWeek',
-              last_month   type ZNWHD_FIELD_CATEGORY value 'LastMonth',
-              last_year    type ZNWHD_FIELD_CATEGORY value 'LastYear',
-              all          type ZNWHD_FIELD_CATEGORY value 'All',
-             end of c_category .
+    BEGIN OF c_category,
+      last_hour  TYPE znwhd_field_category VALUE 'LastHour',
+      last_24h   TYPE znwhd_field_category VALUE 'Last24h',
+      last_week  TYPE znwhd_field_category VALUE 'LastWeek',
+      last_month TYPE znwhd_field_category VALUE 'LastMonth',
+      last_year  TYPE znwhd_field_category VALUE 'LastYear',
+      all        TYPE znwhd_field_category VALUE 'All',
+    END OF c_category .
+  constants:
+    BEGIN OF c_time_interval_type,
+      none  TYPE znwhd_time_interval_type VALUE ' ',
+      min   TYPE znwhd_time_interval_type VALUE '1',
+      min5  TYPE znwhd_time_interval_type VALUE '5',
+      min15 TYPE znwhd_time_interval_type VALUE 'Q',
+      min30 TYPE znwhd_time_interval_type VALUE 'S',
+      hour  TYPE znwhd_time_interval_type VALUE 'H',
+      day   TYPE znwhd_time_interval_type VALUE 'D',
+      week  TYPE znwhd_time_interval_type VALUE 'W',
+      month TYPE znwhd_time_interval_type VALUE 'M',
+      year  TYPE znwhd_time_interval_type VALUE 'Y',
+    END OF c_time_interval_type .
 endinterface.

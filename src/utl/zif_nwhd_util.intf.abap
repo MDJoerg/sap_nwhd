@@ -76,10 +76,16 @@ interface ZIF_NWHD_UTIL
       !IV_BP type DATA optional
       !IV_SRC_TYPE type DATA optional
       !IV_SRC_ID type DATA optional
-      !IT_CFG type ZNWHD_CFG_T_DB_FDN optional
+      !IT_CFG type ZNWHD_CFG_T_FDN_REC optional
       !IV_CHECK_FIELD type DATA optional
     exporting
-      !ET_CFG type ZNWHD_CFG_T_DB_FDN
+      !ET_CFG type ZNWHD_CFG_T_FDN_REC
     returning
-      value(RS_CONFIG) type ZTC_NWHDCFG_FDN .
+      value(RS_CONFIG) type ZNWHD_CFG_S_FDN_REC .
+  methods GET_TIME_INTERVAL
+    importing
+      !IV_TYPE type ZNWHD_TIME_INTERVAL_TYPE
+      !IV_BASE type ZNWHD_TIME_INTERVAL_BASE default 1
+    returning
+      value(RV_MIN) type INT4 .
 endinterface.

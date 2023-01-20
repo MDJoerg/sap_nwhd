@@ -469,4 +469,45 @@ CLASS ZCL_NWHD_UTIL IMPLEMENTATION.
 
 
   ENDMETHOD.
+
+
+  METHOD zif_nwhd_util~get_time_interval.
+
+* ------- check
+    IF iv_type IS INITIAL
+      OR iv_base = 0.
+      RETURN.
+    ENDIF.
+
+* ------- calc factor
+    CASE iv_type.
+      WHEN zif_nwhd_c=>c_time_interval_type-min.
+        rv_min = 1.
+      WHEN zif_nwhd_c=>c_time_interval_type-min5.
+        rv_min = 5.
+      WHEN zif_nwhd_c=>c_time_interval_type-min15.
+        rv_min = 15.
+      WHEN zif_nwhd_c=>c_time_interval_type-min30.
+        rv_min = 30.
+      WHEN zif_nwhd_c=>c_time_interval_type-hour.
+        rv_min = 60.
+      WHEN zif_nwhd_c=>c_time_interval_type-day.
+        rv_min = 60 * 24.
+      WHEN zif_nwhd_c=>c_time_interval_type-week.
+        rv_min = 60 * 24 * 7.
+      WHEN zif_nwhd_c=>c_time_interval_type-month.
+        rv_min = 60 * 24 * 7 * 30.
+      WHEN zif_nwhd_c=>c_time_interval_type-year.
+        rv_min = 60 * 24 * 7 * 30 * 365.
+      WHEN OTHERS.
+        RETURN.
+    ENDCASE.
+    .
+
+* ------- cal base
+    IF iv_base <> 1.
+      rv_min = rv_min * iv_base.
+    ENDIF.
+
+  ENDMETHOD.
 ENDCLASS.

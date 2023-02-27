@@ -20,8 +20,20 @@
     </SEOSUBCOTX>
     <SEOSUBCOTX>
      <CMPNAME>SELECT_AND_PUBLISH</CMPNAME>
+     <SCONAME>IV_DATE</SCONAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>ABAP system field: Current date of application server</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>SELECT_AND_PUBLISH</CMPNAME>
      <SCONAME>IV_TIME</SCONAME>
      <LANGU>E</LANGU>
+     <DESCRIPT>ABAP System Field: Current Time of Application Server</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>SELECT_AND_PUBLISH</CMPNAME>
+     <SCONAME>IV_TIME</SCONAME>
+     <LANGU>F</LANGU>
      <DESCRIPT>ABAP System Field: Current Time of Application Server</DESCRIPT>
     </SEOSUBCOTX>
    </DESCRIPTIONS_SUB>

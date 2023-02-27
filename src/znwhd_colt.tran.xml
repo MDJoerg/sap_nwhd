@@ -19,6 +19,12 @@
     <TCODE>ZNWHD_COLT</TCODE>
     <TTEXT>Test NWHD Collector</TTEXT>
    </TSTCT>
+   <I18N_TPOOL>
+    <TSTCT>
+     <SPRSL>F</SPRSL>
+     <TTEXT>Test NWHD Collector</TTEXT>
+    </TSTCT>
+   </I18N_TPOOL>
   </asx:values>
  </asx:abap>
 </abapGit>

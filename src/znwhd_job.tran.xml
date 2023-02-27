@@ -19,6 +19,12 @@
     <TCODE>ZNWHD_JOB</TCODE>
     <TTEXT>Execute NWHD Job</TTEXT>
    </TSTCT>
+   <I18N_TPOOL>
+    <TSTCT>
+     <SPRSL>F</SPRSL>
+     <TTEXT>Execute NWHD Job</TTEXT>
+    </TSTCT>
+   </I18N_TPOOL>
   </asx:values>
  </asx:abap>
 </abapGit>

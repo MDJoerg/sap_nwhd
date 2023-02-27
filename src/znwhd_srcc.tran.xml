@@ -21,6 +21,12 @@
     <TCODE>ZNWHD_SRCC</TCODE>
     <PARAM>/*SM30 VIEWNAME=ZTD_NWHDLDB_SRC;UPDATE=X;</PARAM>
    </TSTCP>
+   <I18N_TPOOL>
+    <TSTCT>
+     <SPRSL>F</SPRSL>
+     <TTEXT>Configure Source Systems</TTEXT>
+    </TSTCT>
+   </I18N_TPOOL>
   </asx:values>
  </asx:abap>
 </abapGit>

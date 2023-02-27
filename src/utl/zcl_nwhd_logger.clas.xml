@@ -17,6 +17,11 @@
      <LANGU>E</LANGU>
      <DESCRIPT>Error Messages</DESCRIPT>
     </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>MT_MSG</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Error Messages</DESCRIPT>
+    </SEOCOMPOTX>
    </DESCRIPTIONS>
   </asx:values>
  </asx:abap>

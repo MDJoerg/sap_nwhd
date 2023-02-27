@@ -80,6 +80,42 @@
       </item>
      </TEXTPOOL>
     </item>
+    <item>
+     <LANGUAGE>F</LANGUAGE>
+     <TEXTPOOL>
+      <item>
+       <ID>R</ID>
+       <ENTRY>NetWeaver Health Data: Test Collector</ENTRY>
+       <LENGTH>37</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_COL</KEY>
+       <ENTRY>.</ENTRY>
+       <LENGTH>24</LENGTH>
+       <SPLIT>D</SPLIT>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_DETL</KEY>
+       <ENTRY>.</ENTRY>
+       <LENGTH>9</LENGTH>
+       <SPLIT>D</SPLIT>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_FLNC</KEY>
+       <ENTRY>no client specific</ENTRY>
+       <LENGTH>26</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_FLNS</KEY>
+       <ENTRY>no system wide</ENTRY>
+       <LENGTH>22</LENGTH>
+      </item>
+     </TEXTPOOL>
+    </item>
    </I18N_TPOOL>
   </asx:values>
  </asx:abap>

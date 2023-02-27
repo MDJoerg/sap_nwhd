@@ -11,6 +11,15 @@
     <LOWERCASE>X</LOWERCASE>
     <DDTEXT>Description</DDTEXT>
    </DD01V>
+   <I18N_LANGS>
+    <LANGU>F</LANGU>
+   </I18N_LANGS>
+   <DD01_TEXTS>
+    <item>
+     <DDLANGUAGE>F</DDLANGUAGE>
+     <DDTEXT>Description</DDTEXT>
+    </item>
+   </DD01_TEXTS>
   </asx:values>
  </asx:abap>
 </abapGit>

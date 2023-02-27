@@ -467,16 +467,38 @@ CLASS ZCL_NWHD_LDB_BL IMPLEMENTATION.
 * -------- check context
     IF ms_ctx_db IS INITIAL
       OR ms_ctx_db-src IS INITIAL
-      OR ms_ctx_db-msg IS INITIAL.
+      OR ( ms_ctx_db-msg IS INITIAL AND ms_ctx_db-msg_tab[] IS INITIAL ).
       get_logger( )->error( |nothing to save to ldb| ).
       RETURN.
     ENDIF.
 
 
-* ------- src + msg + tgh
+* ------- src
     MODIFY ztd_nwhdldb_src FROM ms_ctx_db-src.
-    MODIFY ztd_nwhdldb_msg FROM ms_ctx_db-msg.
-    MODIFY ztd_nwhdldb_tgh FROM ms_ctx_db-tgh.
+
+
+* ------- msg
+    IF ms_ctx_db-msg_tab[] IS NOT INITIAL.
+      MODIFY ztd_nwhdldb_msg FROM TABLE ms_ctx_db-msg_tab.
+      get_logger( )->info( |msg tab data updated| ).
+    ELSEIF ms_ctx_db-msg IS NOT INITIAL.
+      MODIFY ztd_nwhdldb_msg FROM ms_ctx_db-msg.
+      get_logger( )->info( |single msg data updated| ).
+    ELSE.
+      get_logger( )->warning( |no msg data found in context| ).
+    ENDIF.
+
+* ------- tgh
+    IF ms_ctx_db-tgh_tab[] IS NOT INITIAL.
+      MODIFY ztd_nwhdldb_tgh FROM TABLE ms_ctx_db-tgh_tab.
+      get_logger( )->info( |tag header tab data updated| ).
+    ELSEIF ms_ctx_db-tgh IS NOT INITIAL.
+      MODIFY ztd_nwhdldb_tgh FROM ms_ctx_db-tgh.
+      get_logger( )->info( |single tag header data updated| ).
+    ELSE.
+      get_logger( )->warning( |no tag header data found in context| ).
+    ENDIF.
+
 
 * ------- numeric values
     UPDATE ztd_nwhdldb_fdn
@@ -647,13 +669,38 @@ CLASS ZCL_NWHD_LDB_BL IMPLEMENTATION.
       RETURN.
     ENDIF.
 
+* ---------- prepare timestamp
+    DATA(lv_ts_from) = iv_started_at.
+    DATA(lv_ts_to)   = iv_finished_at.
+*
+*    IF lv_ts_to = 0.
+*      GET TIME STAMP FIELD lv_ts_to.
+*    ENDIF.
+*
+*
+*    IF lv_ts_from = 0.
+*      GET TIME STAMP FIELD lv_ts_to.
+*    ENDIF.
+    DATA(lv_all) = COND #( WHEN lv_ts_from IS INITIAL AND lv_ts_to IS INITIAL
+                           THEN abap_true
+                           ELSE abap_false ).
+
 * ---------- get messages in interval
-    SELECT *
-      FROM ztd_nwhdldb_msg
-      INTO CORRESPONDING FIELDS OF TABLE rs_result-msg_tab
-     WHERE src_guid = iv_src_guid
-       AND started_at >= iv_started_at
-       AND finished_at <= iv_finished_at.
+    IF lv_all EQ abap_true.
+      SELECT *
+        FROM ztd_nwhdldb_msg
+        INTO CORRESPONDING FIELDS OF TABLE rs_result-msg_tab
+       WHERE src_guid = iv_src_guid.
+    ELSE.
+      SELECT *
+        FROM ztd_nwhdldb_msg
+        INTO CORRESPONDING FIELDS OF TABLE rs_result-msg_tab
+       WHERE src_guid = iv_src_guid
+         AND started_at >= lv_ts_from
+         AND finished_at <= lv_ts_to.
+    ENDIF.
+
+
     IF sy-subrc NE 0.
       get_logger( )->error( |no messages found for source in time interval| ).
       RETURN.
@@ -678,19 +725,143 @@ CLASS ZCL_NWHD_LDB_BL IMPLEMENTATION.
     ENDIF.
 
 * ----------- select fields
-    SELECT *
-      FROM ztd_nwhdldb_fdn
-      INTO CORRESPONDING FIELDS OF TABLE rs_result-fdn_tab
-      WHERE src_guid = iv_src_guid
-        AND measured_at >= iv_started_at
-        AND confirmed_at <= iv_finished_at.
+    IF lv_all EQ abap_true.
+      SELECT *
+        FROM ztd_nwhdldb_fdn
+        INTO CORRESPONDING FIELDS OF TABLE rs_result-fdn_tab
+        WHERE src_guid = iv_src_guid.
 
-    SELECT *
+      SELECT *
+        FROM ztd_nwhdldb_fdt
+        INTO CORRESPONDING FIELDS OF TABLE rs_result-fdt_tab
+        WHERE src_guid = iv_src_guid.
+    ELSE.
+      SELECT *
+        FROM ztd_nwhdldb_fdn
+        INTO CORRESPONDING FIELDS OF TABLE rs_result-fdn_tab
+        WHERE src_guid = iv_src_guid
+          AND measured_at >= lv_ts_from
+          AND confirmed_at <= lv_ts_to.
+
+      SELECT *
+        FROM ztd_nwhdldb_fdt
+        INTO CORRESPONDING FIELDS OF TABLE rs_result-fdt_tab
+        WHERE src_guid = iv_src_guid
+          AND measured_at >= lv_ts_from
+          AND confirmed_at <= lv_ts_to.
+    ENDIF.
+
+  ENDMETHOD.
+
+
+  METHOD zif_nwhd_ldb_bl~source_delete.
+
+* ------- init
+    DATA lv_lin TYPE i.
+
+    CLEAR ms_ctx_db.
+
+
+* ------- check single source
+    SELECT SINGLE *
+      FROM ztd_nwhdldb_src
+     WHERE src_guid = @iv_src_guid
+      INTO @ms_ctx_db-src.
+    IF sy-subrc NE 0.
+      get_logger( )->error( |Source not found| ).
+      RETURN.
+    ELSE.
+      ADD 1 TO rv_deleted.
+    ENDIF.
+
+* ------ select record count
+    SELECT SINGLE COUNT( * )
+      FROM ztd_nwhdldb_msg
+      INTO @lv_lin
+    WHERE src_guid = @iv_src_guid.
+    rv_deleted = rv_deleted + lv_lin.
+
+    SELECT SINGLE COUNT( * )
+      FROM ztd_nwhdldb_fdn
+      INTO @lv_lin
+    WHERE src_guid = @iv_src_guid.
+    rv_deleted = rv_deleted + lv_lin.
+
+    SELECT SINGLE COUNT( * )
       FROM ztd_nwhdldb_fdt
-      INTO CORRESPONDING FIELDS OF TABLE rs_result-fdt_tab
-      WHERE src_guid = iv_src_guid
-        AND measured_at >= iv_started_at
-        AND confirmed_at <= iv_finished_at.
+      INTO @lv_lin
+    WHERE src_guid = @iv_src_guid.
+    rv_deleted = rv_deleted + lv_lin.
+
+
+* --------- tags
+    SELECT *
+      FROM ztd_nwhdldb_tgh
+      INTO TABLE @ms_ctx_db-tgh_tab
+     WHERE src_guid = @iv_src_guid.
+    lv_lin = lines( ms_ctx_db-tgh_tab ).
+    rv_deleted = rv_deleted + lv_lin.
+
+    IF lv_lin > 0.
+      SELECT *
+        FROM ztd_nwhdldb_tgi
+        INTO TABLE ms_ctx_db-tgi_tab
+       FOR ALL ENTRIES IN ms_ctx_db-tgh_tab
+      WHERE tgh_guid = ms_ctx_db-tgh_tab-tgh_guid.
+      lv_lin = lines( ms_ctx_db-tgi_tab ).
+      rv_deleted = rv_deleted + lv_lin.
+    ENDIF.
+
+
+
+* ------ check only test?
+    IF iv_test EQ abap_true.
+      get_logger( )->info( |{ rv_deleted } records found for deletion - source { ms_ctx_db-src-source_type }/{ ms_ctx_db-src-source_id }| ).
+      RETURN.
+    ENDIF.
+
+* ------ database operation
+    IF iv_commit EQ abap_true.
+      SET UPDATE TASK LOCAL.
+    ENDIF.
+
+    DELETE FROM ztd_nwhdldb_fdn WHERE src_guid = iv_src_guid.
+    DELETE FROM ztd_nwhdldb_fdt WHERE src_guid = iv_src_guid.
+    DELETE FROM ztd_nwhdldb_msg WHERE src_guid = iv_src_guid.
+    DELETE FROM ztd_nwhdldb_src WHERE src_guid = iv_src_guid.
+
+    DELETE FROM ztd_nwhdldb_tgh WHERE src_guid = iv_src_guid.
+    IF ms_ctx_db-tgi_tab[] IS NOT INITIAL.
+      DELETE ztd_nwhdldb_tgi FROM TABLE ms_ctx_db-tgi_tab.
+    ENDIF.
+
+    IF iv_commit EQ abap_true.
+      COMMIT WORK AND WAIT.
+      get_logger( )->info( |data was deleted. commit executed| ).
+    ELSE.
+      get_logger( )->warning( |data was deleted. no commit executed| ).
+    ENDIF.
+
+  ENDMETHOD.
+
+
+  METHOD zif_nwhd_ldb_bl~source_import.
+
+* ------- check input
+    IF is_data IS INITIAL
+      OR is_data-src IS INITIAL
+      OR is_data-msg_tab[] IS INITIAL.
+      get_logger( )->error( |wrong ldb data| ).
+      RETURN.
+    ENDIF.
+
+* ------- set to internal context and save
+    ms_ctx_db = is_data.
+    rv_success = zif_nwhd_ldb_bl~save_to_ldb(
+      EXPORTING
+        iv_commit  = iv_commit
+        iv_wait    = abap_true
+    ).
 
 
   ENDMETHOD.

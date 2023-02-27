@@ -97,6 +97,15 @@
      <CONSTANTS>&apos;ZCL_NWHD_JOB&apos;</CONSTANTS>
     </DD28V>
    </DD28V_TABLE>
+   <I18N_LANGS>
+    <LANGU>F</LANGU>
+   </I18N_LANGS>
+   <DD25_TEXTS>
+    <item>
+     <DDLANGUAGE>F</DDLANGUAGE>
+     <DDTEXT>NWHD: F4 for job modules</DDTEXT>
+    </item>
+   </DD25_TEXTS>
   </asx:values>
  </asx:abap>
 </abapGit>

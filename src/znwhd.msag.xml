@@ -51,6 +51,53 @@
      <TEXT>NWHD Job Info: Collectors &amp;1, Fields &amp;2, Tags &amp;3, Publisher &amp;4.</TEXT>
     </T100>
    </T100>
+   <I18N_LANGS>
+    <LANGU>F</LANGU>
+   </I18N_LANGS>
+   <T100T>
+    <T100T>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZNWHD</ARBGB>
+     <STEXT>NWHD Messages</STEXT>
+    </T100T>
+   </T100T>
+   <T100_TEXTS>
+    <item>
+     <SPRSL>F</SPRSL>
+     <MSGNR>000</MSGNR>
+     <TEXT>&amp;1 &amp;2 &amp;3 &amp;4</TEXT>
+    </item>
+    <item>
+     <SPRSL>F</SPRSL>
+     <MSGNR>001</MSGNR>
+     <TEXT>TRACE: &amp;1</TEXT>
+    </item>
+    <item>
+     <SPRSL>F</SPRSL>
+     <MSGNR>002</MSGNR>
+     <TEXT>INFO: &amp;1</TEXT>
+    </item>
+    <item>
+     <SPRSL>F</SPRSL>
+     <MSGNR>003</MSGNR>
+     <TEXT>WARNING: &amp;1</TEXT>
+    </item>
+    <item>
+     <SPRSL>F</SPRSL>
+     <MSGNR>004</MSGNR>
+     <TEXT>ERROR: &amp;1</TEXT>
+    </item>
+    <item>
+     <SPRSL>F</SPRSL>
+     <MSGNR>005</MSGNR>
+     <TEXT>NWHD Job finished for &amp;1/&amp;2 reference &amp;3.</TEXT>
+    </item>
+    <item>
+     <SPRSL>F</SPRSL>
+     <MSGNR>006</MSGNR>
+     <TEXT>NWHD Job Info: Collectors &amp;1, Fields &amp;2, Tags &amp;3, Publisher &amp;4.</TEXT>
+    </item>
+   </T100_TEXTS>
   </asx:values>
  </asx:abap>
 </abapGit>

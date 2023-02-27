@@ -20,6 +20,15 @@
      <COMPTYPE>S</COMPTYPE>
     </DD03P>
    </DD03P_TABLE>
+   <I18N_LANGS>
+    <LANGU>F</LANGU>
+   </I18N_LANGS>
+   <DD02_TEXTS>
+    <item>
+     <DDLANGUAGE>F</DDLANGUAGE>
+     <DDTEXT>db structure for numeric field config</DDTEXT>
+    </item>
+   </DD02_TEXTS>
   </asx:values>
  </asx:abap>
 </abapGit>

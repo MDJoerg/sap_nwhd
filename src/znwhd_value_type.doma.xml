@@ -50,10 +50,15 @@
    </DD07V_TAB>
    <I18N_LANGS>
     <LANGU>D</LANGU>
+    <LANGU>F</LANGU>
    </I18N_LANGS>
    <DD01_TEXTS>
     <item>
      <DDLANGUAGE>D</DDLANGUAGE>
+    </item>
+    <item>
+     <DDLANGUAGE>F</DDLANGUAGE>
+     <DDTEXT>value type</DDTEXT>
     </item>
    </DD01_TEXTS>
    <DD07_TEXTS>
@@ -63,10 +68,21 @@
      <DDTEXT>unbekannt</DDTEXT>
     </item>
     <item>
+     <VALPOS>0001</VALPOS>
+     <DDLANGUAGE>F</DDLANGUAGE>
+     <DDTEXT>unknown</DDTEXT>
+    </item>
+    <item>
      <VALPOS>0002</VALPOS>
      <DDLANGUAGE>D</DDLANGUAGE>
      <DOMVALUE_L>0</DOMVALUE_L>
      <DDTEXT>sollte 0 sein</DDTEXT>
+    </item>
+    <item>
+     <VALPOS>0002</VALPOS>
+     <DDLANGUAGE>F</DDLANGUAGE>
+     <DOMVALUE_L>0</DOMVALUE_L>
+     <DDTEXT>should be 0</DDTEXT>
     </item>
     <item>
      <VALPOS>0003</VALPOS>
@@ -75,10 +91,22 @@
      <DDTEXT>aufsteigend</DDTEXT>
     </item>
     <item>
+     <VALPOS>0003</VALPOS>
+     <DDLANGUAGE>F</DDLANGUAGE>
+     <DOMVALUE_L>&lt;</DOMVALUE_L>
+     <DDTEXT>ascending</DDTEXT>
+    </item>
+    <item>
      <VALPOS>0004</VALPOS>
      <DDLANGUAGE>D</DDLANGUAGE>
      <DOMVALUE_L>&gt;</DOMVALUE_L>
      <DDTEXT>absteigend</DDTEXT>
+    </item>
+    <item>
+     <VALPOS>0004</VALPOS>
+     <DDLANGUAGE>F</DDLANGUAGE>
+     <DOMVALUE_L>&gt;</DOMVALUE_L>
+     <DDTEXT>descending</DDTEXT>
     </item>
     <item>
      <VALPOS>0005</VALPOS>
@@ -86,10 +114,22 @@
      <DOMVALUE_L>P</DOMVALUE_L>
     </item>
     <item>
+     <VALPOS>0005</VALPOS>
+     <DDLANGUAGE>F</DDLANGUAGE>
+     <DOMVALUE_L>P</DOMVALUE_L>
+     <DDTEXT>percent</DDTEXT>
+    </item>
+    <item>
      <VALPOS>0006</VALPOS>
      <DDLANGUAGE>D</DDLANGUAGE>
      <DOMVALUE_L>A</DOMVALUE_L>
      <DDTEXT>Duchschnitt</DDTEXT>
+    </item>
+    <item>
+     <VALPOS>0006</VALPOS>
+     <DDLANGUAGE>F</DDLANGUAGE>
+     <DOMVALUE_L>A</DOMVALUE_L>
+     <DDTEXT>average number</DDTEXT>
     </item>
    </DD07_TEXTS>
   </asx:values>

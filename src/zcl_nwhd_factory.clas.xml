@@ -18,8 +18,18 @@
      <DESCRIPT>create an instance of collector</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
+     <CMPNAME>CREATE_COLLECTOR</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>create an instance of collector</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
      <CMPNAME>CREATE_JOB</CMPNAME>
      <LANGU>E</LANGU>
+     <DESCRIPT>create an instance of job</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>CREATE_JOB</CMPNAME>
+     <LANGU>F</LANGU>
      <DESCRIPT>create an instance of job</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
@@ -28,8 +38,18 @@
      <DESCRIPT>create an instance of general util</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
+     <CMPNAME>CREATE_LDB_BL</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>create an instance of general util</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
      <CMPNAME>CREATE_LOGGER</CMPNAME>
      <LANGU>E</LANGU>
+     <DESCRIPT>create an instance of logger</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>CREATE_LOGGER</CMPNAME>
+     <LANGU>F</LANGU>
      <DESCRIPT>create an instance of logger</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
@@ -38,13 +58,28 @@
      <DESCRIPT>create an instance of publisher</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
+     <CMPNAME>CREATE_PUBLISHER</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>create an instance of publisher</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
      <CMPNAME>CREATE_QRFC_UTIL</CMPNAME>
      <LANGU>E</LANGU>
      <DESCRIPT>create an instance of general util</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
+     <CMPNAME>CREATE_QRFC_UTIL</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>create an instance of general util</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
      <CMPNAME>CREATE_UTIL</CMPNAME>
      <LANGU>E</LANGU>
+     <DESCRIPT>create an instance of general util</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>CREATE_UTIL</CMPNAME>
+     <LANGU>F</LANGU>
      <DESCRIPT>create an instance of general util</DESCRIPT>
     </SEOCOMPOTX>
    </DESCRIPTIONS>
@@ -56,9 +91,21 @@
      <DESCRIPT>NWHD: Collector Interface</DESCRIPT>
     </SEOSUBCOTX>
     <SEOSUBCOTX>
+     <CMPNAME>CREATE_COLLECTOR</CMPNAME>
+     <SCONAME>RR_COLLECTOR</SCONAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>NWHD: Collector Interface</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
      <CMPNAME>CREATE_INSTANCE</CMPNAME>
      <SCONAME>IV_TYPE</SCONAME>
      <LANGU>E</LANGU>
+     <DESCRIPT>Object Type Name</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>CREATE_INSTANCE</CMPNAME>
+     <SCONAME>IV_TYPE</SCONAME>
+     <LANGU>F</LANGU>
      <DESCRIPT>Object Type Name</DESCRIPT>
     </SEOSUBCOTX>
     <SEOSUBCOTX>
@@ -68,9 +115,21 @@
      <DESCRIPT>NWHD: Collector Interface</DESCRIPT>
     </SEOSUBCOTX>
     <SEOSUBCOTX>
+     <CMPNAME>CREATE_JOB</CMPNAME>
+     <SCONAME>RR_JOB</SCONAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>NWHD: Collector Interface</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
      <CMPNAME>CREATE_LDB_BL</CMPNAME>
      <SCONAME>RR_INSTANCE</SCONAME>
      <LANGU>E</LANGU>
+     <DESCRIPT>NWHD: Collector Interface</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>CREATE_LDB_BL</CMPNAME>
+     <SCONAME>RR_INSTANCE</SCONAME>
+     <LANGU>F</LANGU>
      <DESCRIPT>NWHD: Collector Interface</DESCRIPT>
     </SEOSUBCOTX>
     <SEOSUBCOTX>
@@ -80,9 +139,21 @@
      <DESCRIPT>NWHD: Collector Interface</DESCRIPT>
     </SEOSUBCOTX>
     <SEOSUBCOTX>
+     <CMPNAME>CREATE_LOGGER</CMPNAME>
+     <SCONAME>RR_INSTANCE</SCONAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>NWHD: Collector Interface</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
      <CMPNAME>CREATE_PUBLISHER</CMPNAME>
      <SCONAME>RR_PUBLISHER</SCONAME>
      <LANGU>E</LANGU>
+     <DESCRIPT>NWHD: Collector Interface</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>CREATE_PUBLISHER</CMPNAME>
+     <SCONAME>RR_PUBLISHER</SCONAME>
+     <LANGU>F</LANGU>
      <DESCRIPT>NWHD: Collector Interface</DESCRIPT>
     </SEOSUBCOTX>
     <SEOSUBCOTX>
@@ -92,9 +163,21 @@
      <DESCRIPT>NWHD: Collector Interface</DESCRIPT>
     </SEOSUBCOTX>
     <SEOSUBCOTX>
+     <CMPNAME>CREATE_QRFC_UTIL</CMPNAME>
+     <SCONAME>RR_INSTANCE</SCONAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>NWHD: Collector Interface</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
      <CMPNAME>CREATE_UTIL</CMPNAME>
      <SCONAME>RR_INSTANCE</SCONAME>
      <LANGU>E</LANGU>
+     <DESCRIPT>NWHD: Collector Interface</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>CREATE_UTIL</CMPNAME>
+     <SCONAME>RR_INSTANCE</SCONAME>
+     <LANGU>F</LANGU>
      <DESCRIPT>NWHD: Collector Interface</DESCRIPT>
     </SEOSUBCOTX>
    </DESCRIPTIONS_SUB>

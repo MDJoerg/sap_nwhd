@@ -66,4 +66,18 @@ interface ZIF_NWHD_LDB_BL
       !IV_FINISHED_AT type ZNWHD_TIMESTAMPL_FINISHED_AT
     returning
       value(RS_RESULT) type ZNWHD_LDB_S_CTX_DB .
+  methods SOURCE_DELETE
+    importing
+      !IV_SRC_GUID type ZNWHD_GUID_SRC
+      !IV_COMMIT type ABAP_BOOL default ABAP_FALSE
+      !IV_TEST type ABAP_BOOL default ABAP_TRUE
+    returning
+      value(RV_DELETED) type I .
+  methods SOURCE_IMPORT
+    importing
+      !IS_DATA type ZNWHD_LDB_S_CTX_DB
+      !IV_COMMIT type ABAP_BOOL default ABAP_FALSE
+      !IV_TEST type ABAP_BOOL default ABAP_TRUE
+    returning
+      value(RV_SUCCESS) type ABAP_BOOL .
 endinterface.

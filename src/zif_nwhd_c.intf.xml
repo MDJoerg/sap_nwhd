@@ -16,6 +16,11 @@
      <LANGU>E</LANGU>
      <DESCRIPT>Source Type</DESCRIPT>
     </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>C_SOURCE_TYPE</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Source Type</DESCRIPT>
+    </SEOCOMPOTX>
    </DESCRIPTIONS>
   </asx:values>
  </asx:abap>

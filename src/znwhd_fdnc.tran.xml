@@ -21,6 +21,12 @@
     <TCODE>ZNWHD_FDNC</TCODE>
     <PARAM>/*SM30 VIEWNAME=ZTC_NWHDCFG_FDN;UPDATE=X;</PARAM>
    </TSTCP>
+   <I18N_TPOOL>
+    <TSTCT>
+     <SPRSL>F</SPRSL>
+     <TTEXT>configure numeric Fields</TTEXT>
+    </TSTCT>
+   </I18N_TPOOL>
   </asx:values>
  </asx:abap>
 </abapGit>

@@ -3,7 +3,7 @@
  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
   <asx:values>
    <PROGDIR>
-    <NAME>ZNWHD_LDB_DOWNLOAD_MSG</NAME>
+    <NAME>ZNWHD_LDB_SRC_DELETE</NAME>
     <SUBC>1</SUBC>
     <RSTAT>T</RSTAT>
     <RLOAD>E</RLOAD>
@@ -13,26 +13,21 @@
    <TPOOL>
     <item>
      <ID>R</ID>
-     <ENTRY>NWHD: Download Messages</ENTRY>
-     <LENGTH>23</LENGTH>
+     <ENTRY>NWHD: Delete source system data from local database</ENTRY>
+     <LENGTH>51</LENGTH>
     </item>
     <item>
      <ID>S</ID>
-     <KEY>SO_CRE</KEY>
-     <ENTRY>Created at</ENTRY>
-     <LENGTH>18</LENGTH>
+     <KEY>P_SRC</KEY>
+     <ENTRY>.</ENTRY>
+     <LENGTH>9</LENGTH>
+     <SPLIT>D</SPLIT>
     </item>
     <item>
      <ID>S</ID>
-     <KEY>SO_MSG</KEY>
-     <ENTRY>Src GUID</ENTRY>
-     <LENGTH>16</LENGTH>
-    </item>
-    <item>
-     <ID>S</ID>
-     <KEY>SO_SRC</KEY>
-     <ENTRY>Msg GUID</ENTRY>
-     <LENGTH>16</LENGTH>
+     <KEY>P_TEST</KEY>
+     <ENTRY>Test mode</ENTRY>
+     <LENGTH>17</LENGTH>
     </item>
    </TPOOL>
    <I18N_TPOOL>

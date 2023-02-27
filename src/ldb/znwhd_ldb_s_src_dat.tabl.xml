@@ -181,6 +181,15 @@
      <CHECKTABLE>BUT000</CHECKTABLE>
     </DD08V>
    </DD08V_TABLE>
+   <I18N_LANGS>
+    <LANGU>F</LANGU>
+   </I18N_LANGS>
+   <DD02_TEXTS>
+    <item>
+     <DDLANGUAGE>F</DDLANGUAGE>
+     <DDTEXT>data structure for soirce systems</DDTEXT>
+    </item>
+   </DD02_TEXTS>
   </asx:values>
  </asx:abap>
 </abapGit>

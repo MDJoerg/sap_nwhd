@@ -1,12 +1,12 @@
-INTERFACE zif_nwhd_c
-  PUBLIC .
+interface ZIF_NWHD_C
+  public .
 
 
-  CONSTANTS c_source_type TYPE znwhd_source_type VALUE 'SAPNWABAP' ##NO_TEXT.
-  CONSTANTS version TYPE string VALUE '20230227' ##NO_TEXT.
-  CONSTANTS release TYPE string VALUE '0.3.12' ##NO_TEXT.
-  CONSTANTS github_repo TYPE string VALUE 'https://github.com/MDJoerg/sap_nwhd' ##NO_TEXT.
-  CONSTANTS:
+  constants C_SOURCE_TYPE type ZNWHD_SOURCE_TYPE value 'SAPNWABAP' ##NO_TEXT.
+  constants VERSION type STRING value '20230227' ##NO_TEXT.
+  constants RELEASE type STRING value '0.3.13' ##NO_TEXT.
+  constants GITHUB_REPO type STRING value 'https://github.com/MDJoerg/sap_nwhd' ##NO_TEXT.
+  constants:
     BEGIN OF c_detail_level,
       unspecified       TYPE znwhd_col_detail_level VALUE '0',
       very_important    TYPE znwhd_col_detail_level VALUE '1',
@@ -15,8 +15,7 @@ INTERFACE zif_nwhd_c
       low_importance    TYPE znwhd_col_detail_level VALUE '4',
       lowest_importance TYPE znwhd_col_detail_level VALUE '5',
     END OF c_detail_level .
-
-  CONSTANTS:
+  constants:
     BEGIN OF c_timeint_level,
       unspecified TYPE znwhd_col_detail_level VALUE '0',
       last_hour   TYPE znwhd_col_detail_level VALUE '1',
@@ -25,8 +24,7 @@ INTERFACE zif_nwhd_c
       last_month  TYPE znwhd_col_detail_level VALUE '4',
       last_year   TYPE znwhd_col_detail_level VALUE '5',
     END OF c_timeint_level .
-
-  CONSTANTS:
+  constants:
     BEGIN OF c_category,
       last_hour  TYPE znwhd_field_category VALUE 'LastHour',
       last_24h   TYPE znwhd_field_category VALUE 'Last24h',
@@ -35,7 +33,7 @@ INTERFACE zif_nwhd_c
       last_year  TYPE znwhd_field_category VALUE 'LastYear',
       all        TYPE znwhd_field_category VALUE 'All',
     END OF c_category .
-  CONSTANTS:
+  constants:
     BEGIN OF c_time_interval_type,
       none  TYPE znwhd_time_interval_type VALUE ' ',
       min   TYPE znwhd_time_interval_type VALUE '1',
@@ -48,4 +46,4 @@ INTERFACE zif_nwhd_c
       month TYPE znwhd_time_interval_type VALUE 'M',
       year  TYPE znwhd_time_interval_type VALUE 'Y',
     END OF c_time_interval_type .
-ENDINTERFACE.
+endinterface.

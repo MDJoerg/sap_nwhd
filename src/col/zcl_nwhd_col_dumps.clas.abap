@@ -15,7 +15,8 @@ protected section.
     importing
       !IV_DATE type SYDATUM
       !IV_TIME type SYUZEIT
-      !IV_CATEGORY type DATA .
+      !IV_CATEGORY type DATA
+      !IV_TIMEINT_LEVEL type ZNWHD_COL_TIMEINT_LEVEL .
 
   methods COLLECT_DATA
     redefinition .
@@ -36,8 +37,12 @@ CLASS ZCL_NWHD_COL_DUMPS IMPLEMENTATION.
 
 
 * ------------- 1h
-    IF ms_col_params-detail_level IS INITIAL
-       OR ms_col_params-detail_level >= zif_nwhd_c=>c_detail_level-last_hour.
+    IF is_valid_info(
+         iv_is_detail_level     = zif_nwhd_c=>c_detail_level-unspecified
+         iv_is_timeint_level    = zif_nwhd_c=>c_timeint_level-last_hour
+         iv_is_system_wide_info = abap_true
+         iv_is_client_specific  = abap_false
+       ) EQ abap_true.
 
       get_datetime_last_hour(
         IMPORTING
@@ -50,13 +55,17 @@ CLASS ZCL_NWHD_COL_DUMPS IMPLEMENTATION.
           iv_date     = lv_from_date                 " System Date
           iv_time     = lv_from_time                 " System Time
           iv_category = zif_nwhd_c=>c_category-last_hour
+          iv_timeint_level = zif_nwhd_c=>c_timeint_level-last_hour
       ).
     ENDIF.
 
 * ------------- 24h
-    IF ms_col_params-detail_level IS INITIAL
-       OR ms_col_params-detail_level >= zif_nwhd_c=>c_detail_level-last_24h.
-
+    IF is_valid_info(
+         iv_is_detail_level     = zif_nwhd_c=>c_detail_level-unspecified
+         iv_is_timeint_level    = zif_nwhd_c=>c_timeint_level-last_24h
+         iv_is_system_wide_info = abap_true
+         iv_is_client_specific  = abap_false
+       ) EQ abap_true.
       get_datetime_last_24h(
         IMPORTING
           ev_time = lv_from_time                  " System Time
@@ -68,13 +77,19 @@ CLASS ZCL_NWHD_COL_DUMPS IMPLEMENTATION.
           iv_date     = lv_from_date                 " System Date
           iv_time     = lv_from_time                 " System Time
           iv_category = zif_nwhd_c=>c_category-last_24h
+          iv_timeint_level = zif_nwhd_c=>c_timeint_level-last_24h
+
       ).
     ENDIF.
 
 
 * ------------- week
-    IF ms_col_params-detail_level IS INITIAL
-       OR ms_col_params-detail_level >= zif_nwhd_c=>c_detail_level-last_week.
+    IF is_valid_info(
+         iv_is_detail_level     = zif_nwhd_c=>c_detail_level-unspecified
+         iv_is_timeint_level    = zif_nwhd_c=>c_timeint_level-last_week
+         iv_is_system_wide_info = abap_true
+         iv_is_client_specific  = abap_false
+       ) EQ abap_true.
 
       get_datetime_last_week(
         IMPORTING
@@ -87,13 +102,17 @@ CLASS ZCL_NWHD_COL_DUMPS IMPLEMENTATION.
           iv_date     = lv_from_date                 " System Date
           iv_time     = lv_from_time                 " System Time
           iv_category = zif_nwhd_c=>c_category-last_week
+          iv_timeint_level = zif_nwhd_c=>c_timeint_level-last_week
       ).
     ENDIF.
 
 * ------------- month
-    IF ms_col_params-detail_level IS INITIAL
-       OR ms_col_params-detail_level >= zif_nwhd_c=>c_detail_level-last_month.
-
+    IF is_valid_info(
+         iv_is_detail_level     = zif_nwhd_c=>c_detail_level-unspecified
+         iv_is_timeint_level    = zif_nwhd_c=>c_timeint_level-last_month
+         iv_is_system_wide_info = abap_true
+         iv_is_client_specific  = abap_false
+       ) EQ abap_true.
       get_datetime_last_month(
         IMPORTING
           ev_time = lv_from_time                  " System Time
@@ -105,13 +124,18 @@ CLASS ZCL_NWHD_COL_DUMPS IMPLEMENTATION.
           iv_date     = lv_from_date                 " System Date
           iv_time     = lv_from_time                 " System Time
           iv_category = zif_nwhd_c=>c_category-last_month
+          iv_timeint_level = zif_nwhd_c=>c_timeint_level-last_month
       ).
     ENDIF.
 
 
 * ------------- year
-    IF ms_col_params-detail_level IS INITIAL
-       OR ms_col_params-detail_level >= zif_nwhd_c=>c_detail_level-last_year.
+    IF is_valid_info(
+         iv_is_detail_level     = zif_nwhd_c=>c_detail_level-unspecified
+         iv_is_timeint_level    = zif_nwhd_c=>c_timeint_level-last_year
+         iv_is_system_wide_info = abap_true
+         iv_is_client_specific  = abap_false
+       ) EQ abap_true.
 
       get_datetime_last_year(
         IMPORTING
@@ -124,6 +148,7 @@ CLASS ZCL_NWHD_COL_DUMPS IMPLEMENTATION.
           iv_date     = lv_from_date                 " System Date
           iv_time     = lv_from_time                 " System Time
           iv_category = zif_nwhd_c=>c_category-last_year
+          iv_timeint_level = zif_nwhd_c=>c_timeint_level-last_year
       ).
     ENDIF.
 
@@ -151,6 +176,10 @@ CLASS ZCL_NWHD_COL_DUMPS IMPLEMENTATION.
         iv_category = iv_category
         iv_key      = 'Count'
         iv_value    = lv_count
+        iv_is_timeint_level = iv_timeint_level
+        iv_is_detail_level  = zif_nwhd_c=>c_detail_level-important
+        iv_is_system_wide_info = abap_true
+        iv_is_client_specific = abap_false
     ).
   ENDMETHOD.
 ENDCLASS.

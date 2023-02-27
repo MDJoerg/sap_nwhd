@@ -83,6 +83,13 @@
     </item>
     <item>
      <ID>S</ID>
+     <KEY>P_TIIL</KEY>
+     <ENTRY>.</ENTRY>
+     <LENGTH>9</LENGTH>
+     <SPLIT>D</SPLIT>
+    </item>
+    <item>
+     <ID>S</ID>
      <KEY>SO_COL</KEY>
      <ENTRY>.</ENTRY>
      <LENGTH>24</LENGTH>

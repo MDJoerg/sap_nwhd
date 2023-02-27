@@ -14,6 +14,7 @@ PARAMETERS: p_srcid     LIKE znwhd_s_sel_job-source_id.
 PARAMETERS: p_rfc       LIKE znwhd_s_sel_job-rfc_dest.
 PARAMETERS: p_qnam      LIKE znwhd_s_sel_job-qname.
 SELECTION-SCREEN: ULINE.
+PARAMETERS: p_tiil TYPE znwhd_col_timeint_level. " collecor time interval level
 PARAMETERS: p_detl TYPE znwhd_col_detail_level. " collector detail level
 PARAMETERS: p_flnc AS CHECKBOX DEFAULT ' '.     " flag no client specfic data
 PARAMETERS: p_flns AS CHECKBOX DEFAULT ' '.     " flag no system wide data
@@ -49,6 +50,7 @@ START-OF-SELECTION.
     flag_no_client_specific = p_flnc
     flag_no_system_wide     = p_flns
     detail_level            = p_detl
+    timeint_level           = p_tiil
   ).
 
   LOOP AT so_col.

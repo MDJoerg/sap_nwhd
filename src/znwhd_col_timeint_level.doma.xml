@@ -3,13 +3,13 @@
  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
   <asx:values>
    <DD01V>
-    <DOMNAME>ZNWHD_COL_DETAIL_LEVEL</DOMNAME>
+    <DOMNAME>ZNWHD_COL_TIMEINT_LEVEL</DOMNAME>
     <DDLANGUAGE>E</DDLANGUAGE>
     <DATATYPE>NUMC</DATATYPE>
     <LENG>000001</LENG>
     <OUTPUTLEN>000001</OUTPUTLEN>
     <VALEXI>X</VALEXI>
-    <DDTEXT>NWHD: detail level for information collection</DDTEXT>
+    <DDTEXT>time interval level</DDTEXT>
    </DD01V>
    <DD07V_TAB>
     <DD07V>
@@ -22,31 +22,31 @@
      <VALPOS>0002</VALPOS>
      <DDLANGUAGE>E</DDLANGUAGE>
      <DOMVALUE_L>1</DOMVALUE_L>
-     <DDTEXT>very important</DDTEXT>
+     <DDTEXT>last hour</DDTEXT>
     </DD07V>
     <DD07V>
      <VALPOS>0003</VALPOS>
      <DDLANGUAGE>E</DDLANGUAGE>
      <DOMVALUE_L>2</DOMVALUE_L>
-     <DDTEXT>important</DDTEXT>
+     <DDTEXT>last 24 h</DDTEXT>
     </DD07V>
     <DD07V>
      <VALPOS>0004</VALPOS>
      <DDLANGUAGE>E</DDLANGUAGE>
      <DOMVALUE_L>3</DOMVALUE_L>
-     <DDTEXT>medium importance</DDTEXT>
+     <DDTEXT>last week</DDTEXT>
     </DD07V>
     <DD07V>
      <VALPOS>0005</VALPOS>
      <DDLANGUAGE>E</DDLANGUAGE>
      <DOMVALUE_L>4</DOMVALUE_L>
-     <DDTEXT>lower importance</DDTEXT>
+     <DDTEXT>last month</DDTEXT>
     </DD07V>
     <DD07V>
      <VALPOS>0006</VALPOS>
      <DDLANGUAGE>E</DDLANGUAGE>
      <DOMVALUE_L>5</DOMVALUE_L>
-     <DDTEXT>lowest importance</DDTEXT>
+     <DDTEXT>last year</DDTEXT>
     </DD07V>
    </DD07V_TAB>
    <I18N_LANGS>

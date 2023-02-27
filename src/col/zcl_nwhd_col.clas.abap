@@ -1,11 +1,11 @@
-class ZCL_NWHD_COL definition
-  public
-  inheriting from ZCL_NWHD_MOD
-  create public .
+CLASS zcl_nwhd_col DEFINITION
+  PUBLIC
+  INHERITING FROM zcl_nwhd_mod
+  CREATE PUBLIC .
 
-public section.
+  PUBLIC SECTION.
 
-  interfaces ZIF_NWHD_COL .
+    INTERFACES zif_nwhd_col .
 protected section.
 
   data MS_DATA type ZNWHD_S_DATA_COL .
@@ -15,12 +15,20 @@ protected section.
     importing
       !IV_CATEGORY type DATA optional
       !IV_KEY type DATA
-      !IV_VALUE type DATA .
+      !IV_VALUE type DATA
+      !IV_IS_DETAIL_LEVEL type ZNWHD_COL_DETAIL_LEVEL default 0
+      !IV_IS_TIMEINT_LEVEL type ZNWHD_COL_TIMEINT_LEVEL default 0
+      !IV_IS_SYSTEM_WIDE_INFO type ABAP_BOOL default ABAP_FALSE
+      !IV_IS_CLIENT_SPECIFIC type ABAP_BOOL default ABAP_FALSE .
   methods APPEND_TEXT_VALUE
     importing
       !IV_CATEGORY type STRING optional
       !IV_KEY type STRING
-      !IV_VALUE type DATA .
+      !IV_VALUE type DATA
+      !IV_IS_DETAIL_LEVEL type ZNWHD_COL_DETAIL_LEVEL default 0
+      !IV_IS_TIMEINT_LEVEL type ZNWHD_COL_TIMEINT_LEVEL default 0
+      !IV_IS_SYSTEM_WIDE_INFO type ABAP_BOOL default ABAP_FALSE
+      !IV_IS_CLIENT_SPECIFIC type ABAP_BOOL default ABAP_FALSE .
   methods CLOSE_DATA
     returning
       value(RV_SUCCESS) type ABAP_BOOL .
@@ -70,7 +78,15 @@ protected section.
   methods INIT_DATA
     returning
       value(RV_SUCCESS) type ABAP_BOOL .
-private section.
+  methods IS_VALID_INFO
+    importing
+      !IV_IS_DETAIL_LEVEL type ZNWHD_COL_DETAIL_LEVEL
+      !IV_IS_SYSTEM_WIDE_INFO type ABAP_BOOL
+      !IV_IS_CLIENT_SPECIFIC type ABAP_BOOL
+      !IV_IS_TIMEINT_LEVEL type ZNWHD_COL_TIMEINT_LEVEL
+    returning
+      value(RV_VALID) type ABAP_BOOL .
+  PRIVATE SECTION.
 ENDCLASS.
 
 
@@ -79,6 +95,18 @@ CLASS ZCL_NWHD_COL IMPLEMENTATION.
 
 
   METHOD append_number_value.
+
+* ------ check filter
+    IF is_valid_info(
+           iv_is_detail_level     = iv_is_detail_level
+           iv_is_timeint_level    = iv_is_timeint_level
+           iv_is_system_wide_info = iv_is_system_wide_info
+           iv_is_client_specific  = iv_is_client_specific
+    ) EQ abap_false.
+      RETURN.
+    ENDIF.
+
+* ------- append num value
     DATA(lv_value) = CONV znwhd_value_number( iv_value ).
     APPEND INITIAL LINE TO ms_data-fields ASSIGNING FIELD-SYMBOL(<ls_new>).
     <ls_new>-category     = iv_category.
@@ -88,6 +116,17 @@ CLASS ZCL_NWHD_COL IMPLEMENTATION.
 
 
   METHOD append_text_value.
+* ------ check filter
+    IF is_valid_info(
+           iv_is_detail_level     = iv_is_detail_level
+           iv_is_timeint_level    = iv_is_timeint_level
+           iv_is_system_wide_info = iv_is_system_wide_info
+           iv_is_client_specific  = iv_is_client_specific
+    ) EQ abap_false.
+      RETURN.
+    ENDIF.
+
+* ------- append text value
     DATA(lv_value) = CONV znwhd_value_text( iv_value ).
     APPEND INITIAL LINE TO ms_data-fields ASSIGNING FIELD-SYMBOL(<ls_new>).
     <ls_new>-category     = iv_category.
@@ -106,9 +145,9 @@ CLASS ZCL_NWHD_COL IMPLEMENTATION.
   ENDMETHOD.
 
 
-  method COLLECT_DATA.
+  METHOD collect_data.
     rv_success = abap_false.
-  endmethod.
+  ENDMETHOD.
 
 
   METHOD init_data.
@@ -152,7 +191,7 @@ CLASS ZCL_NWHD_COL IMPLEMENTATION.
 
   METHOD get_datetime_last_hour.
     IF iv_time < '010000'.
-      data lv_delta type syuzeit.
+      DATA lv_delta TYPE syuzeit.
       lv_delta = '010000'.
       lv_delta = lv_delta - iv_time.
       ev_time  = '240000'.
@@ -166,13 +205,13 @@ CLASS ZCL_NWHD_COL IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD GET_DATETIME_LAST_MONTH.
+  METHOD get_datetime_last_month.
     ev_time = iv_time.
     rv_date = iv_date - 30.
   ENDMETHOD.
 
 
-  METHOD GET_DATETIME_LAST_WEEK.
+  METHOD get_datetime_last_week.
     ev_time = iv_time.
     rv_date = iv_date - 7.
   ENDMETHOD.
@@ -186,6 +225,45 @@ CLASS ZCL_NWHD_COL IMPLEMENTATION.
     rv_date = iv_date.
     rv_date(4) = lv_year.
     ev_time = iv_time.
+
+  ENDMETHOD.
+
+
+  METHOD is_valid_info.
+
+* ----- check given col params
+    IF ms_col_params IS INITIAL.
+      rv_valid = abap_true.
+    ENDIF.
+
+* ----- check system wide
+    IF iv_is_system_wide_info EQ abap_true
+      AND ms_col_params-flag_no_system_wide EQ abap_true.
+      RETURN.
+    ENDIF.
+
+* ----- check client specific
+    IF iv_is_client_specific EQ abap_true
+      AND ms_col_params-flag_no_client_specific EQ abap_true.
+      RETURN.
+    ENDIF.
+
+* ----- check detail level
+    IF iv_is_detail_level > 0
+      AND ms_col_params-detail_level > 0
+      AND iv_is_detail_level > ms_col_params-detail_level.
+      RETURN.
+    ENDIF.
+
+* ----- check timeint level
+    IF iv_is_timeint_level > 0
+      AND ms_col_params-timeint_level > 0
+      AND iv_is_timeint_level > ms_col_params-timeint_level.
+      RETURN.
+    ENDIF.
+
+* ------ otherwise
+    rv_valid = abap_true.
 
   ENDMETHOD.
 ENDCLASS.

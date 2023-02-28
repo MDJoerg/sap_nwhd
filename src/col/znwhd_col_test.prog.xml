@@ -27,7 +27,7 @@
      <ID>S</ID>
      <KEY>P_DETL</KEY>
      <ENTRY>.</ENTRY>
-     <LENGTH>9</LENGTH>
+     <LENGTH>20</LENGTH>
      <SPLIT>D</SPLIT>
     </item>
     <item>
@@ -41,6 +41,13 @@
      <KEY>P_FLNS</KEY>
      <ENTRY>no system wide</ENTRY>
      <LENGTH>22</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_TIIL</KEY>
+     <ENTRY>.</ENTRY>
+     <LENGTH>9</LENGTH>
+     <SPLIT>D</SPLIT>
     </item>
    </TPOOL>
    <I18N_TPOOL>

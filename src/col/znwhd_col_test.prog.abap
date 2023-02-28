@@ -7,7 +7,8 @@ REPORT znwhd_col_test NO STANDARD PAGE HEADING.
 TABLES: znwhd_s_sel_job.
 PARAMETERS: p_col LIKE znwhd_s_sel_job-collector DEFAULT 'ZCL_NWHD_COL_DUMPS' OBLIGATORY.
 SELECTION-SCREEN: ULINE.
-PARAMETERS: p_detl TYPE znwhd_col_detail_level. " collector detail level
+PARAMETERS: p_detl TYPE znwhd_col_detail_level. " collector time interval level
+PARAMETERS: p_tiil TYPE znwhd_col_timeint_level." collector detail level
 PARAMETERS: p_flnc AS CHECKBOX DEFAULT ' '.     " flag no client specfic data
 PARAMETERS: p_flns AS CHECKBOX DEFAULT ' '.     " flag no system wide data
 
@@ -23,6 +24,7 @@ START-OF-SELECTION.
     flag_no_client_specific = p_flnc
     flag_no_system_wide     = p_flns
     detail_level            = p_detl
+    timeint_level           = p_tiil
   ).
 
 

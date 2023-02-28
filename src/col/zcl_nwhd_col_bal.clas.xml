@@ -36,6 +36,12 @@
      <LANGU>F</LANGU>
      <DESCRIPT>ABAP System Field: Current Time of Application Server</DESCRIPT>
     </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>SELECT_AND_PUBLISH</CMPNAME>
+     <SCONAME>IV_TIMEINT_LEVEL</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>NWHD: detail level for time interval</DESCRIPT>
+    </SEOSUBCOTX>
    </DESCRIPTIONS_SUB>
   </asx:values>
  </asx:abap>

@@ -3,8 +3,8 @@ interface ZIF_NWHD_C
 
 
   constants C_SOURCE_TYPE type ZNWHD_SOURCE_TYPE value 'SAPNWABAP' ##NO_TEXT.
-  constants VERSION type STRING value '20230227' ##NO_TEXT.
-  constants RELEASE type STRING value '0.3.13' ##NO_TEXT.
+  constants VERSION type STRING value '20230228' ##NO_TEXT.
+  constants RELEASE type STRING value '0.3.14' ##NO_TEXT.
   constants GITHUB_REPO type STRING value 'https://github.com/MDJoerg/sap_nwhd' ##NO_TEXT.
   constants:
     BEGIN OF c_detail_level,

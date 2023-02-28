@@ -165,21 +165,22 @@ CLASS ZCL_NWHD_COL_DUMPS IMPLEMENTATION.
 
 
   METHOD select_and_publish.
-
+* -------- select database
     SELECT COUNT(*)
       FROM snap
       INTO @DATA(lv_count)
      WHERE seqno EQ '000'
        AND ( datum = @iv_date AND  uzeit >= @iv_time OR datum > @iv_date ).
 
+* -------- append to output (filtered)
     append_number_value(
-        iv_category = iv_category
-        iv_key      = 'Count'
-        iv_value    = lv_count
-        iv_is_timeint_level = iv_timeint_level
-        iv_is_detail_level  = zif_nwhd_c=>c_detail_level-important
-        iv_is_system_wide_info = abap_true
-        iv_is_client_specific = abap_false
+        iv_category             = iv_category
+        iv_key                  = 'Count'
+        iv_value                = lv_count
+        iv_is_timeint_level     = iv_timeint_level
+        iv_is_detail_level      = zif_nwhd_c=>c_detail_level-important
+        iv_is_system_wide_info  = abap_true
+        iv_is_client_specific   = abap_false
     ).
   ENDMETHOD.
 ENDCLASS.

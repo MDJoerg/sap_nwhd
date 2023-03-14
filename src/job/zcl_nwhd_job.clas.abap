@@ -16,10 +16,14 @@ protected section.
   data MS_DATA type ZNWHD_S_DATA_JOB .
   data MS_PARAMS type ZNWHD_S_PARAM_JOB .
 
+  methods APPEND_TAG
+    importing
+      !IV_TAG type DATA
+      !IV_VALUE type DATA .
   methods CLOSE_JOB
     returning
       value(RV_SUCCESS) type ABAP_BOOL .
-  methods GET_TAGS
+  methods GET_STANDARD_TAGS
     returning
       value(RT_TAGS) type ZNWHD_T_DATA_TAG .
   methods INIT_JOB
@@ -40,36 +44,11 @@ ENDCLASS.
 CLASS ZCL_NWHD_JOB IMPLEMENTATION.
 
 
-  METHOD CLOSE_JOB.
+  METHOD close_job.
     GET TIME STAMP FIELD ms_data-finished_at.
-    ms_data-tags = get_tags( ).
+    SORT ms_data-tags.
+    DELETE ADJACENT DUPLICATES FROM ms_data-tags.
     rv_success = abap_true.
-  ENDMETHOD.
-
-
-  METHOD get_tags.
-
-* ----- local data & macros
-    DATA ls_tag LIKE LINE OF rt_tags.
-    DEFINE mc_add_tag.
-      ls_tag-tag = &1.
-      ls_tag-value = &2.
-      APPEND ls_tag TO rt_tags.
-    end-OF-DEFINITION.
-
-* ------ add
-    mc_add_tag 'OpSys'       sy-opsys.
-    mc_add_tag 'Host'        sy-host.
-    mc_add_tag 'DBName'      sy-dbnam.
-    mc_add_tag 'DBSys'       sy-dbsys.
-    mc_add_tag 'SAPRelease'  sy-saprl.
-    mc_add_tag 'Timezone'    sy-zonlo.
-    mc_add_tag 'NWHDRelease' ZIF_NWHD_C=>release.
-
-
-* ------ final preps
-    SORT rt_tags.
-
   ENDMETHOD.
 
 
@@ -83,6 +62,35 @@ CLASS ZCL_NWHD_JOB IMPLEMENTATION.
                                   THEN is_params-source_id
                                   ELSE |{ sy-sysid }{ sy-mandt }| ).
     GET TIME STAMP FIELD ms_data-started_at.
+
+
+    ms_data-tags = get_standard_tags( ).
+    append_tag(
+      iv_tag   = 'TimeIntervalLevel'
+      iv_value = is_params-timeint_level
+    ).
+    append_tag(
+      iv_tag   = 'DetailLevel'
+      iv_value = is_params-detail_level
+    ).
+
+    IF is_params-flag_no_system_wide = abap_true.
+      append_tag(
+        iv_tag   = 'CollectorScope'
+        iv_value = 'ClientDependend'
+      ).
+    ELSEIF is_params-flag_no_client_specific = abap_true.
+      append_tag(
+        iv_tag   = 'CollectorScope'
+        iv_value = 'SystemWide'
+      ).
+    ELSE.
+      append_tag(
+        iv_tag   = 'CollectorScope'
+        iv_value = 'All'
+      ).
+    ENDIF.
+
     rv_success = abap_true.
   ENDMETHOD.
 
@@ -113,6 +121,10 @@ CLASS ZCL_NWHD_JOB IMPLEMENTATION.
         RETURN.
       ELSE.
         DATA(lv_col_name) = lr_col->get_name( ).
+        append_tag(
+            iv_tag   = |ColMod-{ lv_col_name }|
+            iv_value = <lv_col_mod>
+        ).
       ENDIF.
 
 *     prepare params
@@ -235,6 +247,41 @@ CLASS ZCL_NWHD_JOB IMPLEMENTATION.
     ELSE.
       get_logger( )->warning( |Job publish finished with errors| ).
     ENDIF.
+
+  ENDMETHOD.
+
+
+  METHOD append_tag.
+    IF iv_tag IS NOT INITIAL.
+      APPEND INITIAL LINE TO ms_data-tags ASSIGNING FIELD-SYMBOL(<ls_tag>).
+      <ls_tag>-tag = iv_tag.
+      <ls_tag>-value = iv_value.
+    ENDIF.
+  ENDMETHOD.
+
+
+  METHOD GET_STANDARD_TAGS.
+
+* ----- local data & macros
+    DATA ls_tag LIKE LINE OF rt_tags.
+    DEFINE mc_add_tag.
+      ls_tag-tag = &1.
+      ls_tag-value = &2.
+      APPEND ls_tag TO rt_tags.
+    end-OF-DEFINITION.
+
+* ------ add
+    mc_add_tag 'OpSys'       sy-opsys.
+    mc_add_tag 'Host'        sy-host.
+    mc_add_tag 'DBName'      sy-dbnam.
+    mc_add_tag 'DBSys'       sy-dbsys.
+    mc_add_tag 'SAPRelease'  sy-saprl.
+    mc_add_tag 'Timezone'    sy-zonlo.
+    mc_add_tag 'NWHDRelease' ZIF_NWHD_C=>release.
+
+
+* ------ final preps
+    SORT rt_tags.
 
   ENDMETHOD.
 ENDCLASS.

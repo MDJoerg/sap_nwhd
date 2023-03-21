@@ -29,104 +29,104 @@ ENDCLASS.
 CLASS ZCL_NWHD_COL_SM37 IMPLEMENTATION.
 
 
-  METHOD collect_data.
-
+METHOD collect_data.
 * -------- local data
-    DATA lv_date_from TYPE sydatum.
-    DATA lv_time_from TYPE syuzeit.
+  DATA lv_date_from TYPE sydatum.
+  DATA lv_time_from TYPE syuzeit.
 
 * -------- last hour
-    IF is_valid_info(
-             iv_is_detail_level     = zif_nwhd_c=>c_detail_level-very_important
-             iv_is_timeint_level    = zif_nwhd_c=>c_timeint_level-last_hour
-             iv_is_system_wide_info = abap_true
-             iv_is_client_specific  = abap_false
-           ) EQ abap_true.
+  IF is_valid_info(
+           iv_is_detail_level     = zif_nwhd_c=>c_detail_level-very_important
+           iv_is_timeint_level    = zif_nwhd_c=>c_timeint_level-last_hour
+           iv_is_system_wide_info = abap_true
+           iv_is_client_specific  = abap_false
+         ) EQ abap_true.
 
-      get_datetime_last_hour(
-        EXPORTING
-          iv_date = sy-datum
-          iv_time = sy-uzeit
-        IMPORTING
-          ev_time = lv_time_from
-        RECEIVING
-          rv_date = lv_date_from
-      ).
+    get_datetime_last_hour(
+      EXPORTING
+        iv_date = sy-datum
+        iv_time = sy-uzeit
+      IMPORTING
+        ev_time = lv_time_from
+      RECEIVING
+        rv_date = lv_date_from
+    ).
 
-      IF select_and_publish(
-          iv_date           = lv_date_from
-          iv_time           = lv_time_from
-          iv_category       = zif_nwhd_c=>c_category-last_hour
-          iv_timeint_level  = zif_nwhd_c=>c_timeint_level-last_hour
-      ) EQ abap_false.
-        RETURN.
-      ENDIF.
+    IF select_and_publish(
+        iv_date           = lv_date_from
+        iv_time           = lv_time_from
+        iv_category       = zif_nwhd_c=>c_category-last_hour
+        iv_timeint_level  = zif_nwhd_c=>c_timeint_level-last_hour
+    ) EQ abap_false.
+      RETURN.
     ENDIF.
+  ENDIF.
 
 
 * -------- 24h
-    IF is_valid_info(
-             iv_is_detail_level     = zif_nwhd_c=>c_detail_level-important
-             iv_is_timeint_level    = zif_nwhd_c=>c_timeint_level-last_24h
-             iv_is_system_wide_info = abap_true
-             iv_is_client_specific  = abap_false
-           ) EQ abap_true.
+  IF is_valid_info(
+           iv_is_detail_level     = zif_nwhd_c=>c_detail_level-important
+           iv_is_timeint_level    = zif_nwhd_c=>c_timeint_level-last_24h
+           iv_is_system_wide_info = abap_true
+           iv_is_client_specific  = abap_false
+         ) EQ abap_true.
 
-      get_datetime_last_24h(
-        EXPORTING
-          iv_date = sy-datum
-          iv_time = sy-uzeit
-        IMPORTING
-          ev_time = lv_time_from
-        RECEIVING
-          rv_date = lv_date_from
-      ).
+    get_datetime_last_24h(
+      EXPORTING
+        iv_date = sy-datum
+        iv_time = sy-uzeit
+      IMPORTING
+        ev_time = lv_time_from
+      RECEIVING
+        rv_date = lv_date_from
+    ).
 
-      IF select_and_publish(
-          iv_date           = lv_date_from
-          iv_time           = lv_time_from
-          iv_category       = zif_nwhd_c=>c_category-last_24h
-          iv_timeint_level  = zif_nwhd_c=>c_timeint_level-last_24h
-      ) EQ abap_false.
-        RETURN.
-      ENDIF.
+    IF select_and_publish(
+        iv_date           = lv_date_from
+        iv_time           = lv_time_from
+        iv_category       = zif_nwhd_c=>c_category-last_24h
+        iv_timeint_level  = zif_nwhd_c=>c_timeint_level-last_24h
+    ) EQ abap_false.
+      RETURN.
     ENDIF.
+  ENDIF.
 
 
 
 * -------- week
-    IF is_valid_info(
-             iv_is_detail_level     = zif_nwhd_c=>c_detail_level-medium_importance
-             iv_is_timeint_level    = zif_nwhd_c=>c_timeint_level-last_week
-             iv_is_system_wide_info = abap_true
-             iv_is_client_specific  = abap_false
-           ) EQ abap_true.
+  IF is_valid_info(
+           iv_is_detail_level     = zif_nwhd_c=>c_detail_level-medium_importance
+           iv_is_timeint_level    = zif_nwhd_c=>c_timeint_level-last_week
+           iv_is_system_wide_info = abap_true
+           iv_is_client_specific  = abap_false
+         ) EQ abap_true.
 
-      get_datetime_last_week(
-        EXPORTING
-          iv_date = sy-datum
-          iv_time = sy-uzeit
-        IMPORTING
-          ev_time = lv_time_from
-        RECEIVING
-          rv_date = lv_date_from
-      ).
+    get_datetime_last_week(
+      EXPORTING
+        iv_date = sy-datum
+        iv_time = sy-uzeit
+      IMPORTING
+        ev_time = lv_time_from
+      RECEIVING
+        rv_date = lv_date_from
+    ).
 
-      IF select_and_publish(
-          iv_date           = lv_date_from
-          iv_time           = lv_time_from
-          iv_category       = zif_nwhd_c=>c_category-last_week
-          iv_timeint_level  = zif_nwhd_c=>c_timeint_level-last_week
-      ) EQ abap_false.
-        RETURN.
-      ENDIF.
+    IF select_and_publish(
+        iv_date           = lv_date_from
+        iv_time           = lv_time_from
+        iv_category       = zif_nwhd_c=>c_category-last_week
+        iv_timeint_level  = zif_nwhd_c=>c_timeint_level-last_week
+    ) EQ abap_false.
+      RETURN.
     ENDIF.
+  ENDIF.
 
 
 * ---------- finally true
-    rv_success = abap_true.
+  rv_success = abap_true.
 
-  ENDMETHOD.
+
+ENDMETHOD.
 
 
   METHOD select_and_publish.

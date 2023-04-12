@@ -83,4 +83,11 @@ interface ZIF_NWHD_LDB_BL
   methods GET_ACTIVE_SOURCES
     returning
       value(RT_SRC) type ZNWHD_LDB_T_SRC_REC .
+  methods GET_FDN_AVAILABLE
+    importing
+      !IV_SRC type DATA
+      !IV_DATE_FROM type SYDATUM
+      !IV_DATE_TO type SYDATUM
+    returning
+      value(RT_FDN_CNT) type ZNWHD_LDB_T_FDN_CNT .
 endinterface.

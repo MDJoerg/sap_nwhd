@@ -30,12 +30,9 @@ This method returns get all active source data systems with detail information. 
 
 #### Request
 
----------------------------------------------------
-|HTTP   |GET|
-|Syntax |´https://saphost/api_path/version/method´|
-|Example|´http://saphost/nwhd_rest/v1/sources'    |
----------------------------------------------------
-
+- HTTP: GET
+- Syntax: https://saphost/api_path/v1/sources
+- Example: http://saphost/nwhd_rest/v1/sources
 #### Response
 
 ```json
@@ -58,9 +55,9 @@ This method returns get all value keys and count for a given source system.
 
 #### Request
 
-|HTTP   |GET|
-|Syntax |https://saphost/api_path/version/method/source|
-|Example|http://saphost/nwhd_rest/v1/numeric_available/source|
+- HTTP: GET
+- Syntax: https://saphost/api_path/v1/numeric_available/source
+- Example: http://saphost/nwhd_rest/v1/numeric_available/source
 
 #### Response
 
@@ -94,11 +91,9 @@ This method returns get all values with timestamps for a given source system and
 
 #### Request
 
-----------------------------------------------------------------------------------------------
-|HTTP   |GET                                                                                 |
-|Syntax |´https://saphost/api_path/version/numeric_available/source/collector/category/field´|
-|Example|´http://saphost/nwhd_rest/v1/numeric_available/source/WP/TypeDIA/Runtime'           |
-----------------------------------------------------------------------------------------------
+- HTTP: GET
+- Syntax: https://saphost/api_path/v1/numeric_available/source/collector/category/field
+- Example: http://saphost/nwhd_rest/v1/numeric_available/source/WP/TypeDIA/Runtime
 
 #### Response
 

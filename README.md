@@ -43,8 +43,12 @@ Within the central system the data will be stored in the local data base (LDB). 
 2. Development
 3. Local Data Storage
 4. API
-    - [REST API](doc\rest_api.md)
+    - [REST API](doc/rest_api.md)
 5. Python
+    - [Python NWHD Connector Documentation](doc/pynwd.md)
+    - [Python Module pynwd.py](pynwd/pynwhd.py)
+    - [Jupyter Notebook Demo - Connector with menu](pynwd/DemoNWHDConnectorMenu.ipynb)
+    - [Jupyter Notebook Demo - Connector with scripting](pynwd/DemoNWHDConnectorJupyter.ipynb)
 
 
 last update: 13.04.2023

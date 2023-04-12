@@ -33,8 +33,8 @@ CLASS ZCL_NWHD_RSA_ROUTER IMPLEMENTATION.
     lr_router->attach( iv_template = '/v1/sources' iv_handler_class = lc_src_av ).
 
 * -------- numeric values
-    lr_router->attach( iv_template = '/v1/numeric_timeseries/{source}/{collector}/{category}/{field}' iv_handler_class = lc_fdn_ts ).
     lr_router->attach( iv_template = '/v1/numeric_available/{source}' iv_handler_class = lc_fdn_av ).
+    lr_router->attach( iv_template = '/v1/numeric_timeseries/{source}/{collector}/{category}/{field}' iv_handler_class = lc_fdn_ts ).
 
 
   ENDMETHOD.

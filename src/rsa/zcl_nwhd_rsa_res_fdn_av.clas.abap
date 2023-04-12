@@ -18,10 +18,6 @@ CLASS ZCL_NWHD_RSA_RES_FDN_AV IMPLEMENTATION.
 
   METHOD if_rest_resource~get.
 
-* ---- local data
-    DATA lv_ts_from TYPE timestamp.
-    DATA lv_ts_to   TYPE timestamp.
-
 * --------- get params
     TRY.
         DATA(lv_src) = get_param( zif_nwhd_rsa_c=>c_param_source ).

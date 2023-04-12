@@ -43,7 +43,6 @@ CLASS zcl_nwhd_rws_resource DEFINITION
         !iv_http_text    TYPE string DEFAULT 'OK'
         !iv_http_code    TYPE i DEFAULT 200 .
 
-
   PRIVATE SECTION.
 ENDCLASS.
 

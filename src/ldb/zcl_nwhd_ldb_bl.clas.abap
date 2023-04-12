@@ -891,7 +891,6 @@ CLASS ZCL_NWHD_LDB_BL IMPLEMENTATION.
            TIME ZONE sy-zonlo.
 
 * ---------------- select
-* ------------------- get data
     SELECT collector,
            category,
            field,
@@ -906,6 +905,46 @@ CLASS ZCL_NWHD_LDB_BL IMPLEMENTATION.
                category,
                field
       ORDER BY collector, category, field.
+
+  ENDMETHOD.
+
+
+  METHOD zif_nwhd_ldb_bl~get_fdn_values.
+
+* --- local data
+    DATA lv_ts_from TYPE timestamp.
+    DATA lv_ts_to   TYPE timestamp.
+
+* ---------------- prepare
+    CONVERT DATE iv_date_from
+      INTO TIME STAMP lv_ts_from
+           TIME ZONE sy-zonlo.
+
+    CONVERT DATE iv_date_to
+      INTO TIME STAMP lv_ts_to
+           TIME ZONE sy-zonlo.
+
+* ------ check
+    DATA(lv_max_rows) = iv_max_rows.
+    IF lv_max_rows < 1.
+      lv_max_rows = 10000.
+    ENDIF.
+
+* ------ select
+    SELECT *
+      FROM ztd_nwhdldb_fdn
+      INTO CORRESPONDING FIELDS OF TABLE @rt_fdn
+      UP TO @lv_max_rows ROWS
+     WHERE src_guid   = @iv_src
+       AND collector  = @iv_collector
+       AND category   = @iv_category
+       AND field      = @iv_field
+       AND (
+            ( measured_at >= @lv_ts_from AND measured_at <= @lv_ts_to )
+            OR
+            ( confirmed_at >= @lv_ts_from AND confirmed_at <= @lv_ts_to )
+           )
+      ORDER BY measured_at.
 
   ENDMETHOD.
 ENDCLASS.

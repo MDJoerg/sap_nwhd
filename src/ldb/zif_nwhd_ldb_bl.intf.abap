@@ -80,4 +80,7 @@ interface ZIF_NWHD_LDB_BL
       !IV_TEST type ABAP_BOOL default ABAP_TRUE
     returning
       value(RV_SUCCESS) type ABAP_BOOL .
+  methods GET_ACTIVE_SOURCES
+    returning
+      value(RT_SRC) type ZNWHD_LDB_T_SRC_REC .
 endinterface.

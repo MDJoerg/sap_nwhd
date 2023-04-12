@@ -865,4 +865,12 @@ CLASS ZCL_NWHD_LDB_BL IMPLEMENTATION.
 
 
   ENDMETHOD.
+
+
+  METHOD zif_nwhd_ldb_bl~get_active_sources.
+    SELECT *
+      FROM ztd_nwhdldb_src
+      INTO CORRESPONDING FIELDS OF TABLE @rt_src
+     WHERE inactive NE @abap_true.
+  ENDMETHOD.
 ENDCLASS.

@@ -24,9 +24,9 @@ Activate and test the new SICF node. An error message should be displayed. Remem
 All of the following methods accepts typical SAP parameters like sap-client. Depending on your system configuration these additional parameters could be required. 
 The default syntax is ´https://saphost/api_path/version/method´
 
-### sources 
+### Get available source systems
 
-This method returns get all active source data systems with detail information. The source GUID of a system is required for other api methods.
+This method `sources`returns get all active source data systems with detail information. The source GUID of a system is required for other api methods.
 
 #### Request
 
@@ -49,15 +49,20 @@ This method returns get all active source data systems with detail information. 
 }]
 ```
 
-### numeric_available 
+### Get available numeric value keys 
 
-This method returns get all value keys and count for a given source system. 
+This method `numeric_available` returns all value keys and count for a given source system. 
 
 #### Request
 
 - HTTP: GET
 - Syntax: https://saphost/api_path/v1/numeric_available/source
-- Example: http://saphost/nwhd_rest/v1/numeric_available/source
+- Optional Parameters:
+    - from_date - start date in SAP syntax - e.g. "20230101"
+    - to_date - end date in SAP syntax - e.g. "20231231"
+- Examples: 
+    - http://saphost/nwhd_rest/v1/numeric_available/source
+    - http://saphost/nwhd_rest/v1/numeric_available/source?from_date=20230101&to_date=20230131
 
 #### Response
 
@@ -85,15 +90,23 @@ This method returns get all value keys and count for a given source system.
 }]
 ```
 
-### numeric_timeseries
+### Get numeric value timeseries
 
-This method returns get all values with timestamps for a given source system and value key. 
+This method `numeric_timeseries` returns all values with timestamps for a given source system and value key. 
 
 #### Request
 
 - HTTP: GET
 - Syntax: https://saphost/api_path/v1/numeric_available/source/collector/category/field
-- Example: http://saphost/nwhd_rest/v1/numeric_available/source/WP/TypeDIA/Runtime
+- Optional Parameters:
+    - from_date - start date in SAP syntax - e.g. "20230101"
+    - to_date - end date in SAP syntax - e.g. "20231231"
+    - max_rows - max records for sap raw data selection - e.g. "10000"
+- Examples: 
+    - http://saphost/nwhd_rest/v1/numeric_available/source/WP/TypeDIA/Runtime
+    - http://saphost/nwhd_rest/v1/numeric_available/source/WP/TypeDIA/Runtime?max_rows=1000000
+    - http://saphost/nwhd_rest/v1/numeric_available/source/WP/TypeDIA/Runtime?max_rows=1000000&from_date=20230101&to_date=20230131
+
 
 #### Response
 

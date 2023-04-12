@@ -38,7 +38,7 @@ This method returns get all active source data systems with detail information. 
 
 #### Response
 
-´´´
+```json
 [{
 	"SRC_GUID": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
 	"SOURCE_ID": "D01",
@@ -50,7 +50,7 @@ This method returns get all active source data systems with detail information. 
 	"SOURCE_TYPE": "SAPNWABAP",
 	"SOURCE_DESCRIPTION": "SAP Prod"
 }]
-´´´
+```
 
 ### numeric_available 
 
@@ -58,15 +58,13 @@ This method returns get all value keys and count for a given source system.
 
 #### Request
 
-----------------------------------------------------------------
-|HTTP   |GET                                                   |
-|Syntax |´https://saphost/api_path/version/method/source´      |
-|Example|´http://saphost/nwhd_rest/v1/numeric_available/source'|
-----------------------------------------------------------------
+|HTTP   |GET|
+|Syntax |https://saphost/api_path/version/method/source|
+|Example|http://saphost/nwhd_rest/v1/numeric_available/source|
 
 #### Response
 
-´´´
+```json
 [{
 	"COLLECTOR": "BALog",
 	"CATEGORY": "DB",
@@ -88,7 +86,7 @@ This method returns get all value keys and count for a given source system.
 	"FIELD": "AllTypeMsgCount",
 	"COUNT": 15046
 }]
-´´´
+```
 
 ### numeric_timeseries
 
@@ -104,7 +102,7 @@ This method returns get all values with timestamps for a given source system and
 
 #### Response
 
-´´´
+```json
 [{
 	"VALUE": 0.0000000,
 	"TIMESTAMP": "2022-12-28T10:11:52Z"
@@ -121,4 +119,4 @@ This method returns get all values with timestamps for a given source system and
 	"VALUE": 0.0000000,
 	"TIMESTAMP": "2022-12-28T11:00:51Z"
 }]
-´´´
+```

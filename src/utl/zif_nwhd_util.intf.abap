@@ -1,91 +1,97 @@
-interface ZIF_NWHD_UTIL
-  public .
+INTERFACE zif_nwhd_util
+  PUBLIC .
 
 
-  methods GET_ALL_MOD_COL
-    returning
-      value(RT_COL) type STRING_TABLE .
-  methods GET_ALL_MOD_JOB
-    returning
-      value(RT_JOB) type STRING_TABLE .
-  methods GET_ALL_MOD_PUB
-    returning
-      value(RT_PUB) type STRING_TABLE .
-  methods WEBSERVICE_POST
-    importing
-      !IV_RFCDEST type RFCDEST
-      !IV_CONTENT_TYPE type STRING optional
-      !IV_PAYLOAD type STRING
-    exporting
-      !EV_RESPONSE type STRING
-      !EV_HTTP_CODE type I
-      !EV_HTTP_STATUS type STRING
-    returning
-      value(RV_SUCCESS) type ABAP_BOOL .
-  methods TO_JSON
-    importing
-      !IS_DATA type DATA
-    returning
-      value(RV_JSON) type STRING .
-  methods FROM_JSON
-    importing
-      !IV_JSON type STRING
-    changing
-      !CS_DATA type DATA
-    returning
-      value(RV_SUCCESS) type ABAP_BOOL .
-  methods GET_MD5_STRING_HASH
-    importing
-      !IV_DATA type STRING
-    returning
-      value(RV_HASH) type HASH160X .
-  methods GET_MD5_TAGS_HASH
-    importing
-      !IT_TAG type ZNWHD_T_DATA_TAG
-    returning
-      value(RV_HASH) type HASH160X .
-  methods GUI_DOWNLOAD_STRING
-    importing
-      !IV_DATA type STRING
-      !IV_TITLE type STRING optional
-      !IV_FILENAME type STRING optional
-      !IV_EXT type STRING default 'json'
-    exporting
-      !EV_FILENAME type STRING
-      !EV_PATH type STRING
-      !EV_FULLPATH type STRING
-    returning
-      value(RV_SUCCESS) type ABAP_BOOL .
-  methods STRING_TO_XSTRING
-    importing
-      !IV_STRING type STRING
-    returning
-      value(RV_XSTRING) type XSTRING .
-  methods XSTRING_TO_BINTAB
-    importing
-      !IV_XSTRING type XSTRING
-    exporting
-      !EV_LENGTH type I
-    returning
-      value(RT_BINTAB) type SOLIX_TAB .
-  methods GET_CONFIG_FLD_NUM
-    importing
-      !IV_COLLECTOR type DATA optional
-      !IV_CATEGORY type DATA optional
-      !IV_FIELD type DATA optional
-      !IV_BP type DATA optional
-      !IV_SRC_TYPE type DATA optional
-      !IV_SRC_ID type DATA optional
-      !IT_CFG type ZNWHD_CFG_T_FDN_REC optional
-      !IV_CHECK_FIELD type DATA optional
-    exporting
-      !ET_CFG type ZNWHD_CFG_T_FDN_REC
-    returning
-      value(RS_CONFIG) type ZNWHD_CFG_S_FDN_REC .
-  methods GET_TIME_INTERVAL
-    importing
-      !IV_TYPE type ZNWHD_TIME_INTERVAL_TYPE
-      !IV_BASE type ZNWHD_TIME_INTERVAL_BASE default 1
-    returning
-      value(RV_MIN) type INT4 .
-endinterface.
+  METHODS get_all_mod_col
+    RETURNING
+      VALUE(rt_col) TYPE string_table .
+  METHODS get_all_mod_job
+    RETURNING
+      VALUE(rt_job) TYPE string_table .
+  METHODS get_all_mod_pub
+    RETURNING
+      VALUE(rt_pub) TYPE string_table .
+  METHODS webservice_post
+    IMPORTING
+      !iv_rfcdest       TYPE rfcdest
+      !iv_content_type  TYPE string OPTIONAL
+      !iv_payload       TYPE string
+    EXPORTING
+      !ev_response      TYPE string
+      !ev_http_code     TYPE i
+      !ev_http_status   TYPE string
+    RETURNING
+      VALUE(rv_success) TYPE abap_bool .
+  METHODS to_json
+    IMPORTING
+      !is_data       TYPE data
+    RETURNING
+      VALUE(rv_json) TYPE string .
+  METHODS from_json
+    IMPORTING
+      !iv_json          TYPE string
+    CHANGING
+      !cs_data          TYPE data
+    RETURNING
+      VALUE(rv_success) TYPE abap_bool .
+  METHODS get_md5_string_hash
+    IMPORTING
+      !iv_data       TYPE string
+    RETURNING
+      VALUE(rv_hash) TYPE hash160x .
+  METHODS get_md5_tags_hash
+    IMPORTING
+      !it_tag        TYPE znwhd_t_data_tag
+    RETURNING
+      VALUE(rv_hash) TYPE hash160x .
+  METHODS gui_download_string
+    IMPORTING
+      !iv_data          TYPE string
+      !iv_title         TYPE string OPTIONAL
+      !iv_filename      TYPE string OPTIONAL
+      !iv_ext           TYPE string DEFAULT 'json'
+    EXPORTING
+      !ev_filename      TYPE string
+      !ev_path          TYPE string
+      !ev_fullpath      TYPE string
+    RETURNING
+      VALUE(rv_success) TYPE abap_bool .
+  METHODS string_to_xstring
+    IMPORTING
+      !iv_string        TYPE string
+    RETURNING
+      VALUE(rv_xstring) TYPE xstring .
+  METHODS xstring_to_bintab
+    IMPORTING
+      !iv_xstring      TYPE xstring
+    EXPORTING
+      !ev_length       TYPE i
+    RETURNING
+      VALUE(rt_bintab) TYPE solix_tab .
+  METHODS get_config_fld_num
+    IMPORTING
+      !iv_collector    TYPE data OPTIONAL
+      !iv_category     TYPE data OPTIONAL
+      !iv_field        TYPE data OPTIONAL
+      !iv_bp           TYPE data OPTIONAL
+      !iv_src_type     TYPE data OPTIONAL
+      !iv_src_id       TYPE data OPTIONAL
+      !it_cfg          TYPE znwhd_cfg_t_fdn_rec OPTIONAL
+      !iv_check_field  TYPE data OPTIONAL
+    EXPORTING
+      !et_cfg          TYPE znwhd_cfg_t_fdn_rec
+    RETURNING
+      VALUE(rs_config) TYPE znwhd_cfg_s_fdn_rec .
+  METHODS get_time_interval
+    IMPORTING
+      !iv_type      TYPE znwhd_time_interval_type
+      !iv_base      TYPE znwhd_time_interval_base DEFAULT 1
+    RETURNING
+      VALUE(rv_min) TYPE int4 .
+
+  METHODS timestamp_to_utc_time
+    IMPORTING
+      !iv_timestamp       TYPE timestampl
+    RETURNING
+      VALUE(rv_timestamp) TYPE string .
+ENDINTERFACE.

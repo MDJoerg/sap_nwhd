@@ -1,83 +1,107 @@
-interface ZIF_NWHD_LDB_BL
-  public .
+INTERFACE zif_nwhd_ldb_bl
+  PUBLIC .
 
 
-  interfaces ZIF_NWHD_API .
+  INTERFACES zif_nwhd_api .
 
-  aliases GET_LOGGER
-    for ZIF_NWHD_API~GET_LOGGER .
-  aliases SET_LOGGER
-    for ZIF_NWHD_API~SET_LOGGER .
+  ALIASES get_logger
+    FOR zif_nwhd_api~get_logger .
+  ALIASES set_logger
+    FOR zif_nwhd_api~set_logger .
 
-  methods IS_SOURCE_VALID
-    importing
-      !IV_TYPE type DATA
-      !IV_ID type DATA
-      !IV_AUTO_CREATE type ABAP_BOOL default ABAP_TRUE
-      !IV_DEFAULT_ALLOWED type ABAP_BOOL default ABAP_TRUE
-    returning
-      value(RV_SUCCESS) type ABAP_BOOL .
-  methods IS_MESSAGE_VALID
-    importing
-      !IV_TYPE type DATA
-      !IV_ID type DATA
-      !IV_SOURCE_REF type ZNWHD_SOURCE_REF
-    exporting
-      !ES_MSG type ZNWHD_LDB_S_DB_MSG
-    returning
-      value(RV_SUCCESS) type ABAP_BOOL .
-  methods GET_LAST_SOURCE
-    returning
-      value(RS_SRC) type ZNWHD_LDB_S_DB_SRC .
-  methods SAVE
-    importing
-      !IS_RESULT type ZNWHD_S_DATA_JOB
-      !IV_AUTO_CREATE type ABAP_BOOL default ABAP_TRUE
-      !IV_DEFAULT_ALLOWED type ABAP_BOOL default ABAP_TRUE
-      !IV_COMMIT type ABAP_BOOL default ABAP_TRUE
-      !IV_WAIT type ABAP_BOOL default ABAP_TRUE
-    returning
-      value(RV_SUCCESS) type ABAP_BOOL .
-  methods SAVE_PREPARE
-    importing
-      !IS_RESULT type ZNWHD_S_DATA_JOB
-      !IV_AUTO_CREATE type ABAP_BOOL default ABAP_TRUE
-      !IV_DEFAULT_ALLOWED type ABAP_BOOL default ABAP_TRUE
-    returning
-      value(RV_SUCCESS) type ABAP_BOOL .
-  methods SAVE_TO_LDB
-    importing
-      !IV_COMMIT type ABAP_BOOL default ABAP_TRUE
-      !IV_WAIT type ABAP_BOOL default ABAP_TRUE
-    returning
-      value(RV_SUCCESS) type ABAP_BOOL .
-  methods READ_MSG_CONTEXT
-    importing
-      !IV_MSG_GUID type ZNWHD_GUID
-    returning
-      value(RV_SUCCESS) type ABAP_BOOL .
-  methods GET_CONTEXT_AS_RESULT
-    returning
-      value(RS_RESULT) type ZNWHD_S_DATA_JOB .
-  methods SOURCE_EXPORT
-    importing
-      !IV_SRC_GUID type ZNWHD_GUID_SRC
-      !IV_STARTED_AT type ZNWHD_TIMESTAMPL_STARTED_AT
-      !IV_FINISHED_AT type ZNWHD_TIMESTAMPL_FINISHED_AT
-    returning
-      value(RS_RESULT) type ZNWHD_LDB_S_CTX_DB .
-  methods SOURCE_DELETE
-    importing
-      !IV_SRC_GUID type ZNWHD_GUID_SRC
-      !IV_COMMIT type ABAP_BOOL default ABAP_FALSE
-      !IV_TEST type ABAP_BOOL default ABAP_TRUE
-    returning
-      value(RV_DELETED) type I .
-  methods SOURCE_IMPORT
-    importing
-      !IS_DATA type ZNWHD_LDB_S_CTX_DB
-      !IV_COMMIT type ABAP_BOOL default ABAP_FALSE
-      !IV_TEST type ABAP_BOOL default ABAP_TRUE
-    returning
-      value(RV_SUCCESS) type ABAP_BOOL .
-endinterface.
+  METHODS is_source_valid
+    IMPORTING
+      !iv_type            TYPE data
+      !iv_id              TYPE data
+      !iv_auto_create     TYPE abap_bool DEFAULT abap_true
+      !iv_default_allowed TYPE abap_bool DEFAULT abap_true
+    RETURNING
+      VALUE(rv_success)   TYPE abap_bool .
+  METHODS is_message_valid
+    IMPORTING
+      !iv_type          TYPE data
+      !iv_id            TYPE data
+      !iv_source_ref    TYPE znwhd_source_ref
+    EXPORTING
+      !es_msg           TYPE znwhd_ldb_s_db_msg
+    RETURNING
+      VALUE(rv_success) TYPE abap_bool .
+  METHODS get_last_source
+    RETURNING
+      VALUE(rs_src) TYPE znwhd_ldb_s_db_src .
+  METHODS save
+    IMPORTING
+      !is_result          TYPE znwhd_s_data_job
+      !iv_auto_create     TYPE abap_bool DEFAULT abap_true
+      !iv_default_allowed TYPE abap_bool DEFAULT abap_true
+      !iv_commit          TYPE abap_bool DEFAULT abap_true
+      !iv_wait            TYPE abap_bool DEFAULT abap_true
+    RETURNING
+      VALUE(rv_success)   TYPE abap_bool .
+  METHODS save_prepare
+    IMPORTING
+      !is_result          TYPE znwhd_s_data_job
+      !iv_auto_create     TYPE abap_bool DEFAULT abap_true
+      !iv_default_allowed TYPE abap_bool DEFAULT abap_true
+    RETURNING
+      VALUE(rv_success)   TYPE abap_bool .
+  METHODS save_to_ldb
+    IMPORTING
+      !iv_commit        TYPE abap_bool DEFAULT abap_true
+      !iv_wait          TYPE abap_bool DEFAULT abap_true
+    RETURNING
+      VALUE(rv_success) TYPE abap_bool .
+  METHODS read_msg_context
+    IMPORTING
+      !iv_msg_guid      TYPE znwhd_guid
+    RETURNING
+      VALUE(rv_success) TYPE abap_bool .
+  METHODS get_context_as_result
+    RETURNING
+      VALUE(rs_result) TYPE znwhd_s_data_job .
+  METHODS source_export
+    IMPORTING
+      !iv_src_guid     TYPE znwhd_guid_src
+      !iv_started_at   TYPE znwhd_timestampl_started_at
+      !iv_finished_at  TYPE znwhd_timestampl_finished_at
+    RETURNING
+      VALUE(rs_result) TYPE znwhd_ldb_s_ctx_db .
+  METHODS source_delete
+    IMPORTING
+      !iv_src_guid      TYPE znwhd_guid_src
+      !iv_commit        TYPE abap_bool DEFAULT abap_false
+      !iv_test          TYPE abap_bool DEFAULT abap_true
+    RETURNING
+      VALUE(rv_deleted) TYPE i .
+  METHODS source_import
+    IMPORTING
+      !is_data          TYPE znwhd_ldb_s_ctx_db
+      !iv_commit        TYPE abap_bool DEFAULT abap_false
+      !iv_test          TYPE abap_bool DEFAULT abap_true
+    RETURNING
+      VALUE(rv_success) TYPE abap_bool .
+  METHODS get_active_sources
+    RETURNING
+      VALUE(rt_src) TYPE znwhd_ldb_t_src_rec .
+  METHODS get_fdn_available
+    IMPORTING
+      !iv_src           TYPE data
+      !iv_date_from     TYPE sydatum
+      !iv_date_to       TYPE sydatum
+    RETURNING
+      VALUE(rt_fdn_cnt) TYPE znwhd_ldb_t_fdn_cnt .
+
+  METHODS get_fdn_values
+    IMPORTING
+      !iv_src       TYPE data
+      !iv_collector TYPE data
+      !iv_category  TYPE data
+      !iv_field     TYPE data
+      !iv_date_from TYPE sydatum
+      !iv_date_to   TYPE sydatum
+      !iv_max_rows  TYPE i OPTIONAL
+    RETURNING
+      VALUE(rt_fdn) TYPE znwhd_t_data_fdn .
+
+
+ENDINTERFACE.

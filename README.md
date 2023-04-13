@@ -27,12 +27,28 @@ All development object types support the interface pattern and can be enhanced b
 
 ### Single ABAP System
 
-Plan a job to collect the data and save it to your local database. 
+Plan a job to collect the data and save it to your local database.
 Add a CDS based data model to the tables located in package ZNWHD_LDB to transform the data to time series style and work with it.
 
 ### One central ABAP System for storage and more than on satellite system in own data center
 
 Plan a job in every satellite system and send the data via RFC or QRFC publisher to the central system. A RFC destination (SM59) and queue name is required.
-If you want to watch the central system too you have to plan a job there and handle it like "Single ABAP System". 
+If you want to watch the central system too you have to plan a job there and handle it like "Single ABAP System".
 
-Within the central system the data will be stored in the local data base (LDB). See "Single ABAP System" for use it. 
+Within the central system the data will be stored in the local data base (LDB). See "Single ABAP System" for use it.
+
+## Documentation
+
+1. Installation and configuration
+2. Development
+3. Local Data Storage
+4. API
+    - [REST API](doc/rest/rest_api.md)
+5. Python
+    - [Python NWHD Connector Documentation](doc/pynwd/pynwd.md)
+    - [Python Module pynwd.py](pynwd/pynwhd.py)
+    - [Jupyter Notebook Demo - Connector with menu](pynwd/DemoNWHDConnectorMenu.ipynb)
+    - [Jupyter Notebook Demo - Connector with scripting](pynwd/DemoNWHDConnectorJupyter.ipynb)
+
+
+last update: 13.04.2023

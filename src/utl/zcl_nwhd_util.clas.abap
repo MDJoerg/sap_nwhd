@@ -510,4 +510,18 @@ CLASS ZCL_NWHD_UTIL IMPLEMENTATION.
     ENDIF.
 
   ENDMETHOD.
+
+
+  METHOD zif_nwhd_util~timestamp_to_utc_time.
+    DATA lv_date TYPE sydatum.
+    DATA lv_time TYPE syuzeit.
+
+    CONVERT TIME STAMP iv_timestamp
+      TIME ZONE 'UTC'
+      INTO DATE lv_date
+           TIME lv_time.
+
+    rv_timestamp = |{ lv_date(4) }-{ lv_date+4(2) }-{ lv_date+6(2) }T{ lv_time(2) }:{ lv_time+2(2) }:{ lv_time+4(2) }Z|.
+
+ENDMETHOD.
 ENDCLASS.

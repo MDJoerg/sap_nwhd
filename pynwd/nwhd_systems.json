@@ -1,0 +1,12 @@
+{
+  "D01": {
+    "description": "SAP Dev",
+    "url" : "http://saphost_d01",
+    "client": "100"
+  },
+  "P01": {
+    "description": "SAP Prod",
+    "url" : "http://saphost_p01",
+    "client": "100"
+  }
+}

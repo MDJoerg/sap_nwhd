@@ -72,25 +72,25 @@ CLASS ZCL_NWHD_COL_USERS IMPLEMENTATION.
 
 * --------- publish sums
     append_number_value(
-*        iv_category =
+        iv_category = 'Current'
         iv_key      = 'Sessions'
         iv_value    = lv_cnt_sessions
     ).
 
     append_number_value(
-*        iv_category =
+        iv_category = 'Current'
         iv_key      = 'LoggedOn'
         iv_value    = lv_cnt_users
     ).
 
     append_number_value(
-*        iv_category =
+        iv_category = 'Current'
         iv_key      = 'Modes'
         iv_value    = lv_cnt_mod_all
     ).
 
     append_number_value(
-*        iv_category =
+        iv_category = 'Current'
         iv_key      = 'ModesPerUser'
         iv_value    = lv_cnt_mod_per_user
     ).

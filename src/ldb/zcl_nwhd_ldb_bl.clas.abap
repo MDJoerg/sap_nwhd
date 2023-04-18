@@ -135,93 +135,6 @@ CLASS ZCL_NWHD_LDB_BL IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD PREPARE_FIELDS.
-
-* -------- check contect
-    IF ms_ctx_db-src-src_guid IS INITIAL.
-      get_logger( )->error( |wrong fields context| ).
-      RETURN.
-    ENDIF.
-
-    IF ms_result-collected[] IS INITIAL.
-      get_logger( )->warning( |no fields fields to process| ).
-      rv_success = abap_true.
-      RETURN.
-    ENDIF.
-
-
-* -------- select current active fields
-    SELECT *
-      FROM ztd_nwhdldb_fdn
-      INTO CORRESPONDING FIELDS OF TABLE ms_ctx_db-fdn_tab
-     WHERE src_guid = ms_ctx_db-src-src_guid
-       AND active   = abap_true.
-    DATA(lv_lin_fdn) = lines( ms_ctx_db-fdn_tab ).
-
-    SELECT *
-      FROM ztd_nwhdldb_fdt
-      INTO CORRESPONDING FIELDS OF TABLE ms_ctx_db-fdt_tab
-     WHERE src_guid = ms_ctx_db-src-src_guid
-       AND active   = abap_true.
-    DATA(lv_lin_fdt) = lines( ms_ctx_db-fdt_tab ).
-
-    get_logger( )->trace( |selected { lv_lin_fdn } existing numeric and { lv_lin_fdt } text field values| ).
-
-
-* ------- make all existing invalid
-    LOOP AT ms_ctx_db-fdt_tab ASSIGNING FIELD-SYMBOL(<ls_fdt>).
-      <ls_fdt>-active = abap_false.
-    ENDLOOP.
-
-    LOOP AT ms_ctx_db-fdn_tab ASSIGNING FIELD-SYMBOL(<ls_fdn>).
-      <ls_fdn>-active = abap_false.
-    ENDLOOP.
-
-
-* -------- loop all collectors
-    DATA(lv_cnt_ok)   = 0.
-    DATA(lv_cnt_err)  = 0.
-    DATA(lv_success)  = abap_false.
-
-    LOOP AT ms_result-collected ASSIGNING FIELD-SYMBOL(<ls_col>).
-      DATA(lv_lin_col) = lines( <ls_col>-fields ).
-      ADD lv_lin_col TO ms_ctx_db-msg-cnt_fields.
-
-      get_logger( )->trace( |process { lv_lin_col } fields from collector { <ls_col>-collector }| ).
-
-      LOOP AT <ls_col>-fields ASSIGNING FIELD-SYMBOL(<ls_fld>).
-        IF <ls_fld>-value_text IS NOT INITIAL.
-          lv_success = prepare_field_text(
-              is_col     = <ls_col>
-              is_fld     = <ls_fld>
-          ).
-        ELSE.
-          lv_success = prepare_field_numeric(
-              is_col     = <ls_col>
-              is_fld     = <ls_fld>
-          ).
-        ENDIF.
-
-        IF lv_success EQ abap_true.
-          ADD 1 TO lv_cnt_ok.
-        ELSE.
-          ADD 1 TO lv_cnt_err.
-        ENDIF.
-      ENDLOOP.
-    ENDLOOP.
-
-* -------- prepare result
-    get_logger( )->info( |processing result for { lv_lin_col } fields from collector { <ls_col>-collector }: { lv_cnt_ok } OK, { lv_cnt_err } errors| ).
-    IF lv_cnt_ok > 0.
-      rv_success = abap_true.
-    ELSE.
-      rv_success = abap_false.
-    ENDIF.
-
-
-  ENDMETHOD.
-
-
   METHOD PREPARE_FIELD_NUMERIC.
 
 * -------- check existing
@@ -396,31 +309,6 @@ CLASS ZCL_NWHD_LDB_BL IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD zif_nwhd_ldb_bl~save.
-
-* ------ prepare
-    IF zif_nwhd_ldb_bl~save_prepare(
-         is_result          = is_result
-         iv_auto_create     = iv_auto_create
-         iv_default_allowed = iv_default_allowed
-       ) EQ abap_false.
-      RETURN.
-    ENDIF.
-
-
-* ------- save db
-    IF zif_nwhd_ldb_bl~save_to_ldb(
-         iv_commit = iv_commit
-         iv_wait   = iv_wait
-       ) EQ abap_false.
-      RETURN.
-    ENDIF.
-
-    rv_success = abap_true.
-
-  ENDMETHOD.
-
-
   METHOD zif_nwhd_ldb_bl~save_prepare.
 
 * ------- check data
@@ -457,6 +345,76 @@ CLASS ZCL_NWHD_LDB_BL IMPLEMENTATION.
 
 * -------- final message
     get_logger( )->info( |LDB save date prepared| ).
+    rv_success = abap_true.
+
+  ENDMETHOD.
+
+
+  METHOD zif_nwhd_ldb_bl~read_msg_context.
+
+* --------- init
+    CLEAR ms_ctx_db.
+    DATA(ls_ctx) = ms_ctx_db.
+
+
+* --------- msg
+    SELECT SINGLE *
+      FROM ztd_nwhdldb_msg
+     WHERE msg_guid = @iv_msg_guid
+      INTO CORRESPONDING FIELDS OF @ls_ctx-msg.
+    IF sy-subrc NE 0.
+      get_logger( )->error( |read db context for msg failed| ).
+      RETURN.
+    ENDIF.
+
+* --------- src
+    SELECT SINGLE *
+      FROM ztd_nwhdldb_src
+     WHERE src_guid = @ls_ctx-msg-src_guid
+      INTO CORRESPONDING FIELDS OF @ls_ctx-src.
+    IF sy-subrc NE 0.
+      get_logger( )->error( |read db context for src failed| ).
+      RETURN.
+    ENDIF.
+
+* --------- tgh
+    IF ls_ctx-msg-tgh_guid IS NOT INITIAL.
+      SELECT SINGLE *
+        FROM ztd_nwhdldb_tgh
+       WHERE tgh_guid = @ls_ctx-msg-tgh_guid
+        INTO CORRESPONDING FIELDS OF @ls_ctx-tgh.
+      IF sy-subrc NE 0.
+        get_logger( )->error( |read db context for tags failed| ).
+        RETURN.
+      ENDIF.
+
+* --------- tag items
+      SELECT *
+        FROM ztd_nwhdldb_tgi
+       WHERE tgh_guid = @ls_ctx-msg-tgh_guid
+        INTO CORRESPONDING FIELDS OF TABLE @ls_ctx-tgi_tab.
+      IF sy-subrc NE 0.
+        get_logger( )->error( |read db context for tag items failed| ).
+        RETURN.
+      ENDIF.
+    ENDIF.
+
+* --------- field numbers
+    SELECT *
+      FROM ztd_nwhdldb_fdn
+     WHERE src_guid       = @ls_ctx-msg-src_guid
+       AND ( msg_guid_last  = @ls_ctx-msg-msg_guid
+             OR measured_at <= @ls_ctx-msg-started_at AND confirmed_at >= @ls_ctx-msg-finished_at
+           )
+      INTO CORRESPONDING FIELDS OF TABLE @ls_ctx-fdn_tab.
+    IF sy-subrc NE 0.
+      get_logger( )->warning( |read db context for number values failed| ).
+      RETURN.
+    ENDIF.
+
+
+* ------- finally
+    ms_ctx_db = ls_ctx.
     rv_success = abap_true.
 
   ENDMETHOD.
@@ -542,116 +500,26 @@ CLASS ZCL_NWHD_LDB_BL IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD zif_nwhd_ldb_bl~get_context_as_result.
+  METHOD zif_nwhd_ldb_bl~save.
 
-* ------- check
-    IF ms_ctx_db IS INITIAL.
-      get_logger( )->error( |invalid context| ).
-      RETURN.
-    ENDIF.
-
-* ------- build header
-    MOVE-CORRESPONDING ms_ctx_db-src TO rs_result.
-    MOVE-CORRESPONDING ms_ctx_db-msg TO rs_result.
-
-* ------- build tag
-    LOOP AT ms_ctx_db-tgi_tab ASSIGNING FIELD-SYMBOL(<ls_tgi>).
-      APPEND INITIAL LINE TO rs_result-tags ASSIGNING FIELD-SYMBOL(<ls_tag>).
-      MOVE-CORRESPONDING <ls_tgi> TO <ls_tag>.
-    ENDLOOP.
-
-
-* ------- build collector data
-    DATA(lt_fdn) = ms_ctx_db-fdn_tab.
-    SORT lt_fdn BY collector category field.
-    LOOP AT lt_fdn ASSIGNING FIELD-SYMBOL(<ls_fdn>).
-
-      READ TABLE rs_result-collected WITH TABLE KEY collector = <ls_fdn>-collector
-        ASSIGNING FIELD-SYMBOL(<ls_col>).
-      IF sy-subrc NE 0.
-        APPEND INITIAL LINE TO rs_result-collected ASSIGNING <ls_col>.
-        <ls_col>-collector = <ls_fdn>-collector.
-        <ls_col>-started_at   = ms_ctx_db-msg-started_at.
-        <ls_col>-finished_at  = ms_ctx_db-msg-finished_at.
-      ENDIF.
-
-      APPEND INITIAL LINE TO <ls_col>-fields ASSIGNING FIELD-SYMBOL(<ls_fld>).
-      MOVE-CORRESPONDING <ls_fdn> TO <ls_fld>.
-      <ls_fld>-key          = <ls_fdn>-field.
-      <ls_fld>-value_number = <ls_fdn>-value.
-
-      UNASSIGN <ls_col>.
-    ENDLOOP.
-
-
-  ENDMETHOD.
-
-
-  METHOD zif_nwhd_ldb_bl~read_msg_context.
-
-* --------- init
-    CLEAR ms_ctx_db.
-    DATA(ls_ctx) = ms_ctx_db.
-
-
-* --------- msg
-    SELECT SINGLE *
-      FROM ztd_nwhdldb_msg
-     WHERE msg_guid = @iv_msg_guid
-      INTO CORRESPONDING FIELDS OF @ls_ctx-msg.
-    IF sy-subrc NE 0.
-      get_logger( )->error( |read db context for msg failed| ).
-      RETURN.
-    ENDIF.
-
-* --------- src
-    SELECT SINGLE *
-      FROM ztd_nwhdldb_src
-     WHERE src_guid = @ls_ctx-msg-src_guid
-      INTO CORRESPONDING FIELDS OF @ls_ctx-src.
-    IF sy-subrc NE 0.
-      get_logger( )->error( |read db context for src failed| ).
-      RETURN.
-    ENDIF.
-
-* --------- tgh
-    IF ls_ctx-msg-tgh_guid IS NOT INITIAL.
-      SELECT SINGLE *
-        FROM ztd_nwhdldb_tgh
-       WHERE tgh_guid = @ls_ctx-msg-tgh_guid
-        INTO CORRESPONDING FIELDS OF @ls_ctx-tgh.
-      IF sy-subrc NE 0.
-        get_logger( )->error( |read db context for tags failed| ).
-        RETURN.
-      ENDIF.
-
-* --------- tag items
-      SELECT *
-        FROM ztd_nwhdldb_tgi
-       WHERE tgh_guid = @ls_ctx-msg-tgh_guid
-        INTO CORRESPONDING FIELDS OF TABLE @ls_ctx-tgi_tab.
-      IF sy-subrc NE 0.
-        get_logger( )->error( |read db context for tag items failed| ).
-        RETURN.
-      ENDIF.
-    ENDIF.
-
-* --------- field numbers
-    SELECT *
-      FROM ztd_nwhdldb_fdn
-     WHERE src_guid       = @ls_ctx-msg-src_guid
-       AND ( msg_guid_last  = @ls_ctx-msg-msg_guid
-             OR measured_at <= @ls_ctx-msg-started_at AND confirmed_at >= @ls_ctx-msg-finished_at
-           )
-      INTO CORRESPONDING FIELDS OF TABLE @ls_ctx-fdn_tab.
-    IF sy-subrc NE 0.
-      get_logger( )->warning( |read db context for number values failed| ).
+* ------ prepare
+    IF zif_nwhd_ldb_bl~save_prepare(
+         is_result          = is_result
+         iv_auto_create     = iv_auto_create
+         iv_default_allowed = iv_default_allowed
+       ) EQ abap_false.
       RETURN.
     ENDIF.
 
 
-* ------- finally
-    ms_ctx_db = ls_ctx.
+* ------- save db
+    IF zif_nwhd_ldb_bl~save_to_ldb(
+         iv_commit = iv_commit
+         iv_wait   = iv_wait
+       ) EQ abap_false.
+      RETURN.
+    ENDIF.
+
     rv_success = abap_true.
 
   ENDMETHOD.
@@ -750,6 +618,51 @@ CLASS ZCL_NWHD_LDB_BL IMPLEMENTATION.
           AND measured_at >= lv_ts_from
           AND confirmed_at <= lv_ts_to.
     ENDIF.
+
+  ENDMETHOD.
+
+
+  METHOD zif_nwhd_ldb_bl~get_context_as_result.
+
+* ------- check
+    IF ms_ctx_db IS INITIAL.
+      get_logger( )->error( |invalid context| ).
+      RETURN.
+    ENDIF.
+
+* ------- build header
+    MOVE-CORRESPONDING ms_ctx_db-src TO rs_result.
+    MOVE-CORRESPONDING ms_ctx_db-msg TO rs_result.
+
+* ------- build tag
+    LOOP AT ms_ctx_db-tgi_tab ASSIGNING FIELD-SYMBOL(<ls_tgi>).
+      APPEND INITIAL LINE TO rs_result-tags ASSIGNING FIELD-SYMBOL(<ls_tag>).
+      MOVE-CORRESPONDING <ls_tgi> TO <ls_tag>.
+    ENDLOOP.
+
+
+* ------- build collector data
+    DATA(lt_fdn) = ms_ctx_db-fdn_tab.
+    SORT lt_fdn BY collector category field.
+    LOOP AT lt_fdn ASSIGNING FIELD-SYMBOL(<ls_fdn>).
+
+      READ TABLE rs_result-collected WITH TABLE KEY collector = <ls_fdn>-collector
+        ASSIGNING FIELD-SYMBOL(<ls_col>).
+      IF sy-subrc NE 0.
+        APPEND INITIAL LINE TO rs_result-collected ASSIGNING <ls_col>.
+        <ls_col>-collector = <ls_fdn>-collector.
+        <ls_col>-started_at   = ms_ctx_db-msg-started_at.
+        <ls_col>-finished_at  = ms_ctx_db-msg-finished_at.
+      ENDIF.
+
+      APPEND INITIAL LINE TO <ls_col>-fields ASSIGNING FIELD-SYMBOL(<ls_fld>).
+      MOVE-CORRESPONDING <ls_fdn> TO <ls_fld>.
+      <ls_fld>-key          = <ls_fdn>-field.
+      <ls_fld>-value_number = <ls_fdn>-value.
+
+      UNASSIGN <ls_col>.
+    ENDLOOP.
+
 
   ENDMETHOD.
 
@@ -945,6 +858,93 @@ CLASS ZCL_NWHD_LDB_BL IMPLEMENTATION.
             ( confirmed_at >= @lv_ts_from AND confirmed_at <= @lv_ts_to )
            )
       ORDER BY measured_at.
+
+  ENDMETHOD.
+
+
+  METHOD PREPARE_FIELDS.
+
+* -------- check contect
+    IF ms_ctx_db-src-src_guid IS INITIAL.
+      get_logger( )->error( |wrong fields context| ).
+      RETURN.
+    ENDIF.
+
+    IF ms_result-collected[] IS INITIAL.
+      get_logger( )->warning( |no fields fields to process| ).
+      rv_success = abap_true.
+      RETURN.
+    ENDIF.
+
+
+* -------- select current active fields
+    SELECT *
+      FROM ztd_nwhdldb_fdn
+      INTO CORRESPONDING FIELDS OF TABLE ms_ctx_db-fdn_tab
+     WHERE src_guid = ms_ctx_db-src-src_guid
+       AND active   = abap_true.
+    DATA(lv_lin_fdn) = lines( ms_ctx_db-fdn_tab ).
+
+    SELECT *
+      FROM ztd_nwhdldb_fdt
+      INTO CORRESPONDING FIELDS OF TABLE ms_ctx_db-fdt_tab
+     WHERE src_guid = ms_ctx_db-src-src_guid
+       AND active   = abap_true.
+    DATA(lv_lin_fdt) = lines( ms_ctx_db-fdt_tab ).
+
+    get_logger( )->trace( |selected { lv_lin_fdn } existing numeric and { lv_lin_fdt } text field values| ).
+
+
+* ------- make all existing invalid
+    LOOP AT ms_ctx_db-fdt_tab ASSIGNING FIELD-SYMBOL(<ls_fdt>).
+      <ls_fdt>-active = abap_false.
+    ENDLOOP.
+
+    LOOP AT ms_ctx_db-fdn_tab ASSIGNING FIELD-SYMBOL(<ls_fdn>).
+      <ls_fdn>-active = abap_false.
+    ENDLOOP.
+
+
+* -------- loop all collectors
+    DATA(lv_cnt_ok)   = 0.
+    DATA(lv_cnt_err)  = 0.
+    DATA(lv_success)  = abap_false.
+
+    LOOP AT ms_result-collected ASSIGNING FIELD-SYMBOL(<ls_col>).
+      DATA(lv_lin_col) = lines( <ls_col>-fields ).
+      ADD lv_lin_col TO ms_ctx_db-msg-cnt_fields.
+
+      get_logger( )->trace( |process { lv_lin_col } fields from collector { <ls_col>-collector }| ).
+
+      LOOP AT <ls_col>-fields ASSIGNING FIELD-SYMBOL(<ls_fld>).
+        IF <ls_fld>-value_text IS NOT INITIAL.
+          lv_success = prepare_field_text(
+              is_col     = <ls_col>
+              is_fld     = <ls_fld>
+          ).
+        ELSE.
+          lv_success = prepare_field_numeric(
+              is_col     = <ls_col>
+              is_fld     = <ls_fld>
+          ).
+        ENDIF.
+
+        IF lv_success EQ abap_true.
+          ADD 1 TO lv_cnt_ok.
+        ELSE.
+          ADD 1 TO lv_cnt_err.
+        ENDIF.
+      ENDLOOP.
+    ENDLOOP.
+
+* -------- prepare result
+    get_logger( )->info( |processing result for { lv_lin_col } fields from collector { <ls_col>-collector }: { lv_cnt_ok } OK, { lv_cnt_err } errors| ).
+    IF lv_cnt_ok > 0.
+      rv_success = abap_true.
+    ELSE.
+      rv_success = abap_false.
+    ENDIF.
+
 
   ENDMETHOD.
 ENDCLASS.

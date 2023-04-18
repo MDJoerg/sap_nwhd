@@ -94,6 +94,32 @@ ENDCLASS.
 CLASS ZCL_NWHD_COL IMPLEMENTATION.
 
 
+  METHOD append_text_value.
+* ------ check filter
+    IF is_valid_info(
+           iv_is_detail_level     = iv_is_detail_level
+           iv_is_timeint_level    = iv_is_timeint_level
+           iv_is_system_wide_info = iv_is_system_wide_info
+           iv_is_client_specific  = iv_is_client_specific
+    ) EQ abap_false.
+      RETURN.
+    ENDIF.
+
+* ------- append text value
+    DATA(lv_value) = CONV znwhd_value_text( iv_value ).
+    APPEND INITIAL LINE TO ms_data-fields ASSIGNING FIELD-SYMBOL(<ls_new>).
+    <ls_new>-category     = iv_category.
+    <ls_new>-key          = iv_key.
+    <ls_new>-value_number = lv_value.
+  ENDMETHOD.
+
+
+  METHOD get_datetime_last_24h.
+    ev_time = iv_time.
+    rv_date = iv_date - 1.
+  ENDMETHOD.
+
+
   METHOD append_number_value.
 
 * ------ check filter
@@ -108,26 +134,6 @@ CLASS ZCL_NWHD_COL IMPLEMENTATION.
 
 * ------- append num value
     DATA(lv_value) = CONV znwhd_value_number( iv_value ).
-    APPEND INITIAL LINE TO ms_data-fields ASSIGNING FIELD-SYMBOL(<ls_new>).
-    <ls_new>-category     = iv_category.
-    <ls_new>-key          = iv_key.
-    <ls_new>-value_number = lv_value.
-  ENDMETHOD.
-
-
-  METHOD append_text_value.
-* ------ check filter
-    IF is_valid_info(
-           iv_is_detail_level     = iv_is_detail_level
-           iv_is_timeint_level    = iv_is_timeint_level
-           iv_is_system_wide_info = iv_is_system_wide_info
-           iv_is_client_specific  = iv_is_client_specific
-    ) EQ abap_false.
-      RETURN.
-    ENDIF.
-
-* ------- append text value
-    DATA(lv_value) = CONV znwhd_value_text( iv_value ).
     APPEND INITIAL LINE TO ms_data-fields ASSIGNING FIELD-SYMBOL(<ls_new>).
     <ls_new>-category     = iv_category.
     <ls_new>-key          = iv_key.
@@ -158,34 +164,21 @@ CLASS ZCL_NWHD_COL IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD zif_nwhd_col~collect.
-
-* ------ init
-    ms_col_params = is_col_params.
-    IF init_data( ) EQ abap_false.
-      RETURN.
-    ENDIF.
-
-* ------ collect
-    IF collect_data( ) EQ abap_false.
-      RETURN.
-    ENDIF.
-
-* ------ close
-    IF close_data( ) EQ abap_false.
-      RETURN.
-    ENDIF.
-
-* ------ success
-    rv_success = abap_true.
-    es_data    = ms_data.
-
+  METHOD get_datetime_last_week.
+    ev_time = iv_time.
+    rv_date = iv_date - 7.
   ENDMETHOD.
 
 
-  METHOD get_datetime_last_24h.
+  METHOD get_datetime_last_year.
+    DATA lv_year(4) TYPE n.
+    lv_year = iv_date(4).
+    lv_year = lv_year - 1.
+
+    rv_date = iv_date.
+    rv_date(4) = lv_year.
     ev_time = iv_time.
-    rv_date = iv_date - 1.
+
   ENDMETHOD.
 
 
@@ -208,24 +201,6 @@ CLASS ZCL_NWHD_COL IMPLEMENTATION.
   METHOD get_datetime_last_month.
     ev_time = iv_time.
     rv_date = iv_date - 30.
-  ENDMETHOD.
-
-
-  METHOD get_datetime_last_week.
-    ev_time = iv_time.
-    rv_date = iv_date - 7.
-  ENDMETHOD.
-
-
-  METHOD get_datetime_last_year.
-    DATA lv_year(4) TYPE n.
-    lv_year = iv_date(4).
-    lv_year = lv_year - 1.
-
-    rv_date = iv_date.
-    rv_date(4) = lv_year.
-    ev_time = iv_time.
-
   ENDMETHOD.
 
 
@@ -264,6 +239,31 @@ CLASS ZCL_NWHD_COL IMPLEMENTATION.
 
 * ------ otherwise
     rv_valid = abap_true.
+
+  ENDMETHOD.
+
+
+  METHOD zif_nwhd_col~collect.
+
+* ------ init
+    ms_col_params = is_col_params.
+    IF init_data( ) EQ abap_false.
+      RETURN.
+    ENDIF.
+
+* ------ collect
+    IF collect_data( ) EQ abap_false.
+      RETURN.
+    ENDIF.
+
+* ------ close
+    IF close_data( ) EQ abap_false.
+      RETURN.
+    ENDIF.
+
+* ------ success
+    rv_success = abap_true.
+    es_data    = ms_data.
 
   ENDMETHOD.
 ENDCLASS.

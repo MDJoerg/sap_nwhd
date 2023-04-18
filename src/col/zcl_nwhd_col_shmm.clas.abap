@@ -20,6 +20,11 @@ ENDCLASS.
 CLASS ZCL_NWHD_COL_SHMM IMPLEMENTATION.
 
 
+  METHOD zif_nwhd_mod~get_name.
+    rv_name = 'SHMM'.
+  ENDMETHOD.
+
+
   METHOD collect_data.
 
 * -------- local data
@@ -86,10 +91,5 @@ CLASS ZCL_NWHD_COL_SHMM IMPLEMENTATION.
 
     ENDTRY.
 
-  ENDMETHOD.
-
-
-  METHOD zif_nwhd_mod~get_name.
-    rv_name = 'SHMM'.
   ENDMETHOD.
 ENDCLASS.

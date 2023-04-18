@@ -28,15 +28,15 @@ CLASS ZCL_NWHD_API IMPLEMENTATION.
   ENDMETHOD.
 
 
-  method ZIF_NWHD_API~SET_LOGGER.
-    mr_logger = ir_logger.
-  endmethod.
-
-
   METHOD zif_nwhd_api~get_util.
     IF mr_util IS INITIAL.
       mr_util = zcl_nwhd_factory=>create_util( ).
     ENDIF.
     rr_util = mr_util.
   ENDMETHOD.
+
+
+  method ZIF_NWHD_API~SET_LOGGER.
+    mr_logger = ir_logger.
+  endmethod.
 ENDCLASS.

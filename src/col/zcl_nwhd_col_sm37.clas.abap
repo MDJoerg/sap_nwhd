@@ -173,8 +173,8 @@ ENDMETHOD.
     DATA lv_ts_started TYPE timestampl.
     DATA lv_ts_finished TYPE timestampl.
 
-    DATA(lv_delay_all) = 0.
-    DATA(lv_runtime_all) = 0.
+    DATA lv_delay_all TYPE znwhd_value_number.
+    DATA lv_runtime_all TYPE znwhd_value_number.
 
     DATA(lv_delay_cnt) = 0.
     DATA(lv_runtime_cnt) = 0.

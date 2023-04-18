@@ -21,6 +21,11 @@ ENDCLASS.
 CLASS ZCL_NWHD_COL_UPD IMPLEMENTATION.
 
 
+  METHOD ZIF_NWHD_COL~GET_NAME.
+    rv_name = zcl_nwhd_col_upd=>c_name.
+  ENDMETHOD.
+
+
   METHOD collect_data.
 
 * -------- select and publish db count
@@ -68,10 +73,5 @@ CLASS ZCL_NWHD_COL_UPD IMPLEMENTATION.
 * ---------- return
     rv_success = abap_true.
 
-  ENDMETHOD.
-
-
-  METHOD ZIF_NWHD_COL~GET_NAME.
-    rv_name = zcl_nwhd_col_upd=>c_name.
   ENDMETHOD.
 ENDCLASS.

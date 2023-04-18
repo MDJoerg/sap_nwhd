@@ -17,6 +17,12 @@
      <TEXT>NWHD - NetWeaver Health Data Menu</TEXT>
      <TEXT_CAP>NWHD - NETWEAVER HEALTH DATA MENU</TEXT_CAP>
     </TTREET>
+    <TTREET>
+     <SPRAS>E</SPRAS>
+     <ID>ZNWHD</ID>
+     <TEXT>NWHD - NetWeaver Health Data Menu</TEXT>
+     <TEXT_CAP>NWHD - NETWEAVER HEALTH DATA MENU</TEXT_CAP>
+    </TTREET>
    </TREE_TITLES>
    <TREE_NODES>
     <HIER_IFACE>

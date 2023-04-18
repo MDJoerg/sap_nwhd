@@ -44,54 +44,56 @@ ENDCLASS.
 CLASS ZCL_NWHD_JOB IMPLEMENTATION.
 
 
-  METHOD close_job.
-    GET TIME STAMP FIELD ms_data-finished_at.
-    SORT ms_data-tags.
-    DELETE ADJACENT DUPLICATES FROM ms_data-tags.
-    rv_success = abap_true.
-  ENDMETHOD.
-
-
-  METHOD init_job.
-    CLEAR: ms_data.
-    ms_params = is_params.
-
-    ms_data-source_ref  = zcl_nwhd_factory=>create_guid( ).
-    ms_data-source_type = zif_nwhd_c=>c_source_type.
-    ms_data-source_id   = COND #( WHEN is_params-source_id IS NOT INITIAL
-                                  THEN is_params-source_id
-                                  ELSE |{ sy-sysid }{ sy-mandt }| ).
-    GET TIME STAMP FIELD ms_data-started_at.
-
-
-    ms_data-tags = get_standard_tags( ).
-    append_tag(
-      iv_tag   = 'TimeIntervalLevel'
-      iv_value = is_params-timeint_level
-    ).
-    append_tag(
-      iv_tag   = 'DetailLevel'
-      iv_value = is_params-detail_level
-    ).
-
-    IF is_params-flag_no_system_wide = abap_true.
-      append_tag(
-        iv_tag   = 'CollectorScope'
-        iv_value = 'ClientDependend'
-      ).
-    ELSEIF is_params-flag_no_client_specific = abap_true.
-      append_tag(
-        iv_tag   = 'CollectorScope'
-        iv_value = 'SystemWide'
-      ).
-    ELSE.
-      append_tag(
-        iv_tag   = 'CollectorScope'
-        iv_value = 'All'
-      ).
+  METHOD zif_nwhd_job~publish.
+* ------- check publishers given
+    IF is_params-publishers[] IS INITIAL.
+      rv_success = abap_true.
+      RETURN.
     ENDIF.
 
-    rv_success = abap_true.
+* ------- prepare
+    DATA(lv_error) = abap_false.
+    DATA(lv_lin)   = lines( is_params-publishers ).
+    get_logger( )->trace( |{ lv_lin } publisher found| ).
+
+
+* ------- loop all
+    LOOP AT is_params-publishers ASSIGNING FIELD-SYMBOL(<lv_pub>).
+
+      DATA(lr_pub) = zcl_nwhd_factory=>create_publisher( <lv_pub> ).
+      lr_pub->set_logger( get_logger( ) ).
+
+
+      IF lr_pub IS INITIAL.
+        APPEND <lv_pub> TO et_publish_error.
+        lv_error = abap_true.
+      ELSE.
+        IF lr_pub->publish(
+             is_params = is_params
+             is_result = is_result
+           ) EQ abap_false.
+          APPEND <lv_pub> TO et_publish_error.
+          lv_error = abap_true.
+          get_logger( )->error( |Publisher { <lv_pub> } failed| ).
+        ELSE.
+          APPEND <lv_pub> TO et_published.
+          get_logger( )->info( |Publisher { <lv_pub> } processed| ).
+        ENDIF.
+      ENDIF.
+    ENDLOOP.
+
+* -------- check
+    rv_success = COND #( WHEN lv_error = abap_true
+                         THEN abap_false
+                         ELSE abap_true ).
+
+* -------- protocol
+    IF rv_success EQ abap_true.
+      get_logger( )->info( |Job publish finished| ).
+    ELSE.
+      get_logger( )->warning( |Job publish finished with errors| ).
+    ENDIF.
+
   ENDMETHOD.
 
 
@@ -155,6 +157,92 @@ CLASS ZCL_NWHD_JOB IMPLEMENTATION.
   ENDMETHOD.
 
 
+  METHOD close_job.
+    GET TIME STAMP FIELD ms_data-finished_at.
+    SORT ms_data-tags.
+    DELETE ADJACENT DUPLICATES FROM ms_data-tags.
+    rv_success = abap_true.
+  ENDMETHOD.
+
+
+  METHOD init_job.
+    CLEAR: ms_data.
+    ms_params = is_params.
+
+    ms_data-source_ref  = zcl_nwhd_factory=>create_guid( ).
+    ms_data-source_type = zif_nwhd_c=>c_source_type.
+    ms_data-source_id   = COND #( WHEN is_params-source_id IS NOT INITIAL
+                                  THEN is_params-source_id
+                                  ELSE |{ sy-sysid }{ sy-mandt }| ).
+    GET TIME STAMP FIELD ms_data-started_at.
+
+
+    ms_data-tags = get_standard_tags( ).
+    append_tag(
+      iv_tag   = 'TimeIntervalLevel'
+      iv_value = is_params-timeint_level
+    ).
+    append_tag(
+      iv_tag   = 'DetailLevel'
+      iv_value = is_params-detail_level
+    ).
+
+    IF is_params-flag_no_system_wide = abap_true.
+      append_tag(
+        iv_tag   = 'CollectorScope'
+        iv_value = 'ClientDependend'
+      ).
+    ELSEIF is_params-flag_no_client_specific = abap_true.
+      append_tag(
+        iv_tag   = 'CollectorScope'
+        iv_value = 'SystemWide'
+      ).
+    ELSE.
+      append_tag(
+        iv_tag   = 'CollectorScope'
+        iv_value = 'All'
+      ).
+    ENDIF.
+
+    rv_success = abap_true.
+  ENDMETHOD.
+
+
+  METHOD append_tag.
+    IF iv_tag IS NOT INITIAL.
+      APPEND INITIAL LINE TO ms_data-tags ASSIGNING FIELD-SYMBOL(<ls_tag>).
+      <ls_tag>-tag = iv_tag.
+      <ls_tag>-value = iv_value.
+    ENDIF.
+  ENDMETHOD.
+
+
+  METHOD GET_STANDARD_TAGS.
+
+* ----- local data & macros
+    DATA ls_tag LIKE LINE OF rt_tags.
+    DEFINE mc_add_tag.
+      ls_tag-tag = &1.
+      ls_tag-value = &2.
+      APPEND ls_tag TO rt_tags.
+    end-OF-DEFINITION.
+
+* ------ add
+    mc_add_tag 'OpSys'       sy-opsys.
+    mc_add_tag 'Host'        sy-host.
+    mc_add_tag 'DBName'      sy-dbnam.
+    mc_add_tag 'DBSys'       sy-dbsys.
+    mc_add_tag 'SAPRelease'  sy-saprl.
+    mc_add_tag 'Timezone'    sy-zonlo.
+    mc_add_tag 'NWHDRelease' ZIF_NWHD_C=>release.
+
+
+* ------ final preps
+    SORT rt_tags.
+
+  ENDMETHOD.
+
+
   METHOD zif_nwhd_job~process.
 
 * ------ init
@@ -194,94 +282,6 @@ CLASS ZCL_NWHD_JOB IMPLEMENTATION.
 * ------ final success
     rv_success = abap_true.
 
-
-  ENDMETHOD.
-
-
-  METHOD zif_nwhd_job~publish.
-* ------- check publishers given
-    IF is_params-publishers[] IS INITIAL.
-      rv_success = abap_true.
-      RETURN.
-    ENDIF.
-
-* ------- prepare
-    DATA(lv_error) = abap_false.
-    DATA(lv_lin)   = lines( is_params-publishers ).
-    get_logger( )->trace( |{ lv_lin } publisher found| ).
-
-
-* ------- loop all
-    LOOP AT is_params-publishers ASSIGNING FIELD-SYMBOL(<lv_pub>).
-
-      DATA(lr_pub) = zcl_nwhd_factory=>create_publisher( <lv_pub> ).
-      lr_pub->set_logger( get_logger( ) ).
-
-
-      IF lr_pub IS INITIAL.
-        APPEND <lv_pub> TO et_publish_error.
-        lv_error = abap_true.
-      ELSE.
-        IF lr_pub->publish(
-             is_params = is_params
-             is_result = is_result
-           ) EQ abap_false.
-          APPEND <lv_pub> TO et_publish_error.
-          lv_error = abap_true.
-          get_logger( )->error( |Publisher { <lv_pub> } failed| ).
-        ELSE.
-          APPEND <lv_pub> TO et_published.
-          get_logger( )->info( |Publisher { <lv_pub> } processed| ).
-        ENDIF.
-      ENDIF.
-    ENDLOOP.
-
-* -------- check
-    rv_success = COND #( WHEN lv_error = abap_true
-                         THEN abap_false
-                         ELSE abap_true ).
-
-* -------- protocol
-    IF rv_success EQ abap_true.
-      get_logger( )->info( |Job publish finished| ).
-    ELSE.
-      get_logger( )->warning( |Job publish finished with errors| ).
-    ENDIF.
-
-  ENDMETHOD.
-
-
-  METHOD append_tag.
-    IF iv_tag IS NOT INITIAL.
-      APPEND INITIAL LINE TO ms_data-tags ASSIGNING FIELD-SYMBOL(<ls_tag>).
-      <ls_tag>-tag = iv_tag.
-      <ls_tag>-value = iv_value.
-    ENDIF.
-  ENDMETHOD.
-
-
-  METHOD GET_STANDARD_TAGS.
-
-* ----- local data & macros
-    DATA ls_tag LIKE LINE OF rt_tags.
-    DEFINE mc_add_tag.
-      ls_tag-tag = &1.
-      ls_tag-value = &2.
-      APPEND ls_tag TO rt_tags.
-    end-OF-DEFINITION.
-
-* ------ add
-    mc_add_tag 'OpSys'       sy-opsys.
-    mc_add_tag 'Host'        sy-host.
-    mc_add_tag 'DBName'      sy-dbnam.
-    mc_add_tag 'DBSys'       sy-dbsys.
-    mc_add_tag 'SAPRelease'  sy-saprl.
-    mc_add_tag 'Timezone'    sy-zonlo.
-    mc_add_tag 'NWHDRelease' ZIF_NWHD_C=>release.
-
-
-* ------ final preps
-    SORT rt_tags.
 
   ENDMETHOD.
 ENDCLASS.

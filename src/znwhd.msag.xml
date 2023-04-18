@@ -63,6 +63,41 @@
    </T100T>
    <T100_TEXTS>
     <item>
+     <SPRSL>D</SPRSL>
+     <MSGNR>000</MSGNR>
+     <TEXT>&amp;1 &amp;2 &amp;3 &amp;4</TEXT>
+    </item>
+    <item>
+     <SPRSL>D</SPRSL>
+     <MSGNR>001</MSGNR>
+     <TEXT>TRACE: &amp;1</TEXT>
+    </item>
+    <item>
+     <SPRSL>D</SPRSL>
+     <MSGNR>002</MSGNR>
+     <TEXT>INFO: &amp;1</TEXT>
+    </item>
+    <item>
+     <SPRSL>D</SPRSL>
+     <MSGNR>003</MSGNR>
+     <TEXT>WARNING: &amp;1</TEXT>
+    </item>
+    <item>
+     <SPRSL>D</SPRSL>
+     <MSGNR>004</MSGNR>
+     <TEXT>ERROR: &amp;1</TEXT>
+    </item>
+    <item>
+     <SPRSL>D</SPRSL>
+     <MSGNR>005</MSGNR>
+     <TEXT>NWHD Job verarbeitet für &amp;1/&amp;2 Referenz &amp;3.</TEXT>
+    </item>
+    <item>
+     <SPRSL>D</SPRSL>
+     <MSGNR>006</MSGNR>
+     <TEXT>NWHD Job Info: Collectors &amp;1, Felder &amp;2, Tags &amp;3, Publisher &amp;4.</TEXT>
+    </item>
+    <item>
      <SPRSL>F</SPRSL>
      <MSGNR>000</MSGNR>
      <TEXT>&amp;1 &amp;2 &amp;3 &amp;4</TEXT>

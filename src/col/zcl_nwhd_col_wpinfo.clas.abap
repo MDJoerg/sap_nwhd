@@ -36,8 +36,10 @@ CLASS ZCL_NWHD_COL_WPINFO IMPLEMENTATION.
             count      TYPE  i,
             used       TYPE  i,
             wp_eltime  TYPE  wpelzeit,
-            wp_irestrt TYPE  wpirestart,
-            wp_dumps   TYPE  wpdumps,
+*            wp_irestrt TYPE  wpirestart,
+            wp_irestrt TYPE  i,
+*            wp_dumps   TYPE  wpdumps,    " field overflow error
+            wp_dumps   TYPE  i,
           END OF ls_calc.
     DATA: ls_sum  LIKE ls_calc.
     DATA: lt_calc LIKE TABLE OF ls_calc.

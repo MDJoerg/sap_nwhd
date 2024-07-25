@@ -47,10 +47,16 @@ CLASS ZCL_NWHD_COL_WPINFO IMPLEMENTATION.
 
 * --------- local macro
     DEFINE collect_calc.
-      <lfs_calc>-&1 = <lfs_calc>-&1 + <lfs_data>-&1.
+      TRY.
+        <lfs_calc>-&1 = <lfs_calc>-&1 + <lfs_data>-&1.
+      CATCH cx_root.
+      ENDTRY.
     END-OF-DEFINITION.
     DEFINE collect_sum.
+      TRY.
       ls_sum-&1 = ls_sum-&1 + <lfs_data>-&1.
+      CATCH cx_root.
+      ENDTRY.
     END-OF-DEFINITION.
 
 
